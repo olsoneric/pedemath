@@ -1,45 +1,45 @@
 from types import InstanceType, FloatType, IntType
 import math
 
-Vec2Epsilon = 0.00000001
+VEC2_EPSILON = 0.00000001
 
-def angleV2Rad(vecA, vecB):
+def angle_v2_rad(vec_a, vec_b):
     # cos(x) = A * B / |A| * |B|
-    return math.acos(vecA.dot(vecB) / (vecA.length() * vecB.length()))
+    return math.acos(vec_a.dot(vec_b) / (vec_a.length() * vec_b.length()))
 
-def sumV2(vec):
+def sum_v2(vec):
     return vec.x + vec.y
 
-def scaleV2(vec, amount):
+def scale_v2(vec, amount):
     return Vec2(vec.x*amount, vec.y*amount)
 
-def normalizeV2(vec):
+def normalize_v2(vec):
     try:
-        return scaleV2(vec, 1.0/vec.length())
+        return scale_v2(vec, 1.0/vec.length())
     except ZeroDivisionError:
         return Vec2(0.0, 0.0)
 
-def dotV2 (v,w):
+def dot_v2 (v,w):
     # The dot product of two vectors
     return sum( [ x*y for x,y in zip(v,w) ] )
 
-def addV2 (v,w):
+def add_v2 (v,w):
     if type(w) == IntType or type(w) == FloatType:
         return Vec2(v.x+w, v.y + w)
     else:
         return Vec2(v.x+w.x, v.y + w.y)
 
-def subV2 (v,w):
+def sub_v2 (v,w):
     if type(w) == IntType or type(w) == FloatType:
         return Vec2(v.x-w, v.y - w)
     else:
         return Vec2(v.x-w.x, v.y - w.y)
 
-def projectionV2(v,w):
+def projection_v2(v,w):
     # The signed length of the projection of vector v on vector w.
-    return dotV2(v,w)/w.length()
+    return dot_v2(v,w)/w.length()
 
-def squareV2(vec):
+def square_v2(vec):
     try:
         return Vec2(vec.x**2, vec.y**2)
     except OverflowError:
@@ -54,7 +54,7 @@ def squareV2(vec):
             y = 0.0
         return Vec2(x,y)
 
-def crossV2(obj1, obj2):
+def cross_v2(obj1, obj2):
     return Vec2(obj1.y*obj2.z-obj1.x*obj2.y,
     obj1.y*obj2.x-obj1.x*obj2.y)
 
@@ -68,7 +68,9 @@ class Vec2:
         self.x = vec.x
         self.y = vec.y
 
-    def getDataPtr(self):
+    def get_data_ptr(self):
+        """ adapter for old code
+        """
         return (self.x, self.y)
 
     def __add__(self, obj):
@@ -103,7 +105,7 @@ class Vec2:
         self.x *= amount
         self.y *= amount
 
-    def getSquare(self):
+    def get_square(self):
         return Vec2(self.x**2, self.y**2)
 
     def square(self):
@@ -111,24 +113,24 @@ class Vec2:
         self.x **= 2
         self.y **= 2
 
-    def getUnitNormal(self):
-        return self.getScaledV2(1.0/self.length())
+    def get_unit_normal(self):
+        return self.get_scaled_v2(1.0/self.length())
 
-    def getScaledV2(self, amount):
-        return Vec2u(self.x*amount, self.y*amount)
+    def get_scaled_v2(self, amount):
+        return Vec2(self.x*amount, self.y*amount)
 
-    def getNorm(self):
+    def get_norm(self):
         # return square length: x*x + y*y
-        return sumV2(squareV2(self))
+        return sum_v2(square_v2(self))
 
-    lengthSquared = getNorm
+    length_squared = get_norm
 
-    def getPerp(self):
+    def get_perp(self):
         return Vec2(-self.y, self.x)
 
     def length(self):
         # print "vec len A:", self.getNorm()
-        return math.sqrt(self.getNorm())
+        return math.sqrt(self.get_norm())
 
     def __getitem__(self, index):
         if (index == 0):
@@ -142,10 +144,10 @@ class Vec2:
         #return sum( [ x*y for x,y in zip(self.data,vec.data) ] )
         return self.x*vec.x + self.y*vec.y
 
-    def getY(self):
+    def get_y(self):
         return self.y
 
-    def setY(self, val):
+    def set_y(self, val):
         self.y = val
 
     def set(self, x, y):

@@ -1,48 +1,48 @@
 import math
 
-def sumV3(vec):
+def sum_v3(vec):
     return vec.x + vec.y + vec.z
 
-def addV3(vec1, vec2):
+def add_v3(vec1, vec2):
     return Vec3(vec1.x+vec2.x, vec1.y+vec2.y, vec1.z+vec2.z)
 
-def subV3(vec1, vec2):
+def sub_v3(vec1, vec2):
     return Vec3(vec1.x-vec2.x, vec1.y-vec2.y, vec1.z-vec2.z)
 
-def moveV3(vec, amount):
+def move_v3(vec, amount):
     return Vec3(vec.x+amount, vec.y+amount, vec.z+amount)
 
-def scaleV3(vec, amount):
+def scale_v3(vec, amount):
     return Vec3(vec.x*amount, vec.y*amount, vec.z*amount)
 
-def normV3(vec):
-    return scaleV3(vec, 1.0/vec.length())
-normalizeV3 = normV3
+def norm_v3(vec):
+    return scale_v3(vec, 1.0/vec.length())
+normalize_v3 = norm_v3
 
-def dotV3 (v,w):
+def dot_v3 (v,w):
     # The dot product of two vectors
     return sum( [ x*y for x,y in zip(v,w) ] )
 
-def negV3(v):
+def neg_v3(v):
     # negative
     return Vec3(-v.x,-v.y,-v.z)
 
-def projectionV3(v,w):
+def projection_v3(v,w):
     # The signed length of the projection of vector v on vector w.
     return dotV3(v,w)/w.length()
 
-def crossV3(obj1, obj2):
+def cross_v3(obj1, obj2):
     return Vec3(obj1.y*obj2.z-obj1.z*obj2.y,
     obj1.z*obj2.x-obj1.x*obj2.z,
     obj1.x*obj2.y-obj1.y*obj2.x)
 
-def squareV3(vec):
+def square_v3(vec):
     return Vec3(vec.x**2, vec.y**2, vec.z**2)
 
-def rotateAroundVectorV3(v, angleRad, normVec):
+def rotateAroundVectorV3(v, angle_rad, norm_vec):
     # rotate v around normV3 by angleRad
-    cosVal = math.cos(angleRad);
-    sinVal = math.sin(angleRad);
+    cos_val = math.cos(angle_rad);
+    sin_val = math.sin(angle_rad);
     ## (v * cosVal) +
     ## ((normVec * v) * (1.0 - cosVal)) * normVec + 
     ## (v ^ normVec) * sinVal)
@@ -52,19 +52,19 @@ def rotateAroundVectorV3(v, angleRad, normVec):
     #a = scaleV3(v,cosVal)
     #b = scaleV3( normVec, dotV3(normVec,v) * (1.0-cosVal))
     #c = scaleV3( crossV3( v,normVec), sinVal)
-    return addV3(
-              addV3( scaleV3(v,cosVal),
-                     scaleV3( normVec, dotV3(normVec,v) * (1.0-cosVal))
+    return add_v3(
+              add_v3( scale_v3(v,cos_val),
+                      scale_v3( norm_vec, dot_v3(norm_vec,v) * (1.0-cos_val))
               ),
-              scaleV3( crossV3( v,normVec), sinVal)
+              scale_v3( cross_v3( v,norm_vec), sin_val)
           )
 
-def aveVec3List(vecList):
+def ave_vec3_list(vec_list):
     vec = Vec3(0,0,0)
-    for v in vecList:
+    for v in vec_list:
         vec += v
-    numVecs = float(len(vecList))
-    vec = (vec.x / numVecs, vec.y / numVecs, vec.z / numVecs)
+    num_vecs = float(len(vec_list))
+    vec = (vec.x / num_vecs, vec.y / num_vecs, vec.z / num_vecs)
     return vec
 
 class Vec3(object):
@@ -98,14 +98,14 @@ class Vec3(object):
     def __len__(self):
         return 3
     
-    def getNorm(self):
+    def get_norm(self):
         """Return the square length: x^2 + y^2 + z^2"""
-        return sumV3(squareV3(self))
+        return sum_v3(square_v3(self))
 
     def length(self):
-        return math.sqrt(self.getNorm())
+        return math.sqrt(self.get_norm())
 
-    lengthSquared=getNorm
+    length_squared=get_norm
 
     def __str__(self):
         return str("vec3(%s,%s,%s)" % (self.x, self.y, self.z) )
@@ -122,7 +122,7 @@ class Vec3(object):
     def __ne__(self, v2):
         return not (hasattr(v2, "x") and self.x == v2.x and self.y == v2.y and self.z == v2.z)
 
-    def asTuple(self):
+    def as_tuple(self):
         return (self.x, self.y, self.z)
 
     def cross(self, obj2):
@@ -136,7 +136,7 @@ class Vec3(object):
         self.y **= 2
         self.z **= 2
 
-    def getDataPtr(self):
+    def get_data_ptr(self): # mostly for compatibility with old particle code
         return (self.x, self.y, self.z)
 
     def __iadd__(self, v2):
