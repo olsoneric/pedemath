@@ -4,8 +4,34 @@ import math
 VEC2_EPSILON = 0.00000001
 
 def angle_v2_rad(vec_a, vec_b):
+    """Returns angle in range [0, PI], does not distinguisch if a is
+    left of or right of b.
+    """
     # cos(x) = A * B / |A| * |B|
     return math.acos(vec_a.dot(vec_b) / (vec_a.length() * vec_b.length()))
+
+def angle_v2_rad_dir(vec_a, vec_b):
+    """Returns angle in range [-PI, PI] which indicates if vec_a is left of
+    or right of b.
+    vec_a is the base vector that the returned angle will be based off of.
+    e.g. if vec_b is to the right (clockwise) of vec_a, the angle will be
+    negative.  (note line about angle dir below)
+    Added to simpler function above with these suggestions:
+    http://www.physicsforums.com/showthread.php?t=559966
+    Positive angle is counterclockwise as trig functions expect
+    """
+    # cos(x) = A * B / |A| * |B|
+    rads = math.acos(vec_a.dot(vec_b) / (vec_a.length() * vec_b.length()))
+    if vec_a.x * vec_b.y >= vec_a.y * vec_b.x:
+        return rads
+    else:
+        #print "Have: ", rads, "returning:", -rads
+        return -rads
+
+def rot_rads_v2(vec_a, rads):
+    x = vec_a.x * math.cos(rads) - vec_a.y * math.sin(rads)
+    y = vec_a.y * math.sin(rads) + vec_a.y * math.cos(rads)
+    return Vec2(x, y)
 
 def sum_v2(vec):
     return vec.x + vec.y
@@ -55,7 +81,7 @@ def square_v2(vec):
         return Vec2(x,y)
 
 def cross_v2(obj1, obj2):
-    return Vec2(obj1.y*obj2.z-obj1.x*obj2.y,
+    return Vec2(obj1.y*obj2.x-obj1.x*obj2.y,
     obj1.y*obj2.x-obj1.x*obj2.y)
 
 
@@ -153,6 +179,10 @@ class Vec2:
     def set(self, x, y):
         self.x = x
         self.y = y
+
+    def rot_rads(self, rads):
+        self.x = self.x * math.cos(rads) - self.y * math.sin(rads)
+        self.y = self.y * math.sin(rads) + self.y * math.cos(rads)
 
     def __rsub__(self, obj):
         if type(obj) == IntType or type(obj) == FloatType:
