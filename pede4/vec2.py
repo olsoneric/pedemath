@@ -1,7 +1,8 @@
-from types import InstanceType, FloatType, IntType
+from types import FloatType, IntType
 import math
 
 VEC2_EPSILON = 0.00000001
+
 
 def angle_v2_rad(vec_a, vec_b):
     """Returns angle in range [0, PI], does not distinguisch if a is
@@ -9,6 +10,7 @@ def angle_v2_rad(vec_a, vec_b):
     """
     # cos(x) = A * B / |A| * |B|
     return math.acos(vec_a.dot(vec_b) / (vec_a.length() * vec_b.length()))
+
 
 def angle_v2_rad_dir(vec_a, vec_b):
     """Returns angle in range [-PI, PI] which indicates if vec_a is left of
@@ -28,16 +30,20 @@ def angle_v2_rad_dir(vec_a, vec_b):
         #print "Have: ", rads, "returning:", -rads
         return -rads
 
+
 def rot_rads_v2(vec_a, rads):
     x = vec_a.x * math.cos(rads) - vec_a.y * math.sin(rads)
-    y = vec_a.y * math.sin(rads) + vec_a.y * math.cos(rads)
+    y = vec_a.x * math.sin(rads) + vec_a.y * math.cos(rads)
     return Vec2(x, y)
+
 
 def sum_v2(vec):
     return vec.x + vec.y
 
+
 def scale_v2(vec, amount):
     return Vec2(vec.x*amount, vec.y*amount)
+
 
 def normalize_v2(vec):
     try:
@@ -45,9 +51,11 @@ def normalize_v2(vec):
     except ZeroDivisionError:
         return Vec2(0.0, 0.0)
 
+
 def dot_v2 (v,w):
     # The dot product of two vectors
     return sum( [ x*y for x,y in zip(v,w) ] )
+
 
 def add_v2 (v,w):
     if type(w) == IntType or type(w) == FloatType:
@@ -55,15 +63,18 @@ def add_v2 (v,w):
     else:
         return Vec2(v.x+w.x, v.y + w.y)
 
+
 def sub_v2 (v,w):
     if type(w) == IntType or type(w) == FloatType:
         return Vec2(v.x-w, v.y - w)
     else:
         return Vec2(v.x-w.x, v.y - w.y)
 
+
 def projection_v2(v,w):
     # The signed length of the projection of vector v on vector w.
     return dot_v2(v,w)/w.length()
+
 
 def square_v2(vec):
     try:
@@ -79,6 +90,7 @@ def square_v2(vec):
         except:
             y = 0.0
         return Vec2(x,y)
+
 
 def cross_v2(obj1, obj2):
     return Vec2(obj1.y*obj2.x-obj1.x*obj2.y,
@@ -223,7 +235,7 @@ class Vec2:
     def __len__(self):
         return 2
 
-if __name__=="__main__":
+if __name__ == "__main__":
     a = Vec2(1, 2)
     print "a:", a
     print "a + 5", a + 5
@@ -232,4 +244,3 @@ if __name__=="__main__":
     b = Vec2(a.x, a.y)
     b -= 5
     print "b -= 5", b
-
