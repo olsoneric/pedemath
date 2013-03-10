@@ -16,8 +16,61 @@
 
 import unittest
 
+from pedemath.vec2 import Vec2
 
-class TestVec2(unittest.TestCase):
+
+class Vec2InitTestCase(unittest.TestCase):
+
+    def test_members_are_set(self):
+        """Ensure the x and y members are set."""
+
+        v = Vec2(5.0, 6.0)
+
+        self.assertEqual(5.0, v.x)
+        self.assertEqual(6.0, v.y)
+
+    def test_members_are_set_when_args_are_ints(self):
+        """Ensure the x and y members are set.
+        Ensure the members have been made float types.
+        """
+
+        v = Vec2(5, 6)
+
+        # Assert member values are what we expect.
+        self.assertEqual(5.0, v.x)
+        self.assertEqual(6.0, v.y)
+
+        # Assert member values are floats.
+        self.assertTrue(isinstance(v.x, float))
+        self.assertTrue(isinstance(v.y, float))
+
+    def test_members_are_set_when_args_are_strs(self):
+        """Ensure the x and y members are set.
+        Ensure the members have been made float types.
+
+        This isn't necessary functionality, but this works with python,
+        so ensure this doesn't change without knowing it might break some
+        existing code.  Also, don't want to add overhead in the constructor to
+        explicitly disable this.
+        """
+
+        v = Vec2("5", "6")
+
+        # Assert member values are what we expect.
+        self.assertEqual(5.0, v.x)
+        self.assertEqual(6.0, v.y)
+
+        # Assert member values are floats.
+        self.assertTrue(isinstance(v.x, float))
+        self.assertTrue(isinstance(v.y, float))
+
+    def test_members_are_set_when_args_are_invalid(self):
+        """Ensure when an arg is invalid that ValueError is raised."""
+
+        self.assertRaises(ValueError, Vec2, "abc", 6)
+
+
+class AngleV2RadDirTestCase(unittest.TestCase):
 
     def test_angle_v2_rad_dir(self):
         """Test angle_v2_rad_dir with different cases.
@@ -78,6 +131,9 @@ class TestVec2(unittest.TestCase):
             self.assertAlmostEqual(
                 angle_v2_rad_dir(vec_a, vec_b), expected_result,
                 places=7)
+
+
+class RotRadsV2TestCase(unittest.TestCase):
 
     def test_rot_rads_v2(self):
         import math

@@ -114,7 +114,12 @@ def cross_v2(obj1, obj2):
 
 
 class Vec2:
-    def __init__(self,x=0.,y=0.):
+    def __init__(self, x=0., y=0.):
+        """Initialize member variables x and y from args.
+        Convert args to float if possible, otherwise ValueError should
+        be raised.
+        """
+
         self.x = float(x)
         self.y = float(y)
 
