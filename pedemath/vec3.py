@@ -1,3 +1,19 @@
+
+# Copyright 2012-2013 Eric Olson
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 import math
 
 def sum_v3(vec):
@@ -44,7 +60,7 @@ def rotateAroundVectorV3(v, angle_rad, norm_vec):
     cos_val = math.cos(angle_rad);
     sin_val = math.sin(angle_rad);
     ## (v * cosVal) +
-    ## ((normVec * v) * (1.0 - cosVal)) * normVec + 
+    ## ((normVec * v) * (1.0 - cosVal)) * normVec +
     ## (v ^ normVec) * sinVal)
     #line1: scaleV3(v,cosVal)
     #line2: dotV3( scaleV3( dotV3(normVec,v), 1.0-cosVal), normVec)
@@ -97,7 +113,7 @@ class Vec3(object):
 
     def __len__(self):
         return 3
-    
+
     def get_norm(self):
         """Return the square length: x^2 + y^2 + z^2"""
         return sum_v3(square_v3(self))
