@@ -20,6 +20,7 @@ from pedemath.vec2 import Vec2
 
 
 class Vec2InitTestCase(unittest.TestCase):
+    """Test Vec2's constructor."""
 
     def test_members_are_set(self):
         """Ensure the x and y members are set."""
@@ -68,6 +69,104 @@ class Vec2InitTestCase(unittest.TestCase):
         """Ensure when an arg is invalid that ValueError is raised."""
 
         self.assertRaises(ValueError, Vec2, "abc", 6)
+
+
+class Vec2AddTestCase(unittest.TestCase):
+    """Test Vec2's __add__() which is used in Vec2 + Vec2."""
+
+    def test_add_with_vec_argument(self):
+        """Ensure that adding another vector returns another Vec2 with the
+        right values.
+        """
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 1)
+
+        result = a + b
+
+        expected_result = Vec2(3, 4)
+
+        self.assertEqual(result, expected_result)
+
+    def test_add_with_float_arg(self):
+        """Ensure that adding a float returns another Vec2 with the float
+        added to x and y.
+        """
+
+        a = Vec2(2, 3)
+        b = 5.0
+
+        result = a + b
+
+        expected_result = Vec2(7, 8)
+
+        self.assertEqual(result, expected_result)
+
+    def test_add_with_int_arg(self):
+        """Ensure that adding a int returns another Vec2 with the int
+        added to x and y.
+        """
+
+        a = Vec2(2, 3)
+        b = 5
+
+        result = a + b
+
+        expected_result = Vec2(7, 8)
+
+        self.assertEqual(result, expected_result)
+
+
+class AddV2TestCase(unittest.TestCase):
+    """Test add_v2(Vec2, Vec2)."""
+
+    def test_add_with_vec_argument(self):
+        """Ensure that adding another vector returns another Vec2 with the
+        right values.
+        """
+
+        from pedemath.vec2 import add_v2
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 1)
+
+        result = add_v2(a, b)
+
+        expected_result = Vec2(3, 4)
+
+        self.assertEqual(result, expected_result)
+
+    def test_add_with_float_arg(self):
+        """Ensure that adding a float returns another Vec2 with the float
+        added to x and y.
+        """
+
+        from pedemath.vec2 import add_v2
+
+        a = Vec2(2, 3)
+        b = 5.0
+
+        result = add_v2(a, b)
+
+        expected_result = Vec2(7, 8)
+
+        self.assertEqual(result, expected_result)
+
+    def test_add_with_int_arg(self):
+        """Ensure that adding a int returns another Vec2 with the int
+        added to x and y.
+        """
+
+        from pedemath.vec2 import add_v2
+
+        a = Vec2(2, 3)
+        b = 5
+
+        result = add_v2(a, b)
+
+        expected_result = Vec2(7, 8)
+
+        self.assertEqual(result, expected_result)
 
 
 class AngleV2RadDirTestCase(unittest.TestCase):

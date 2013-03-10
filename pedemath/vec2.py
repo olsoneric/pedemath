@@ -73,11 +73,14 @@ def dot_v2 (v,w):
     return sum( [ x*y for x,y in zip(v,w) ] )
 
 
-def add_v2 (v,w):
-    if type(w) == IntType or type(w) == FloatType:
-        return Vec2(v.x+w, v.y + w)
+def add_v2(v, w):
+    """Add v and w.  Assume the first arg v is a Vec2.
+    The second arg w can be a vec2 or a number.
+    """
+    if type(w) is float or type(w) is int:
+        return Vec2(v.x + w, v.y + w)
     else:
-        return Vec2(v.x+w.x, v.y + w.y)
+        return Vec2(v.x + w.x, v.y + w.y)
 
 
 def sub_v2 (v,w):
@@ -127,11 +130,19 @@ class Vec2:
         self.x = float(x)
         self.y = float(y)
 
-    def __add__(self, obj):
-        if type(obj) == IntType or type(obj) == FloatType:
-            return Vec2(self.x+obj, self.y + obj)
+    def __add__(self, arg):
+        """Return a new Vec2 containing the sum of our x and y and arg.
+
+        If argument is a float or vec, add it to our x and y.
+        Otherwise, treat is as a Vec2 and add arg.x and arg.y to our own
+        x and y.
+        """
+
+        # Not using isinstance for now, see spikes/type_check_perf.py
+        if type(arg) is float or type(arg) is int:
+            return Vec2(self.x + arg, self.y + arg)
         else:
-            return Vec2(self.x+obj.x, self.y + obj.y)
+            return Vec2(self.x + arg.x, self.y + arg.y)
 
     def __neg__(self):
         return Vec2(-self.x, -self.y)
