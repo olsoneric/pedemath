@@ -127,11 +127,6 @@ class Vec2:
         self.x = float(x)
         self.y = float(y)
 
-    def get_data_ptr(self):
-        """ adapter for old code
-        """
-        return (self.x, self.y)
-
     def __add__(self, obj):
         if type(obj) == IntType or type(obj) == FloatType:
             return Vec2(self.x+obj, self.y + obj)
