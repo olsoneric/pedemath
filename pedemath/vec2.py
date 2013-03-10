@@ -118,14 +118,14 @@ class Vec2:
         """Initialize member variables x and y from args.
         Convert args to float if possible, otherwise ValueError should
         be raised.
+
+        To create from another Vec2 is to use *:
+        vec_a = Vec2(3, 2):
+        vec_b = Vec2(*vec_a)
         """
 
         self.x = float(x)
         self.y = float(y)
-
-    def copy(self,vec):
-        self.x = vec.x
-        self.y = vec.y
 
     def get_data_ptr(self):
         """ adapter for old code
