@@ -8,7 +8,7 @@ class TestVec2(unittest.TestCase):
         """Test angle_v2_rad_dir with different cases.
         """
         import math
-        from pede4.vec2 import angle_v2_rad_dir, Vec2
+        from pedemath.vec2 import angle_v2_rad_dir, Vec2
 
         from collections import namedtuple
         Case = namedtuple('Case', 'vectors expected_result')
@@ -66,7 +66,7 @@ class TestVec2(unittest.TestCase):
 
     def test_rot_rads_v2(self):
         import math
-        from pede4.vec2 import rot_rads_v2, Vec2
+        from pedemath.vec2 import rot_rads_v2, Vec2
 
         from collections import namedtuple
         Case = namedtuple('Case', 'vector radians expected_result')
