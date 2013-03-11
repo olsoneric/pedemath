@@ -58,7 +58,9 @@ def sum_v2(vec):
 
 
 def scale_v2(vec, amount):
-    return Vec2(vec.x*amount, vec.y*amount)
+    """Return a new Vec2 with x and y from vec and multiplied by amount."""
+
+    return Vec2(vec.x * amount, vec.y * amount)
 
 
 def normalize_v2(vec):
@@ -190,6 +192,8 @@ class Vec2:
         # Don't return self to help indicate that self is being modified.
 
     def scale(self, amount):
+        """Multiply x and y by amount."""
+
         self.x *= amount
         self.y *= amount
 
@@ -205,7 +209,9 @@ class Vec2:
         return self.get_scaled_v2(1.0/self.length())
 
     def get_scaled_v2(self, amount):
-        return Vec2(self.x*amount, self.y*amount)
+        """Return a new Vec2 with x and y multiplied by amount."""
+
+        return Vec2(self.x * amount, self.y * amount)
 
     def get_norm(self):
         # return square length: x*x + y*y

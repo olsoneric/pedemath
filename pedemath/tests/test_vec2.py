@@ -305,6 +305,88 @@ class Vec2Truncate(unittest.TestCase):
         self.assertFalse(scale.called)
 
 
+class Vec2Scale(unittest.TestCase):
+    """Ensure Vec2.scale modifies the Vec2 correctly."""
+
+    def test_vec2_scale(self):
+        """Ensure the Vec2's x and y are scaled by the factor."""
+
+        a = Vec2(7, 8)
+
+        a.scale(2)
+
+        self.assertEqual(a, Vec2(14, 16))
+
+    def test_vec2_scale_of_zero(self):
+        """Ensure the Vec2's x and y are scaled by zero with no errors."""
+
+        a = Vec2(7, 8)
+
+        a.scale(0)
+
+        self.assertEqual(a, Vec2(0, 0))
+
+
+class ScaleV2(unittest.TestCase):
+    """Ensure scale_v2 creates a scaled Vec2 correctly."""
+
+    def test_vec2_scale(self):
+        """Ensure a new Vec2 is returned with a scaled x and y."""
+
+        from pedemath.vec2 import scale_v2
+
+        a = Vec2(7, 8)
+
+        result_vec = scale_v2(a, 2)
+
+        self.assertEqual(result_vec, Vec2(14, 16))
+
+        # Ensure a new vector was returned.
+        self.assertNotEqual(id(result_vec), id(a))
+
+    def test_vec2_scale_of_zero(self):
+        """Ensure the new Vec2's x and y are scaled to zero with no errors."""
+
+        from pedemath.vec2 import scale_v2
+
+        a = Vec2(7, 8)
+
+        result_vec = scale_v2(a, 0)
+
+        self.assertEqual(result_vec, Vec2(0, 0))
+
+        # Ensure a new vector was returned.
+        self.assertNotEqual(id(result_vec), id(a))
+
+
+class Vec2GetScale(unittest.TestCase):
+    """Ensure Vec2.get_scale returns a new Vec2 that is scaled correctly."""
+
+    def test_vec2_scale(self):
+        """Ensure the returned Vec2's x and y are scaled by the factor."""
+
+        a = Vec2(7, 8)
+
+        result_vec = a.get_scaled_v2(2)
+
+        self.assertEqual(result_vec, Vec2(14, 16))
+
+        # Ensure a new vector was returned.
+        self.assertNotEqual(id(result_vec), id(a))
+
+    def test_vec2_scale_of_zero(self):
+        """Ensure the Vec2's x and y are scaled by zero with no errors."""
+
+        a = Vec2(7, 8)
+
+        result_vec = a.get_scaled_v2(0)
+
+        self.assertEqual(result_vec, Vec2(0, 0))
+
+        # Ensure a new vector was returned.
+        self.assertNotEqual(id(result_vec), id(a))
+
+
 class AngleV2RadDirTestCase(unittest.TestCase):
 
     def test_angle_v2_rad_dir(self):
