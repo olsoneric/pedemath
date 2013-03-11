@@ -101,19 +101,24 @@ def projection_v2(v,w):
 
 
 def square_v2(vec):
+    """Return a new Vec2 with each component squared."""
+
     try:
-        return Vec2(vec.x**2, vec.y**2)
+        return Vec2(vec.x ** 2, vec.y ** 2)
+
     except OverflowError:
-        #print "OverflowError:", vec.x, vec.y
+
         try:
-            x = vec.x**2
+            x = vec.x ** 2
         except:
             x = 0.0
+
         try:
-            y = vec.y**2
+            y = vec.y ** 2
         except:
             y = 0.0
-        return Vec2(x,y)
+
+        return Vec2(x, y)
 
 
 def cross_v2(obj1, obj2):
@@ -197,13 +202,20 @@ class Vec2:
         self.x *= amount
         self.y *= amount
 
-    def get_square(self):
-        return Vec2(self.x**2, self.y**2)
-
     def square(self):
-        # square the components
-        self.x **= 2
-        self.y **= 2
+        """Square the components."""
+
+        # TODO: Check if ** operator will throw OverflowError in python or if
+        # that was just c.  If not, remove OverflowError try/excepts.
+        try:
+            self.x **= 2
+        except OverflowError:
+            self.x = 0.0
+
+        try:
+            self.y **= 2
+        except OverflowError:
+            self.y = 0.0
 
     def get_unit_normal(self):
         return self.get_scaled_v2(1.0/self.length())
@@ -212,6 +224,26 @@ class Vec2:
         """Return a new Vec2 with x and y multiplied by amount."""
 
         return Vec2(self.x * amount, self.y * amount)
+
+    def get_square(self):
+        """Return a new Vec2 with x and y that have been squared."""
+
+        try:
+            return Vec2(self.x ** 2, self.y ** 2)
+
+        except OverflowError:
+
+            try:
+                x = self.x ** 2
+            except:
+                x = 0.0
+
+            try:
+                y = self.y ** 2
+            except:
+                y = 0.0
+
+            return Vec2(x, y)
 
     def get_norm(self):
         # return square length: x*x + y*y

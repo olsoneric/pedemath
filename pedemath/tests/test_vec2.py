@@ -387,6 +387,47 @@ class Vec2GetScale(unittest.TestCase):
         self.assertNotEqual(id(result_vec), id(a))
 
 
+class Vec2Square(unittest.TestCase):
+    """Ensure Vec2's x and y have been squared."""
+
+    def test_vec2_square(self):
+        """Ensure Vec2's x and y have been squared."""
+
+        a = Vec2(3, 4)
+
+        a.square()
+
+        self.assertEqual(a, Vec2(9, 16))
+
+
+class SquareV2(unittest.TestCase):
+    """Ensure a new Vec2 is returned with x squared and y squared."""
+
+    def test_vec2_square(self):
+        """Ensure Vec2's x and y have been squared."""
+
+        from pedemath.vec2 import square_v2
+
+        a = Vec2(3, 4)
+
+        result = square_v2(a)
+
+        self.assertEqual(result, Vec2(9, 16))
+
+
+class Vec2GetSquareV2(unittest.TestCase):
+    """Ensure a new Vec2 is returned with x squared and y squared."""
+
+    def test_vec2_square(self):
+        """Ensure Vec2's x and y have been squared."""
+
+        a = Vec2(3, 4)
+
+        result = a.get_square()
+
+        self.assertEqual(result, Vec2(9, 16))
+
+
 class AngleV2RadDirTestCase(unittest.TestCase):
 
     def test_angle_v2_rad_dir(self):
