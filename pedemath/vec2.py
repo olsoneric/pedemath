@@ -247,12 +247,15 @@ class Vec2:
             return Vec2(x, y)
 
     def get_norm(self):
-        # return square length: x*x + y*y
-        return sum_v2(square_v2(self))
+        """Return square length: x*x + y*y."""
+
+        return self.x * self.x + self.y * self.y
 
     length_squared = get_norm
 
     def get_perp(self):
+        """Return a perpendicular vector."""
+
         return Vec2(-self.y, self.x)
 
     def length(self):

@@ -271,7 +271,7 @@ class NormalizeV2TestCase(unittest.TestCase):
         self.assertEqual(Vec2(0, 0), result)
 
 
-class Vec2Truncate(unittest.TestCase):
+class Vec2TruncateTestCase(unittest.TestCase):
     """Ensure Vec2.truncate limits the vector to the max_length."""
 
     def test_truncate_when_greater_than_max_length(self):
@@ -305,7 +305,7 @@ class Vec2Truncate(unittest.TestCase):
         self.assertFalse(scale.called)
 
 
-class Vec2Scale(unittest.TestCase):
+class Vec2ScaleTestCase(unittest.TestCase):
     """Ensure Vec2.scale modifies the Vec2 correctly."""
 
     def test_vec2_scale(self):
@@ -327,7 +327,7 @@ class Vec2Scale(unittest.TestCase):
         self.assertEqual(a, Vec2(0, 0))
 
 
-class ScaleV2(unittest.TestCase):
+class ScaleV2TestCase(unittest.TestCase):
     """Ensure scale_v2 creates a scaled Vec2 correctly."""
 
     def test_vec2_scale(self):
@@ -359,7 +359,7 @@ class ScaleV2(unittest.TestCase):
         self.assertNotEqual(id(result_vec), id(a))
 
 
-class Vec2GetScale(unittest.TestCase):
+class Vec2GetScaleTestCase(unittest.TestCase):
     """Ensure Vec2.get_scale returns a new Vec2 that is scaled correctly."""
 
     def test_vec2_scale(self):
@@ -387,7 +387,7 @@ class Vec2GetScale(unittest.TestCase):
         self.assertNotEqual(id(result_vec), id(a))
 
 
-class Vec2Square(unittest.TestCase):
+class Vec2SquareTestCase(unittest.TestCase):
     """Ensure Vec2's x and y have been squared."""
 
     def test_vec2_square(self):
@@ -400,7 +400,7 @@ class Vec2Square(unittest.TestCase):
         self.assertEqual(a, Vec2(9, 16))
 
 
-class SquareV2(unittest.TestCase):
+class SquareV2TestCase(unittest.TestCase):
     """Ensure a new Vec2 is returned with x squared and y squared."""
 
     def test_vec2_square(self):
@@ -415,7 +415,7 @@ class SquareV2(unittest.TestCase):
         self.assertEqual(result, Vec2(9, 16))
 
 
-class Vec2GetSquareV2(unittest.TestCase):
+class Vec2GetSquareV2TestCase(unittest.TestCase):
     """Ensure a new Vec2 is returned with x squared and y squared."""
 
     def test_vec2_square(self):
@@ -426,6 +426,45 @@ class Vec2GetSquareV2(unittest.TestCase):
         result = a.get_square()
 
         self.assertEqual(result, Vec2(9, 16))
+
+
+class Vec2GetNormTestCase(unittest.TestCase):
+    """Ensure Vec2.get_norm returns the vector norm."""
+
+    def test_vec2_get_norm(self):
+        """Ensure Vec2.get_norm() returns x * x + y * y"""
+
+        a = Vec2(3, 4)
+
+        result = a.get_norm()
+
+        self.assertEqual(result, 25.0)
+
+
+class Vec2GetPerpTestCase(unittest.TestCase):
+    """Ensure Vec2.get_perp returns a perpendicular vector."""
+
+    def test_vec2_get_perp(self):
+        """Ensure Vec2.get_perp() returns x * x + y * y"""
+
+        a = Vec2(3, 4)
+
+        result = a.get_perp()
+
+        self.assertEqual(result, Vec2(-4, 3))
+
+
+class Vec2LengthTestCase(unittest.TestCase):
+    """Ensure Vec2.length returns the vector length."""
+
+    def test_vec2_length(self):
+        """Ensure Vec2.length() returns x * x + y * y"""
+
+        a = Vec2(3, 4)
+
+        result = a.length()
+
+        self.assertEqual(result, 5.0)
 
 
 class AngleV2RadDirTestCase(unittest.TestCase):
