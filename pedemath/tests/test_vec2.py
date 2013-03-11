@@ -171,6 +171,46 @@ class AddV2TestCase(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 
+class Vec2RAddTestCase(unittest.TestCase):
+    """Test Vec2 -= arg"""
+
+    def test_radd_with_vec_argument(self):
+        """Ensure that Vec2.radd adds x and y components from a vector."""
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 2)
+
+        a += b
+
+        expected_result = Vec2(3, 5)
+
+        self.assertEqual(a, expected_result)
+
+    def test_radd_with_float_argument(self):
+        """Ensure that Vec2.radd adds the float to Vec2 x and y components."""
+
+        a = Vec2(2, 3)
+        b = 1.0
+
+        a -= b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(a, expected_result)
+
+    def test_radd_with_int_argument(self):
+        """Ensure that Vec2.radd adds the int to Vec2 x and y components."""
+
+        a = Vec2(2, 3)
+        b = 1
+
+        a -= b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(a, expected_result)
+
+
 class Vec2NegEqNeTestCase(unittest.TestCase):
     """Test Vec2's __neg__, __eq__, and __ne__."""
 
@@ -271,7 +311,7 @@ class NormalizeV2TestCase(unittest.TestCase):
         self.assertEqual(Vec2(0, 0), result)
 
 
-class Vec2Truncate(unittest.TestCase):
+class Vec2TruncateTestCase(unittest.TestCase):
     """Ensure Vec2.truncate limits the vector to the max_length."""
 
     def test_truncate_when_greater_than_max_length(self):
@@ -305,7 +345,7 @@ class Vec2Truncate(unittest.TestCase):
         self.assertFalse(scale.called)
 
 
-class Vec2Scale(unittest.TestCase):
+class Vec2ScaleTestCase(unittest.TestCase):
     """Ensure Vec2.scale modifies the Vec2 correctly."""
 
     def test_vec2_scale(self):
@@ -327,7 +367,7 @@ class Vec2Scale(unittest.TestCase):
         self.assertEqual(a, Vec2(0, 0))
 
 
-class ScaleV2(unittest.TestCase):
+class ScaleV2TestCase(unittest.TestCase):
     """Ensure scale_v2 creates a scaled Vec2 correctly."""
 
     def test_vec2_scale(self):
@@ -359,7 +399,7 @@ class ScaleV2(unittest.TestCase):
         self.assertNotEqual(id(result_vec), id(a))
 
 
-class Vec2GetScale(unittest.TestCase):
+class Vec2GetScaleTestCase(unittest.TestCase):
     """Ensure Vec2.get_scale returns a new Vec2 that is scaled correctly."""
 
     def test_vec2_scale(self):
@@ -385,6 +425,404 @@ class Vec2GetScale(unittest.TestCase):
 
         # Ensure a new vector was returned.
         self.assertNotEqual(id(result_vec), id(a))
+
+
+class Vec2SquareTestCase(unittest.TestCase):
+    """Ensure Vec2's x and y have been squared."""
+
+    def test_vec2_square(self):
+        """Ensure Vec2's x and y have been squared."""
+
+        a = Vec2(3, 4)
+
+        a.square()
+
+        self.assertEqual(a, Vec2(9, 16))
+
+
+class SquareV2TestCase(unittest.TestCase):
+    """Ensure a new Vec2 is returned with x squared and y squared."""
+
+    def test_vec2_square(self):
+        """Ensure Vec2's x and y have been squared."""
+
+        from pedemath.vec2 import square_v2
+
+        a = Vec2(3, 4)
+
+        result = square_v2(a)
+
+        self.assertEqual(result, Vec2(9, 16))
+
+
+class Vec2GetSquareV2TestCase(unittest.TestCase):
+    """Ensure a new Vec2 is returned with x squared and y squared."""
+
+    def test_vec2_square(self):
+        """Ensure Vec2's x and y have been squared."""
+
+        a = Vec2(3, 4)
+
+        result = a.get_square()
+
+        self.assertEqual(result, Vec2(9, 16))
+
+
+class Vec2GetNormTestCase(unittest.TestCase):
+    """Ensure Vec2.get_norm returns the vector norm."""
+
+    def test_vec2_get_norm(self):
+        """Ensure Vec2.get_norm() returns x * x + y * y"""
+
+        a = Vec2(3, 4)
+
+        result = a.get_norm()
+
+        self.assertEqual(result, 25.0)
+
+
+class Vec2GetPerpTestCase(unittest.TestCase):
+    """Ensure Vec2.get_perp returns a perpendicular vector."""
+
+    def test_vec2_get_perp(self):
+        """Ensure Vec2.get_perp() returns x * x + y * y"""
+
+        a = Vec2(3, 4)
+
+        result = a.get_perp()
+
+        self.assertEqual(result, Vec2(-4, 3))
+
+
+class Vec2LengthTestCase(unittest.TestCase):
+    """Ensure Vec2.length returns the vector length."""
+
+    def test_vec2_length(self):
+        """Ensure Vec2.length() returns x * x + y * y"""
+
+        a = Vec2(3, 4)
+
+        result = a.length()
+
+        self.assertEqual(result, 5.0)
+
+
+class Vec2GetItemTestCase(unittest.TestCase):
+    """Ensure Vec2.length returns the vector length."""
+
+    def test_vec2_getitem(self):
+        """Ensure vec[0] returns x and vec[1] returns y."""
+
+        a = Vec2(2, 3)
+
+        x = a[0]
+        y = a[1]
+
+        self.assertEqual(x, 2)
+        self.assertEqual(y, 3)
+
+    def test_vec2_getitem_index_out_of_range(self):
+        """Ensure vec[0] returns x and vec[1] returns y."""
+
+        a = Vec2(2, 3)
+
+        index_error_raised = False
+
+        try:
+            # Use an index greater than 2.
+            a[4]
+        except IndexError:
+            index_error_raised = True
+
+        self.assertTrue(index_error_raised)
+
+
+class Vec2DotTestCase(unittest.TestCase):
+    """Ensure Vec2.dot returns the dot product."""
+
+    def test_vec2_getitem(self):
+        """Ensure Vec2.dot returns the dot product of self and the argument."""
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 4)
+
+        result = a.dot(b)
+
+        self.assertEqual(result, 14)
+
+
+class DotV2TestCase(unittest.TestCase):
+    """Ensure dot_v2 returns the dot product."""
+
+    def test_vec2_getitem(self):
+        """Ensure dot_v2 returns the dot product of the two vectors."""
+
+        from pedemath.vec2 import dot_v2
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 4)
+
+        result = dot_v2(a, b)
+
+        self.assertEqual(result, 14)
+
+
+class Vec2GetsAndSetsTestCase(unittest.TestCase):
+    """Ensure Vec2 get and set functions return the right values."""
+
+    def test_vec2_get_x(self):
+        """Ensure get_x returns x."""
+
+        a = Vec2(2, 3)
+
+        self.assertEqual(a.get_x(), 2)
+
+    def test_vec2_set_x(self):
+        """Ensure set_x sets Vec2.x."""
+
+        a = Vec2(2, 3)
+
+        a.set_x(5)
+
+        self.assertEqual(a.x, 5)
+
+    def test_vec2_get_y(self):
+        """Ensure get_y returns y."""
+
+        a = Vec2(2, 3)
+
+        self.assertEqual(a.get_y(), 3)
+
+    def test_vec2_set_y(self):
+        """Ensure set_y sets Vec2.y."""
+
+        a = Vec2(2, 3)
+
+        a.set_y(5)
+
+        self.assertEqual(a.y, 5)
+
+    def test_vec2_set(self):
+        """Ensure set() sets Vec2 x and y."""
+
+        a = Vec2(2, 3)
+
+        a.set(7, 8)
+
+        self.assertEqual(a.x, 7)
+        self.assertEqual(a.y, 8)
+
+
+class Vec2RotRadsTestCase(unittest.TestCase):
+    """Ensure Vec2.rot_rads rotates the vector."""
+
+    def test_vec2_rot_rads(self):
+        """Ensure Vec2.rot_rads rotates the vector correctly."""
+
+        import math
+
+        from collections import namedtuple
+        Case = namedtuple('Case', 'start_vector angle expected_result_vec')
+
+        cases = [
+            # Start vector, angle to rotate, expected_result_vec
+            Case(Vec2(1, 0), 0, Vec2(1, 0)),
+            Case(Vec2(1, 0), math.pi / 2, Vec2(0, 1)),
+            Case(Vec2(1, 0), math.pi, Vec2(-1, 0)),
+            Case(Vec2(1, 0), math.pi * 3 / 2, Vec2(0, -1)),
+
+            Case(Vec2(1, 1), 0, Vec2(1, 1)),
+            Case(Vec2(1, 1), math.pi / 2, Vec2(-1, 1)),
+            Case(Vec2(1, 1), math.pi, Vec2(-1, -1)),
+            Case(Vec2(1, 1), math.pi * 3 / 2, Vec2(1, -1)),
+
+            Case(Vec2(-3, -4), 0, Vec2(-3, -4)),
+            Case(Vec2(-3, -4), -math.pi / 2, Vec2(-4, 3)),
+            Case(Vec2(-3, -4), -math.pi, Vec2(3, 4)),
+            Case(Vec2(-3, -4), -math.pi * 3 / 2, Vec2(4, -3)),
+        ]
+
+        for case in cases:
+            vec, radians, expected_result_vec = case
+            vec.rot_rads(radians)
+            self.assertAlmostEqual(vec.x, expected_result_vec.x)
+            self.assertAlmostEqual(vec.y, expected_result_vec.y)
+
+
+class RotRadsV2(unittest.TestCase):
+    """Ensure rot_rads_v2 rotates the vector."""
+
+    def test_rot_rads_v2(self):
+        """Ensure rot_rads_v2 rotates the vector correctly."""
+
+        import math
+
+        from pedemath.vec2 import rot_rads_v2
+
+        from collections import namedtuple
+        Case = namedtuple('Case', 'start_vector angle expected_result_vec')
+
+        cases = [
+            # Start vector, angle to rotate, expected_result_vec
+            Case(Vec2(1, 0), 0, Vec2(1, 0)),
+            Case(Vec2(1, 0), math.pi / 2, Vec2(0, 1)),
+            Case(Vec2(1, 0), math.pi, Vec2(-1, 0)),
+            Case(Vec2(1, 0), math.pi * 3 / 2, Vec2(0, -1)),
+
+            Case(Vec2(1, 1), 0, Vec2(1, 1)),
+            Case(Vec2(1, 1), math.pi / 2, Vec2(-1, 1)),
+            Case(Vec2(1, 1), math.pi, Vec2(-1, -1)),
+            Case(Vec2(1, 1), math.pi * 3 / 2, Vec2(1, -1)),
+
+            Case(Vec2(-3, -4), 0, Vec2(-3, -4)),
+            Case(Vec2(-3, -4), -math.pi / 2, Vec2(-4, 3)),
+            Case(Vec2(-3, -4), -math.pi, Vec2(3, 4)),
+            Case(Vec2(-3, -4), -math.pi * 3 / 2, Vec2(4, -3)),
+        ]
+
+        for case in cases:
+            vec, radians, expected_result_vec = case
+            result_vec = rot_rads_v2(vec, radians)
+            self.assertAlmostEqual(result_vec.x, expected_result_vec.x)
+            self.assertAlmostEqual(result_vec.y, expected_result_vec.y)
+
+
+class Vec2SubTestCase(unittest.TestCase):
+    """Test Vec2's __sub__() which is used in Vec2 + Vec2."""
+
+    def test_sub_with_vec_argument(self):
+        """Ensure that subtracting another vector returns another Vec2 with the
+        right values.
+        """
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 1)
+
+        result = a - b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_float_arg(self):
+        """Ensure that subtracting a float returns another Vec2 with the float
+        subtracted from x and y.
+        """
+
+        a = Vec2(2, 3)
+        b = 5.0
+
+        result = a - b
+
+        expected_result = Vec2(-3, -2)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_int_arg(self):
+        """Ensure that subtracting a int returns another Vec2 with the int
+        subtracted from x and y.
+        """
+
+        a = Vec2(9, 7)
+        b = 5
+
+        result = a - b
+
+        expected_result = Vec2(4, 2)
+
+        self.assertEqual(result, expected_result)
+
+
+class SubV2TestCase(unittest.TestCase):
+    """Test sub_v2(Vec2, Vec2)."""
+
+    def test_sub_with_vec_argument(self):
+        """Ensure that subtracting another vector returns another Vec2 with the
+        right values.
+        """
+
+        from pedemath.vec2 import sub_v2
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 1)
+
+        result = sub_v2(a, b)
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_float_arg(self):
+        """Ensure that subtracting a float returns another Vec2 with the float
+        subtracted from x and y.
+        """
+
+        from pedemath.vec2 import sub_v2
+
+        a = Vec2(2, 3)
+        b = 5.0
+
+        result = sub_v2(a, b)
+
+        expected_result = Vec2(-3, -2)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_int_arg(self):
+        """Ensure that subtracting a int returns another Vec2 with the int
+        subtracted from x and y.
+        """
+
+        from pedemath.vec2 import sub_v2
+
+        a = Vec2(9, 7)
+        b = 5
+
+        result = sub_v2(a, b)
+
+        expected_result = Vec2(4, 2)
+
+        self.assertEqual(result, expected_result)
+
+
+class Vec2RSubTestCase(unittest.TestCase):
+    """Test Vec2 -= arg"""
+
+    def test_rsub_with_vec_argument(self):
+        """Ensure that subtracting another vector modifies Vec2 correctly."""
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 2)
+
+        a -= b
+
+        expected_result = Vec2(1, 1)
+
+        self.assertEqual(a, expected_result)
+
+    def test_rsub_with_float_argument(self):
+        """Ensure that subtracting a float modifies Vec2 correctly."""
+
+        a = Vec2(2, 3)
+        b = 1.0
+
+        a -= b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(a, expected_result)
+
+    def test_rsub_with_int_argument(self):
+        """Ensure that subtracting an int modifies Vec2 correctly."""
+
+        a = Vec2(2, 3)
+        b = 1
+
+        a -= b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(a, expected_result)
 
 
 class AngleV2RadDirTestCase(unittest.TestCase):

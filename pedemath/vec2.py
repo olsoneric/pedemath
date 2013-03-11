@@ -14,7 +14,6 @@
 # limitations under the License.
 
 
-from types import FloatType, IntType
 import math
 
 VEC2_EPSILON = 0.00000001
@@ -48,13 +47,11 @@ def angle_v2_rad_dir(vec_a, vec_b):
 
 
 def rot_rads_v2(vec_a, rads):
+    """ Rotate vector by angle in radians."""
+
     x = vec_a.x * math.cos(rads) - vec_a.y * math.sin(rads)
     y = vec_a.x * math.sin(rads) + vec_a.y * math.cos(rads)
     return Vec2(x, y)
-
-
-def sum_v2(vec):
-    return vec.x + vec.y
 
 
 def scale_v2(vec, amount):
@@ -73,9 +70,10 @@ def normalize_v2(vec):
         return Vec2(0.0, 0.0)
 
 
-def dot_v2 (v,w):
-    # The dot product of two vectors
-    return sum( [ x*y for x,y in zip(v,w) ] )
+def dot_v2(vec1, vec2):
+    """Return the dot product of two vectors"""
+
+    return vec1.x * vec2.x + vec1.y * vec2.y
 
 
 def add_v2(v, w):
@@ -88,35 +86,46 @@ def add_v2(v, w):
         return Vec2(v.x + w.x, v.y + w.y)
 
 
-def sub_v2 (v,w):
-    if type(w) == IntType or type(w) == FloatType:
-        return Vec2(v.x-w, v.y - w)
+def sub_v2(v, w):
+    """Subtract: v - w.  Assume the first arg v is a Vec2.
+    The second arg w can be a vec2 or a number.
+    """
+
+    if type(w) is float or type(w) is int:
+        return Vec2(v.x - w, v.y - w)
     else:
-        return Vec2(v.x-w.x, v.y - w.y)
+        return Vec2(v.x - w.x, v.y - w.y)
 
 
 def projection_v2(v,w):
+    # TODO
     # The signed length of the projection of vector v on vector w.
     return dot_v2(v,w)/w.length()
 
 
 def square_v2(vec):
+    """Return a new Vec2 with each component squared."""
+
     try:
-        return Vec2(vec.x**2, vec.y**2)
+        return Vec2(vec.x ** 2, vec.y ** 2)
+
     except OverflowError:
-        #print "OverflowError:", vec.x, vec.y
+
         try:
-            x = vec.x**2
+            x = vec.x ** 2
         except:
             x = 0.0
+
         try:
-            y = vec.y**2
+            y = vec.y ** 2
         except:
             y = 0.0
-        return Vec2(x,y)
+
+        return Vec2(x, y)
 
 
 def cross_v2(obj1, obj2):
+    # TODO
     return Vec2(obj1.y*obj2.x-obj1.x*obj2.y,
     obj1.y*obj2.x-obj1.x*obj2.y)
 
@@ -197,15 +206,24 @@ class Vec2:
         self.x *= amount
         self.y *= amount
 
-    def get_square(self):
-        return Vec2(self.x**2, self.y**2)
-
     def square(self):
-        # square the components
-        self.x **= 2
-        self.y **= 2
+        """Square the components."""
+
+        # TODO: Look into ** and math.pow more.
+        # TODO: Double-check if ** operator will throw OverflowError.
+        # If not, remove OverflowError try/excepts.
+        try:
+            self.x **= 2
+        except OverflowError:
+            self.x = 0.0
+
+        try:
+            self.y **= 2
+        except OverflowError:
+            self.y = 0.0
 
     def get_unit_normal(self):
+        # TODO
         return self.get_scaled_v2(1.0/self.length())
 
     def get_scaled_v2(self, amount):
@@ -213,90 +231,167 @@ class Vec2:
 
         return Vec2(self.x * amount, self.y * amount)
 
+    def get_square(self):
+        """Return a new Vec2 with x and y that have been squared."""
+
+        try:
+            return Vec2(self.x ** 2, self.y ** 2)
+
+        except OverflowError:
+
+            try:
+                x = self.x ** 2
+            except:
+                x = 0.0
+
+            try:
+                y = self.y ** 2
+            except:
+                y = 0.0
+
+            return Vec2(x, y)
+
     def get_norm(self):
-        # return square length: x*x + y*y
-        return sum_v2(square_v2(self))
+        """Return square length: x*x + y*y."""
+
+        return self.x * self.x + self.y * self.y
 
     length_squared = get_norm
 
     def get_perp(self):
+        """Return a perpendicular vector."""
+
         return Vec2(-self.y, self.x)
 
     def length(self):
-        # print "vec len A:", self.getNorm()
+        """Return the vector length."""
         return math.sqrt(self.get_norm())
 
     def __getitem__(self, index):
+        """Return x for vec[0] or y for vec[1]."""
+
         if (index == 0):
             return self.x
         elif (index == 1):
             return self.y
+
         raise IndexError("Vector index out of range")
 
     def dot(self, vec):
-        # The dot product of two vectors
-        #return sum( [ x*y for x,y in zip(self.data,vec.data) ] )
-        return self.x*vec.x + self.y*vec.y
+        """Return the dot product of two vectors."""
+
+        return self.x * vec.x + self.y * vec.y
+
+    def get_x(self):
+        """Return x component."""
+
+        return self.x
 
     def get_y(self):
+        """Return y component."""
+
         return self.y
 
+    def set_x(self, val):
+        """Set x component."""
+
+        self.x = val
+
     def set_y(self, val):
+        """Set y component."""
+
         self.y = val
 
     def set(self, x, y):
+        """Set x and y components."""
         self.x = x
         self.y = y
 
-    def rot_rads(self, rads):
-        self.x = self.x * math.cos(rads) - self.y * math.sin(rads)
-        self.y = self.y * math.sin(rads) + self.y * math.cos(rads)
+    def __rsub__(self, arg):
+        """Subtrace arg.
 
-    def __rsub__(self, obj):
-        if type(obj) == IntType or type(obj) == FloatType:
-            self.x -= obj
-            self.y -= obj
+        If argument is a float or vec, subtract it from our x and y.
+        Otherwise, treat is as a Vec2 and subtract arg.x and arg.y from our own
+        x and y.
+        """
+
+        if type(arg) is float or type(arg) is int:
+            self.x -= arg
+            self.y -= arg
         else:
-            self.x -= obj.x
-            self.y -= obj.y
+            self.x -= arg.x
+            self.y -= arg.y
 
-    def __sub__(self, obj):
-        if type(obj) == IntType or type(obj) == FloatType:
-            return Vec2(self.x-obj, self.y - obj)
+    def __sub__(self, arg):
+        """Return a new Vec2 containing the difference between our x and y and
+        arg.
+        If argument is a float or vec, subtract it from our x and y.
+        Otherwise, treat is as a Vec2 and subtract arg.x and arg.y from our own
+        x and y.
+        """
+
+        if type(arg) is float or type(arg) is int:
+            return Vec2(self.x - arg, self.y - arg)
         else:
-            return Vec2(self.x-obj.x, self.y - obj.y)
+            return Vec2(self.x - arg.x, self.y - arg.y)
 
-    def __radd__(self, obj):
-        self.x += obj.x
-        self.y += obj.y
+    def __radd__(self, arg):
+        """Add arg.
+
+        If argument is a float or vec, subtract it from our x and y.
+        Otherwise, treat is as a Vec2 and subtract arg.x and arg.y from our own
+        x and y.
+        """
+
+        if type(arg) is float or type(arg) is int:
+            self.x += arg.x
+            self.y += arg.y
+        else:
+            self.x += arg
+            self.y += arg
 
     def __lmul__(self, obj):
+        # TODO
         raise "Blah"
 
     def __mul__(self, obj): # use crossVec2 instead
+        # TODO
         return Vec2(self.x * obj, self.y * obj)
 
     def __div__(self, val):
+        # TODO
         return Vec2(self.x / val, self.y / val)
 
     def __rdiv__(self, val):
+        # TODO
         self.x /= val
         self.y /= val
 
     def __str__(self):
+        # TODO
         return str("Vec2(%s,%s)" % (self.x, self.y) )
 
+    # TODO
     __repr__ = __str__
 
     def __len__(self):
+        # TODO
         return 2
+
+    def rot_rads(self, rads):
+        """ Rotate vector by angle in radians."""
+
+        new_x = self.x * math.cos(rads) - self.y * math.sin(rads)
+        self.y = self.x * math.sin(rads) + self.y * math.cos(rads)
+        self.x = new_x
+
 
 if __name__ == "__main__":
     a = Vec2(1, 2)
     print "a:", a
     print "a + 5", a + 5
     print "a * 5", a * 5
-    print "a - a", a -a
+    print "a - a", a - a
     b = Vec2(a.x, a.y)
     b -= 5
     print "b -= 5", b
