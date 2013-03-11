@@ -527,6 +527,126 @@ class DotV2TestCase(unittest.TestCase):
         self.assertEqual(result, 14)
 
 
+class Vec2GetsAndSetsTestCase(unittest.TestCase):
+    """Ensure Vec2 get and set functions return the right values."""
+
+    def test_vec2_get_x(self):
+        """Ensure get_x returns x."""
+
+        a = Vec2(2, 3)
+
+        self.assertEqual(a.get_x(), 2)
+
+    def test_vec2_set_x(self):
+        """Ensure set_x sets Vec2.x."""
+
+        a = Vec2(2, 3)
+
+        a.set_x(5)
+
+        self.assertEqual(a.x, 5)
+
+    def test_vec2_get_y(self):
+        """Ensure get_y returns y."""
+
+        a = Vec2(2, 3)
+
+        self.assertEqual(a.get_y(), 3)
+
+    def test_vec2_set_y(self):
+        """Ensure set_y sets Vec2.y."""
+
+        a = Vec2(2, 3)
+
+        a.set_y(5)
+
+        self.assertEqual(a.y, 5)
+
+    def test_vec2_set(self):
+        """Ensure set() sets Vec2 x and y."""
+
+        a = Vec2(2, 3)
+
+        a.set(7, 8)
+
+        self.assertEqual(a.x, 7)
+        self.assertEqual(a.y, 8)
+
+
+class Vec2RotRadsTestCase(unittest.TestCase):
+    """Ensure Vec2.rot_rads rotates the vector."""
+
+    def test_vec2_rot_rads(self):
+        """Ensure Vec2.rot_rads rotates the vector correctly."""
+
+        import math
+
+        from collections import namedtuple
+        Case = namedtuple('Case', 'start_vector angle expected_result_vec')
+
+        cases = [
+            # Start vector, angle to rotate, expected_result_vec
+            Case(Vec2(1, 0), 0, Vec2(1, 0)),
+            Case(Vec2(1, 0), math.pi / 2, Vec2(0, 1)),
+            Case(Vec2(1, 0), math.pi, Vec2(-1, 0)),
+            Case(Vec2(1, 0), math.pi * 3 / 2, Vec2(0, -1)),
+
+            Case(Vec2(1, 1), 0, Vec2(1, 1)),
+            Case(Vec2(1, 1), math.pi / 2, Vec2(-1, 1)),
+            Case(Vec2(1, 1), math.pi, Vec2(-1, -1)),
+            Case(Vec2(1, 1), math.pi * 3 / 2, Vec2(1, -1)),
+
+            Case(Vec2(-3, -4), 0, Vec2(-3, -4)),
+            Case(Vec2(-3, -4), -math.pi / 2, Vec2(-4, 3)),
+            Case(Vec2(-3, -4), -math.pi, Vec2(3, 4)),
+            Case(Vec2(-3, -4), -math.pi * 3 / 2, Vec2(4, -3)),
+        ]
+
+        for case in cases:
+            vec, radians, expected_result_vec = case
+            vec.rot_rads(radians)
+            self.assertAlmostEqual(vec.x, expected_result_vec.x)
+            self.assertAlmostEqual(vec.y, expected_result_vec.y)
+
+
+class RotRadsV2(unittest.TestCase):
+    """Ensure rot_rads_v2 rotates the vector."""
+
+    def test_rot_rads_v2(self):
+        """Ensure rot_rads_v2 rotates the vector correctly."""
+
+        import math
+
+        from pedemath.vec2 import rot_rads_v2
+
+        from collections import namedtuple
+        Case = namedtuple('Case', 'start_vector angle expected_result_vec')
+
+        cases = [
+            # Start vector, angle to rotate, expected_result_vec
+            Case(Vec2(1, 0), 0, Vec2(1, 0)),
+            Case(Vec2(1, 0), math.pi / 2, Vec2(0, 1)),
+            Case(Vec2(1, 0), math.pi, Vec2(-1, 0)),
+            Case(Vec2(1, 0), math.pi * 3 / 2, Vec2(0, -1)),
+
+            Case(Vec2(1, 1), 0, Vec2(1, 1)),
+            Case(Vec2(1, 1), math.pi / 2, Vec2(-1, 1)),
+            Case(Vec2(1, 1), math.pi, Vec2(-1, -1)),
+            Case(Vec2(1, 1), math.pi * 3 / 2, Vec2(1, -1)),
+
+            Case(Vec2(-3, -4), 0, Vec2(-3, -4)),
+            Case(Vec2(-3, -4), -math.pi / 2, Vec2(-4, 3)),
+            Case(Vec2(-3, -4), -math.pi, Vec2(3, 4)),
+            Case(Vec2(-3, -4), -math.pi * 3 / 2, Vec2(4, -3)),
+        ]
+
+        for case in cases:
+            vec, radians, expected_result_vec = case
+            result_vec = rot_rads_v2(vec, radians)
+            self.assertAlmostEqual(result_vec.x, expected_result_vec.x)
+            self.assertAlmostEqual(result_vec.y, expected_result_vec.y)
+
+
 class AngleV2RadDirTestCase(unittest.TestCase):
 
     def test_angle_v2_rad_dir(self):

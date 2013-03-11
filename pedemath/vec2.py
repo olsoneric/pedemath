@@ -53,10 +53,6 @@ def rot_rads_v2(vec_a, rads):
     return Vec2(x, y)
 
 
-def sum_v2(vec):
-    return vec.x + vec.y
-
-
 def scale_v2(vec, amount):
     """Return a new Vec2 with x and y from vec and multiplied by amount."""
 
@@ -278,19 +274,30 @@ class Vec2:
 
         return self.x * vec.x + self.y * vec.y
 
+    def get_x(self):
+        """Return x component."""
+
+        return self.x
+
     def get_y(self):
+        """Return y component."""
+
         return self.y
 
+    def set_x(self, val):
+        """Set x component."""
+
+        self.x = val
+
     def set_y(self, val):
+        """Set y component."""
+
         self.y = val
 
     def set(self, x, y):
+        """Set x and y components."""
         self.x = x
         self.y = y
-
-    def rot_rads(self, rads):
-        self.x = self.x * math.cos(rads) - self.y * math.sin(rads)
-        self.y = self.y * math.sin(rads) + self.y * math.cos(rads)
 
     def __rsub__(self, obj):
         if type(obj) == IntType or type(obj) == FloatType:
@@ -330,6 +337,14 @@ class Vec2:
 
     def __len__(self):
         return 2
+
+    def rot_rads(self, rads):
+        """ Rotate vector by angle in radians."""
+
+        new_x = self.x * math.cos(rads) - self.y * math.sin(rads)
+        self.y = self.x * math.sin(rads) + self.y * math.cos(rads)
+        self.x = new_x
+
 
 if __name__ == "__main__":
     a = Vec2(1, 2)
