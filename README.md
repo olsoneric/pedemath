@@ -1,4 +1,4 @@
-PedeMath - A Vector and Math Library
+PedeMath - A Pure Python Vector and Math Library
 ====================================================
 
 Introduction
