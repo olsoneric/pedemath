@@ -58,13 +58,18 @@ def sum_v2(vec):
 
 
 def scale_v2(vec, amount):
-    return Vec2(vec.x*amount, vec.y*amount)
+    """Return a new Vec2 with x and y from vec and multiplied by amount."""
+
+    return Vec2(vec.x * amount, vec.y * amount)
 
 
 def normalize_v2(vec):
+    """Return a new normalized Vec2 of vec."""
+
     try:
-        return scale_v2(vec, 1.0/vec.length())
+        return scale_v2(vec, 1.0 / vec.length())
     except ZeroDivisionError:
+        # Handle gracefully.  x and y are probably zero
         return Vec2(0.0, 0.0)
 
 
@@ -145,28 +150,50 @@ class Vec2:
             return Vec2(self.x + arg.x, self.y + arg.y)
 
     def __neg__(self):
+        """Return a Vec2 with -x and -y."""
+
         return Vec2(-self.x, -self.y)
 
     def __eq__(self, v2):
+        """Return True if x == v2.x and y == 2.y"""
+
         if self.x == v2.x and self.y == v2.y:
             return True
+
         return False
 
     def __ne__(self, v2):
+        """Return True if x != v2.x or y != 2.y"""
+
         if self.x != v2.x or self.y != v2.y:
             return True
+
         return False
 
-    def normalize(self): # normalize to a unit vector
-        self.scale(1.0/self.length())
+    def normalize(self):
+        """Make this vector a unit vector."""
 
-    def truncate(self, max): # make length not exceed max
-        if self.length() > max:
-            self.normalize()
-            self.scale(max)
-        return self
+        try:
+            self.scale(1.0 / self.length())
+        except ZeroDivisionError:
+            # Handle gracefully.  x and y are probably zero
+            pass
+
+        # Don't return self to help indicate that self is being modified.
+
+    def truncate(self, max_length):
+        """Truncate this vector so it's length does not exceed max."""
+
+        if self.length() > max_length:
+
+            # If it's longer than the max_length, scale to the max_length.
+            self.scale(max_length / self.length())
+
+        # Don't return self to help indicate that self is being modified.
 
     def scale(self, amount):
+        """Multiply x and y by amount."""
+
         self.x *= amount
         self.y *= amount
 
@@ -182,7 +209,9 @@ class Vec2:
         return self.get_scaled_v2(1.0/self.length())
 
     def get_scaled_v2(self, amount):
-        return Vec2(self.x*amount, self.y*amount)
+        """Return a new Vec2 with x and y multiplied by amount."""
+
+        return Vec2(self.x * amount, self.y * amount)
 
     def get_norm(self):
         # return square length: x*x + y*y
