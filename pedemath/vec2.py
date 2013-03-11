@@ -73,9 +73,10 @@ def normalize_v2(vec):
         return Vec2(0.0, 0.0)
 
 
-def dot_v2 (v,w):
-    # The dot product of two vectors
-    return sum( [ x*y for x,y in zip(v,w) ] )
+def dot_v2(vec1, vec2):
+    """Return the dot product of two vectors"""
+
+    return vec1.x * vec2.x + vec1.y * vec2.y
 
 
 def add_v2(v, w):
@@ -259,20 +260,23 @@ class Vec2:
         return Vec2(-self.y, self.x)
 
     def length(self):
-        # print "vec len A:", self.getNorm()
+        """Return the vector length."""
         return math.sqrt(self.get_norm())
 
     def __getitem__(self, index):
+        """Return x for vec[0] or y for vec[1]."""
+
         if (index == 0):
             return self.x
         elif (index == 1):
             return self.y
+
         raise IndexError("Vector index out of range")
 
     def dot(self, vec):
-        # The dot product of two vectors
-        #return sum( [ x*y for x,y in zip(self.data,vec.data) ] )
-        return self.x*vec.x + self.y*vec.y
+        """Return the dot product of two vectors."""
+
+        return self.x * vec.x + self.y * vec.y
 
     def get_y(self):
         return self.y

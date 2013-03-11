@@ -467,6 +467,66 @@ class Vec2LengthTestCase(unittest.TestCase):
         self.assertEqual(result, 5.0)
 
 
+class Vec2GetItemTestCase(unittest.TestCase):
+    """Ensure Vec2.length returns the vector length."""
+
+    def test_vec2_getitem(self):
+        """Ensure vec[0] returns x and vec[1] returns y."""
+
+        a = Vec2(2, 3)
+
+        x = a[0]
+        y = a[1]
+
+        self.assertEqual(x, 2)
+        self.assertEqual(y, 3)
+
+    def test_vec2_getitem_index_out_of_range(self):
+        """Ensure vec[0] returns x and vec[1] returns y."""
+
+        a = Vec2(2, 3)
+
+        index_error_raised = False
+
+        try:
+            # Use an index greater than 2.
+            a[4]
+        except IndexError:
+            index_error_raised = True
+
+        self.assertTrue(index_error_raised)
+
+
+class Vec2DotTestCase(unittest.TestCase):
+    """Ensure Vec2.dot returns the dot product."""
+
+    def test_vec2_getitem(self):
+        """Ensure Vec2.dot returns the dot product of self and the argument."""
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 4)
+
+        result = a.dot(b)
+
+        self.assertEqual(result, 14)
+
+
+class DotV2TestCase(unittest.TestCase):
+    """Ensure dot_v2 returns the dot product."""
+
+    def test_vec2_getitem(self):
+        """Ensure dot_v2 returns the dot product of the two vectors."""
+
+        from pedemath.vec2 import dot_v2
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 4)
+
+        result = dot_v2(a, b)
+
+        self.assertEqual(result, 14)
+
+
 class AngleV2RadDirTestCase(unittest.TestCase):
 
     def test_angle_v2_rad_dir(self):
