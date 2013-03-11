@@ -145,16 +145,24 @@ class Vec2:
             return Vec2(self.x + arg.x, self.y + arg.y)
 
     def __neg__(self):
+        """Return a Vec2 with -x and -y."""
+
         return Vec2(-self.x, -self.y)
 
     def __eq__(self, v2):
+        """Return True if x == v2.x and y == 2.y"""
+
         if self.x == v2.x and self.y == v2.y:
             return True
+
         return False
 
     def __ne__(self, v2):
+        """Return True if x != v2.x or y != 2.y"""
+
         if self.x != v2.x or self.y != v2.y:
             return True
+
         return False
 
     def normalize(self): # normalize to a unit vector

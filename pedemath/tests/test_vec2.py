@@ -169,6 +169,50 @@ class AddV2TestCase(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 
+class Vec2NegEqNeTestCase(unittest.TestCase):
+    """Test Vec2's __neg__, __eq__, and __ne__."""
+
+    def test_vec2_neg(self):
+        """Ensure -Vec2 returns a Vec2 with -x and -y."""
+
+        a = Vec2(2, 3)
+        b = Vec2(-2, -3)
+
+        self.assertEqual(-a, b)
+
+    def test_vec2_eq_is_true(self):
+        """Ensure -Vec2 returns a Vec2 with -x and -y."""
+
+        a = Vec2(2, 3)
+        b = Vec2(2, 3)
+
+        self.assertTrue(a == b)
+
+    def test_vec2_eq_is_false(self):
+        """Ensure -Vec2 returns a Vec2 with -x and -y."""
+
+        a = Vec2(2, 3)
+        b = Vec2(2, -3)
+
+        self.assertFalse(a == b)
+
+    def test_vec2_ne_is_true(self):
+        """Ensure -Vec2 returns a Vec2 with -x and -y."""
+
+        a = Vec2(2, 3)
+        b = Vec2(2, -3)
+
+        self.assertTrue(a != b)
+
+    def test_vec2_ne_is_false(self):
+        """Ensure -Vec2 returns a Vec2 with -x and -y."""
+
+        a = Vec2(2, 3)
+        b = Vec2(2, 3)
+
+        self.assertFalse(a != b)
+
+
 class AngleV2RadDirTestCase(unittest.TestCase):
 
     def test_angle_v2_rad_dir(self):
