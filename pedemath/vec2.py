@@ -205,8 +205,9 @@ class Vec2:
     def square(self):
         """Square the components."""
 
-        # TODO: Check if ** operator will throw OverflowError in python or if
-        # that was just c.  If not, remove OverflowError try/excepts.
+        # TODO: Look into ** and math.pow more.
+        # TODO: Double-check if ** operator will throw OverflowError.
+        # If not, remove OverflowError try/excepts.
         try:
             self.x **= 2
         except OverflowError:
