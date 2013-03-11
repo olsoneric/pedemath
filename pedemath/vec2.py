@@ -62,9 +62,12 @@ def scale_v2(vec, amount):
 
 
 def normalize_v2(vec):
+    """Return a new normalized Vec2 of vec."""
+
     try:
-        return scale_v2(vec, 1.0/vec.length())
+        return scale_v2(vec, 1.0 / vec.length())
     except ZeroDivisionError:
+        # Handle gracefully.  x and y are probably zero
         return Vec2(0.0, 0.0)
 
 
@@ -165,14 +168,26 @@ class Vec2:
 
         return False
 
-    def normalize(self): # normalize to a unit vector
-        self.scale(1.0/self.length())
+    def normalize(self):
+        """Make this vector a unit vector."""
 
-    def truncate(self, max): # make length not exceed max
-        if self.length() > max:
-            self.normalize()
-            self.scale(max)
-        return self
+        try:
+            self.scale(1.0 / self.length())
+        except ZeroDivisionError:
+            # Handle gracefully.  x and y are probably zero
+            pass
+
+        # Don't return self to help indicate that self is being modified.
+
+    def truncate(self, max_length):
+        """Truncate this vector so it's length does not exceed max."""
+
+        if self.length() > max_length:
+
+            # If it's longer than the max_length, scale to the max_length.
+            self.scale(max_length / self.length())
+
+        # Don't return self to help indicate that self is being modified.
 
     def scale(self, amount):
         self.x *= amount

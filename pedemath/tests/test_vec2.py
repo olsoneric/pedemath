@@ -16,6 +16,8 @@
 
 import unittest
 
+from mock import patch
+
 from pedemath.vec2 import Vec2
 
 
@@ -211,6 +213,96 @@ class Vec2NegEqNeTestCase(unittest.TestCase):
         b = Vec2(2, 3)
 
         self.assertFalse(a != b)
+
+
+class Vec2NormalizeTestCase(unittest.TestCase):
+    """Ensure Vec2.normalize works as expected."""
+
+    def test_normalize(self):
+        """Normalize the component's so the vector's length is one."""
+
+        a = Vec2(3, 4)
+        a.normalize()
+
+        expected_vec = Vec2(0.6, 0.8)
+
+        self.assertAlmostEqual(a.x, expected_vec.x)
+        self.assertAlmostEqual(a.y, expected_vec.y)
+
+    def test_normalize_zero_length_vector(self):
+        """If a vector is of length zero, normalizing it should fail
+        gracefully and just leave it as a zero length vector.
+        """
+
+        a = Vec2(0, 0)
+
+        a.normalize()
+
+        self.assertEqual(Vec2(0, 0), a)
+
+
+class NormalizeV2TestCase(unittest.TestCase):
+    """Ensure Vec2.normalize works as expected."""
+
+    def test_normalize(self):
+        """Normalize the components so the vector's length is one."""
+
+        from pedemath.vec2 import normalize_v2
+
+        a = Vec2(3, 4)
+        result = normalize_v2(a)
+
+        expected_vec = Vec2(0.6, 0.8)
+
+        self.assertAlmostEqual(result.x, expected_vec.x)
+        self.assertAlmostEqual(result.y, expected_vec.y)
+
+    def test_normalize_zero_length_vector(self):
+        """If the vector is of length zero, a divide by zero error is
+        raised when trying to normalize it.
+        """
+
+        from pedemath.vec2 import normalize_v2
+
+        a = Vec2(0, 0)
+
+        result = normalize_v2(a)
+
+        self.assertEqual(Vec2(0, 0), result)
+
+
+class Vec2Truncate(unittest.TestCase):
+    """Ensure Vec2.truncate limits the vector to the max_length."""
+
+    def test_truncate_when_greater_than_max_length(self):
+        """Ensure the vector is scaled to the max_length."""
+
+        a = Vec2(6, 8)
+
+        # Truncate the vector of length 10 to one of length 5.
+        a.truncate(5)
+
+        expected_vec = Vec2(3, 4)
+
+        self.assertEqual(a, expected_vec)
+
+    @patch('pedemath.vec2.Vec2.scale')
+    def test_truncate_when_less_than_max_length(self, scale):
+        """Ensure the vector is not scaled since it is less than max_length."""
+
+        a = Vec2(3, 4)
+
+        # Call truncate(max_length=10) on the vector of length 5.
+        a.truncate(10)
+
+        # Expect no change
+        expected_vec = Vec2(3, 4)
+
+        # Ensure no change was made
+        self.assertEqual(a, expected_vec)
+
+        # Make sure Vec2.scale() was not called.
+        self.assertFalse(scale.called)
 
 
 class AngleV2RadDirTestCase(unittest.TestCase):
