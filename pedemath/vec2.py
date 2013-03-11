@@ -14,7 +14,6 @@
 # limitations under the License.
 
 
-from types import FloatType, IntType
 import math
 
 VEC2_EPSILON = 0.00000001
@@ -48,6 +47,8 @@ def angle_v2_rad_dir(vec_a, vec_b):
 
 
 def rot_rads_v2(vec_a, rads):
+    """ Rotate vector by angle in radians."""
+
     x = vec_a.x * math.cos(rads) - vec_a.y * math.sin(rads)
     y = vec_a.x * math.sin(rads) + vec_a.y * math.cos(rads)
     return Vec2(x, y)
@@ -97,6 +98,7 @@ def sub_v2(v, w):
 
 
 def projection_v2(v,w):
+    # TODO
     # The signed length of the projection of vector v on vector w.
     return dot_v2(v,w)/w.length()
 
@@ -123,6 +125,7 @@ def square_v2(vec):
 
 
 def cross_v2(obj1, obj2):
+    # TODO
     return Vec2(obj1.y*obj2.x-obj1.x*obj2.y,
     obj1.y*obj2.x-obj1.x*obj2.y)
 
@@ -220,6 +223,7 @@ class Vec2:
             self.y = 0.0
 
     def get_unit_normal(self):
+        # TODO
         return self.get_scaled_v2(1.0/self.length())
 
     def get_scaled_v2(self, amount):
@@ -347,24 +351,31 @@ class Vec2:
             self.y += arg
 
     def __lmul__(self, obj):
+        # TODO
         raise "Blah"
 
     def __mul__(self, obj): # use crossVec2 instead
+        # TODO
         return Vec2(self.x * obj, self.y * obj)
 
     def __div__(self, val):
+        # TODO
         return Vec2(self.x / val, self.y / val)
 
     def __rdiv__(self, val):
+        # TODO
         self.x /= val
         self.y /= val
 
     def __str__(self):
+        # TODO
         return str("Vec2(%s,%s)" % (self.x, self.y) )
 
+    # TODO
     __repr__ = __str__
 
     def __len__(self):
+        # TODO
         return 2
 
     def rot_rads(self, rads):
@@ -380,7 +391,7 @@ if __name__ == "__main__":
     print "a:", a
     print "a + 5", a + 5
     print "a * 5", a * 5
-    print "a - a", a -a
+    print "a - a", a - a
     b = Vec2(a.x, a.y)
     b -= 5
     print "b -= 5", b
