@@ -85,11 +85,15 @@ def add_v2(v, w):
         return Vec2(v.x + w.x, v.y + w.y)
 
 
-def sub_v2 (v,w):
-    if type(w) == IntType or type(w) == FloatType:
-        return Vec2(v.x-w, v.y - w)
+def sub_v2(v, w):
+    """Subtract: v - w.  Assume the first arg v is a Vec2.
+    The second arg w can be a vec2 or a number.
+    """
+
+    if type(w) is float or type(w) is int:
+        return Vec2(v.x - w, v.y - w)
     else:
-        return Vec2(v.x-w.x, v.y - w.y)
+        return Vec2(v.x - w.x, v.y - w.y)
 
 
 def projection_v2(v,w):
@@ -299,23 +303,48 @@ class Vec2:
         self.x = x
         self.y = y
 
-    def __rsub__(self, obj):
-        if type(obj) == IntType or type(obj) == FloatType:
-            self.x -= obj
-            self.y -= obj
-        else:
-            self.x -= obj.x
-            self.y -= obj.y
+    def __rsub__(self, arg):
+        """Subtrace arg.
 
-    def __sub__(self, obj):
-        if type(obj) == IntType or type(obj) == FloatType:
-            return Vec2(self.x-obj, self.y - obj)
-        else:
-            return Vec2(self.x-obj.x, self.y - obj.y)
+        If argument is a float or vec, subtract it from our x and y.
+        Otherwise, treat is as a Vec2 and subtract arg.x and arg.y from our own
+        x and y.
+        """
 
-    def __radd__(self, obj):
-        self.x += obj.x
-        self.y += obj.y
+        if type(arg) is float or type(arg) is int:
+            self.x -= arg
+            self.y -= arg
+        else:
+            self.x -= arg.x
+            self.y -= arg.y
+
+    def __sub__(self, arg):
+        """Return a new Vec2 containing the difference between our x and y and
+        arg.
+        If argument is a float or vec, subtract it from our x and y.
+        Otherwise, treat is as a Vec2 and subtract arg.x and arg.y from our own
+        x and y.
+        """
+
+        if type(arg) is float or type(arg) is int:
+            return Vec2(self.x - arg, self.y - arg)
+        else:
+            return Vec2(self.x - arg.x, self.y - arg.y)
+
+    def __radd__(self, arg):
+        """Add arg.
+
+        If argument is a float or vec, subtract it from our x and y.
+        Otherwise, treat is as a Vec2 and subtract arg.x and arg.y from our own
+        x and y.
+        """
+
+        if type(arg) is float or type(arg) is int:
+            self.x += arg.x
+            self.y += arg.y
+        else:
+            self.x += arg
+            self.y += arg
 
     def __lmul__(self, obj):
         raise "Blah"

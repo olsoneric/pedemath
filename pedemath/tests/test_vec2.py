@@ -171,6 +171,46 @@ class AddV2TestCase(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 
+class Vec2RAddTestCase(unittest.TestCase):
+    """Test Vec2 -= arg"""
+
+    def test_radd_with_vec_argument(self):
+        """Ensure that Vec2.radd adds x and y components from a vector."""
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 2)
+
+        a += b
+
+        expected_result = Vec2(3, 5)
+
+        self.assertEqual(a, expected_result)
+
+    def test_radd_with_float_argument(self):
+        """Ensure that Vec2.radd adds the float to Vec2 x and y components."""
+
+        a = Vec2(2, 3)
+        b = 1.0
+
+        a -= b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(a, expected_result)
+
+    def test_radd_with_int_argument(self):
+        """Ensure that Vec2.radd adds the int to Vec2 x and y components."""
+
+        a = Vec2(2, 3)
+        b = 1
+
+        a -= b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(a, expected_result)
+
+
 class Vec2NegEqNeTestCase(unittest.TestCase):
     """Test Vec2's __neg__, __eq__, and __ne__."""
 
@@ -645,6 +685,144 @@ class RotRadsV2(unittest.TestCase):
             result_vec = rot_rads_v2(vec, radians)
             self.assertAlmostEqual(result_vec.x, expected_result_vec.x)
             self.assertAlmostEqual(result_vec.y, expected_result_vec.y)
+
+
+class Vec2SubTestCase(unittest.TestCase):
+    """Test Vec2's __sub__() which is used in Vec2 + Vec2."""
+
+    def test_sub_with_vec_argument(self):
+        """Ensure that subtracting another vector returns another Vec2 with the
+        right values.
+        """
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 1)
+
+        result = a - b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_float_arg(self):
+        """Ensure that subtracting a float returns another Vec2 with the float
+        subtracted from x and y.
+        """
+
+        a = Vec2(2, 3)
+        b = 5.0
+
+        result = a - b
+
+        expected_result = Vec2(-3, -2)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_int_arg(self):
+        """Ensure that subtracting a int returns another Vec2 with the int
+        subtracted from x and y.
+        """
+
+        a = Vec2(9, 7)
+        b = 5
+
+        result = a - b
+
+        expected_result = Vec2(4, 2)
+
+        self.assertEqual(result, expected_result)
+
+
+class SubV2TestCase(unittest.TestCase):
+    """Test sub_v2(Vec2, Vec2)."""
+
+    def test_sub_with_vec_argument(self):
+        """Ensure that subtracting another vector returns another Vec2 with the
+        right values.
+        """
+
+        from pedemath.vec2 import sub_v2
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 1)
+
+        result = sub_v2(a, b)
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_float_arg(self):
+        """Ensure that subtracting a float returns another Vec2 with the float
+        subtracted from x and y.
+        """
+
+        from pedemath.vec2 import sub_v2
+
+        a = Vec2(2, 3)
+        b = 5.0
+
+        result = sub_v2(a, b)
+
+        expected_result = Vec2(-3, -2)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_int_arg(self):
+        """Ensure that subtracting a int returns another Vec2 with the int
+        subtracted from x and y.
+        """
+
+        from pedemath.vec2 import sub_v2
+
+        a = Vec2(9, 7)
+        b = 5
+
+        result = sub_v2(a, b)
+
+        expected_result = Vec2(4, 2)
+
+        self.assertEqual(result, expected_result)
+
+
+class Vec2RSubTestCase(unittest.TestCase):
+    """Test Vec2 -= arg"""
+
+    def test_rsub_with_vec_argument(self):
+        """Ensure that subtracting another vector modifies Vec2 correctly."""
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 2)
+
+        a -= b
+
+        expected_result = Vec2(1, 1)
+
+        self.assertEqual(a, expected_result)
+
+    def test_rsub_with_float_argument(self):
+        """Ensure that subtracting a float modifies Vec2 correctly."""
+
+        a = Vec2(2, 3)
+        b = 1.0
+
+        a -= b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(a, expected_result)
+
+    def test_rsub_with_int_argument(self):
+        """Ensure that subtracting an int modifies Vec2 correctly."""
+
+        a = Vec2(2, 3)
+        b = 1
+
+        a -= b
+
+        expected_result = Vec2(1, 2)
+
+        self.assertEqual(a, expected_result)
 
 
 class AngleV2RadDirTestCase(unittest.TestCase):
