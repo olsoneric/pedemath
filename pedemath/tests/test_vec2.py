@@ -567,6 +567,36 @@ class DotV2TestCase(unittest.TestCase):
         self.assertEqual(result, 14)
 
 
+class Vec2CrossTestCase(unittest.TestCase):
+    """Ensure Vec2.cross_v2 returns the cross product."""
+
+    def test_vec2_getitem(self):
+        """Ensure Vec2.cross_v2 returns the cross product of self and arg."""
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 4)
+
+        result = a.cross(b)
+
+        self.assertEqual(result, 5)
+
+
+class CrossV2TestCase(unittest.TestCase):
+    """Ensure cross_v2 returns the cross product."""
+
+    def test_vec2_getitem(self):
+        """Ensure cross_v2 returns the cross product of the two vectors."""
+
+        from pedemath.vec2 import cross_v2
+
+        a = Vec2(2, -3)
+        b = Vec2(7, 4)
+
+        result = cross_v2(a, b)
+
+        self.assertEqual(result, -29)
+
+
 class Vec2GetsAndSetsTestCase(unittest.TestCase):
     """Ensure Vec2 get and set functions return the right values."""
 
@@ -823,6 +853,36 @@ class Vec2RSubTestCase(unittest.TestCase):
         expected_result = Vec2(1, 2)
 
         self.assertEqual(a, expected_result)
+
+
+class ProjectionV2TestCase(unittest.TestCase):
+    """Test projections_v2() to project a vector onto another."""
+
+    def test_project(self):
+        """Ensure projecting a vector onto another is correct."""
+
+        from collections import namedtuple
+
+        import math
+
+        from pedemath.vec2 import projection_v2
+
+        Case = namedtuple('Case', 'vec_a vec_b proj_len')
+
+        cases = [
+            Case(Vec2(3, 4), Vec2(1, 0), 3),   # x-axis
+            Case(Vec2(3, 4), Vec2(0, 1), 4),   # y-axis
+            Case(Vec2(0, 10), Vec2(1, 1), 10 * math.sqrt(2) / 2),
+            Case(Vec2(-10, -10), Vec2(1, 0), -10),
+            Case(Vec2(8, -6), Vec2(6, 8), 0),  # perpendicular
+        ]
+
+        for case in cases:
+            vec_a, vec_b, expected_proj_len = case
+
+            result_length = projection_v2(vec_a, vec_b)
+
+            self.assertAlmostEqual(result_length, expected_proj_len)
 
 
 class AngleV2RadDirTestCase(unittest.TestCase):

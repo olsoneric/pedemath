@@ -76,6 +76,15 @@ def dot_v2(vec1, vec2):
     return vec1.x * vec2.x + vec1.y * vec2.y
 
 
+def cross_v2(vec1, vec2):
+    """Return the crossproduct of the two vectors as a Vec2.
+    Cross product doesn't really make sense in 2D, but return the Z component
+    of the 3d result.
+    """
+
+    return vec1.y * vec2.x - vec1.x * vec2.y
+
+
 def add_v2(v, w):
     """Add v and w.  Assume the first arg v is a Vec2.
     The second arg w can be a vec2 or a number.
@@ -97,10 +106,10 @@ def sub_v2(v, w):
         return Vec2(v.x - w.x, v.y - w.y)
 
 
-def projection_v2(v,w):
-    # TODO
-    # The signed length of the projection of vector v on vector w.
-    return dot_v2(v,w)/w.length()
+def projection_v2(v, w):
+    """The signed length of the projection of vector v on vector w."""
+
+    return dot_v2(v, w) / w.length()
 
 
 def square_v2(vec):
@@ -122,12 +131,6 @@ def square_v2(vec):
             y = 0.0
 
         return Vec2(x, y)
-
-
-def cross_v2(obj1, obj2):
-    # TODO
-    return Vec2(obj1.y*obj2.x-obj1.x*obj2.y,
-    obj1.y*obj2.x-obj1.x*obj2.y)
 
 
 class Vec2:
@@ -278,9 +281,17 @@ class Vec2:
         raise IndexError("Vector index out of range")
 
     def dot(self, vec):
-        """Return the dot product of two vectors."""
+        """Return the dot product of self and another Vec2."""
 
         return self.x * vec.x + self.y * vec.y
+
+    def cross(self, vec):
+        """Return the 2d cross product of self with another vector.
+        Cross product doesn't make sense in 2D, but return the Z component
+        of the 3d result.
+        """
+
+        return self.x * vec.y - vec.x * self.y
 
     def get_x(self):
         """Return x component."""
