@@ -76,6 +76,15 @@ def dot_v2(vec1, vec2):
     return vec1.x * vec2.x + vec1.y * vec2.y
 
 
+def cross_v2(vec1, vec2):
+    """Return the crossproduct of the two vectors as a Vec2.
+    Cross product doesn't really make sense in 2D, but return the Z component
+    of the 3d result.
+    """
+
+    return vec1.y * vec2.x - vec1.x * vec2.y
+
+
 def add_v2(v, w):
     """Add v and w.  Assume the first arg v is a Vec2.
     The second arg w can be a vec2 or a number.
@@ -97,10 +106,10 @@ def sub_v2(v, w):
         return Vec2(v.x - w.x, v.y - w.y)
 
 
-def projection_v2(v,w):
-    # TODO
-    # The signed length of the projection of vector v on vector w.
-    return dot_v2(v,w)/w.length()
+def projection_v2(v, w):
+    """The signed length of the projection of vector v on vector w."""
+
+    return dot_v2(v, w) / w.length()
 
 
 def square_v2(vec):
@@ -122,12 +131,6 @@ def square_v2(vec):
             y = 0.0
 
         return Vec2(x, y)
-
-
-def cross_v2(obj1, obj2):
-    # TODO
-    return Vec2(obj1.y*obj2.x-obj1.x*obj2.y,
-    obj1.y*obj2.x-obj1.x*obj2.y)
 
 
 class Vec2:
@@ -223,8 +226,9 @@ class Vec2:
             self.y = 0.0
 
     def get_unit_normal(self):
-        # TODO
-        return self.get_scaled_v2(1.0/self.length())
+        """Return the unit normal of this vector as a new Vec2."""
+
+        return self.get_scaled_v2(1.0 / self.length())
 
     def get_scaled_v2(self, amount):
         """Return a new Vec2 with x and y multiplied by amount."""
@@ -278,9 +282,17 @@ class Vec2:
         raise IndexError("Vector index out of range")
 
     def dot(self, vec):
-        """Return the dot product of two vectors."""
+        """Return the dot product of self and another Vec2."""
 
         return self.x * vec.x + self.y * vec.y
+
+    def cross(self, vec):
+        """Return the 2d cross product of self with another vector.
+        Cross product doesn't make sense in 2D, but return the Z component
+        of the 3d result.
+        """
+
+        return self.x * vec.y - vec.x * self.y
 
     def get_x(self):
         """Return x component."""
@@ -350,32 +362,37 @@ class Vec2:
             self.x += arg
             self.y += arg
 
-    def __lmul__(self, obj):
-        # TODO
-        raise "Blah"
+    def __mul__(self, multiplier):
+        """Return a new Vec2 with x and y scaled/multiplied by the multiplier.
+        Assume multiplier is a number, not a vector, so multiply x and y by it.
+        """
 
-    def __mul__(self, obj): # use crossVec2 instead
-        # TODO
-        return Vec2(self.x * obj, self.y * obj)
+        return Vec2(self.x * multiplier, self.y * multiplier)
 
-    def __div__(self, val):
-        # TODO
-        return Vec2(self.x / val, self.y / val)
+    def __div__(self, divisor):
+        """Return a new Vec2 with self.x and self.y divided by divisor."""
 
-    def __rdiv__(self, val):
-        # TODO
-        self.x /= val
-        self.y /= val
+        return Vec2(self.x / divisor, self.y / divisor)
+
+    def __rdiv__(self, divisor):
+        """Divide self.x and self.y by divisor."""
+
+        self.x /= divisor
+        self.y /= divisor
 
     def __str__(self):
-        # TODO
-        return str("Vec2(%s,%s)" % (self.x, self.y) )
+        """Return a string in the format "(x, y)"."""
 
-    # TODO
-    __repr__ = __str__
+        return str("(%s, %s)" % (self.x, self.y))
+
+    def __repr__(self):
+        """Return a string in the format "Vec2(x, y)"."""
+
+        return str("Vec2(%s, %s)" % (self.x, self.y))
 
     def __len__(self):
-        # TODO
+        """Make len(Vec2) return 2 so it can be treated like a list."""
+
         return 2
 
     def rot_rads(self, rads):

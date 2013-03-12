@@ -537,6 +537,37 @@ class Vec2GetItemTestCase(unittest.TestCase):
         self.assertTrue(index_error_raised)
 
 
+class Vec2LenTestCase(unittest.TestCase):
+    """Make sure len(Vec2) returns 2 so it can be treated like a list."""
+
+    def test_vec2_str(self):
+        """Make sure len(Vec2) returns 2."""
+
+        vec = Vec2(3, 5)
+
+        self.assertEqual(len(vec), 2)
+
+
+class Vec2StrTestCase(unittest.TestCase):
+    """Test str(Vec2)."""
+
+    def test_vec2_str(self):
+
+        vec = Vec2(3, 5)
+
+        self.assertEqual(str(vec), "(3.0, 5.0)")
+
+
+class Vec2ReprTestCase(unittest.TestCase):
+    """Test repr(Vec2)."""
+
+    def test_vec2_repr(self):
+
+        vec = Vec2(-4, 9)
+
+        self.assertEqual(repr(vec), "Vec2(-4.0, 9.0)")
+
+
 class Vec2DotTestCase(unittest.TestCase):
     """Ensure Vec2.dot returns the dot product."""
 
@@ -565,6 +596,61 @@ class DotV2TestCase(unittest.TestCase):
         result = dot_v2(a, b)
 
         self.assertEqual(result, 14)
+
+
+class Vec2CrossTestCase(unittest.TestCase):
+    """Ensure Vec2.cross_v2 returns the cross product."""
+
+    def test_vec2_getitem(self):
+        """Ensure Vec2.cross_v2 returns the cross product of self and arg."""
+
+        a = Vec2(2, 3)
+        b = Vec2(1, 4)
+
+        result = a.cross(b)
+
+        self.assertEqual(result, 5)
+
+
+class CrossV2TestCase(unittest.TestCase):
+    """Ensure cross_v2 returns the cross product."""
+
+    def test_vec2_getitem(self):
+        """Ensure cross_v2 returns the cross product of the two vectors."""
+
+        from pedemath.vec2 import cross_v2
+
+        a = Vec2(2, -3)
+        b = Vec2(7, 4)
+
+        result = cross_v2(a, b)
+
+        self.assertEqual(result, -29)
+
+
+class Vec2GetUnitNormalTestCase(unittest.TestCase):
+    """Test Vec2.get_unit_normal."""
+
+    def test_get_unit_normal(self):
+        """Ensure unit normal is returned as a new Vec2."""
+
+        import math
+
+        cases = [(Vec2(0, 5), Vec2(0, 1)),
+                 (Vec2(5, 0), Vec2(1, 0)),
+                 (Vec2(5, 5), Vec2(math.sqrt(2) / 2, math.sqrt(2) / 2)),
+                 (Vec2(3, 4), Vec2(math.sqrt(9 / 25.0), math.sqrt(16 / 25.0))),
+                 (Vec2(-5, 5), Vec2(-math.sqrt(2) / 2, math.sqrt(2) / 2)),
+                 (Vec2(-5, -5), Vec2(-math.sqrt(2) / 2, -math.sqrt(2) / 2)),
+                 ]
+
+        for case in cases:
+            vec, expected_result = case
+
+            normal = vec.get_unit_normal()
+
+            self.assertAlmostEqual(normal.x, expected_result.x)
+            self.assertAlmostEqual(normal.x, expected_result.x)
 
 
 class Vec2GetsAndSetsTestCase(unittest.TestCase):
@@ -823,6 +909,80 @@ class Vec2RSubTestCase(unittest.TestCase):
         expected_result = Vec2(1, 2)
 
         self.assertEqual(a, expected_result)
+
+
+class Vec2MulTestCase(unittest.TestCase):
+    """Test Vec2.__mul__ and __rmul__."""
+
+    def test_mul(self):
+        """Ensure __mul__ returns a Vec2 multiplied by the factor."""
+
+        vec_a = Vec2(2, 6)
+
+        result_vec = vec_a * 5
+
+        self.assertEqual(result_vec, Vec2(10, 30))
+
+    def test_rmul(self):
+        """Ensure __rmul__ modifies Vec2 in place and multiplies by factor."""
+
+        vec_a = Vec2(2, 6)
+
+        vec_a *= 5
+
+        self.assertEqual(vec_a, Vec2(10, 30))
+
+
+class Vec2DivTestCase(unittest.TestCase):
+    """Test Vec2.__div__ and __rdiv__."""
+
+    def test_div(self):
+        """Ensure __div__ returns a Vec2 divides its components by divisor."""
+
+        vec_a = Vec2(2, 15)
+
+        result_vec = vec_a / 5
+
+        self.assertEqual(result_vec, Vec2(0.4, 3))
+
+    def test_rdiv(self):
+        """Ensure __rdiv__ modifies Vec2 in place and divides by divisor."""
+
+        vec_a = Vec2(2, 15)
+
+        vec_a /= 5
+
+        self.assertEqual(vec_a, Vec2(0.4, 3))
+
+
+class ProjectionV2TestCase(unittest.TestCase):
+    """Test projections_v2() to project a vector onto another."""
+
+    def test_project(self):
+        """Ensure projecting a vector onto another is correct."""
+
+        from collections import namedtuple
+
+        import math
+
+        from pedemath.vec2 import projection_v2
+
+        Case = namedtuple('Case', 'vec_a vec_b proj_len')
+
+        cases = [
+            Case(Vec2(3, 4), Vec2(1, 0), 3),   # x-axis
+            Case(Vec2(3, 4), Vec2(0, 1), 4),   # y-axis
+            Case(Vec2(0, 10), Vec2(1, 1), 10 * math.sqrt(2) / 2),
+            Case(Vec2(-10, -10), Vec2(1, 0), -10),
+            Case(Vec2(8, -6), Vec2(6, 8), 0),  # perpendicular
+        ]
+
+        for case in cases:
+            vec_a, vec_b, expected_proj_len = case
+
+            result_length = projection_v2(vec_a, vec_b)
+
+            self.assertAlmostEqual(result_length, expected_proj_len)
 
 
 class AngleV2RadDirTestCase(unittest.TestCase):
