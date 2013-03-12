@@ -381,14 +381,18 @@ class Vec2:
         self.y /= divisor
 
     def __str__(self):
-        # TODO
-        return str("Vec2(%s,%s)" % (self.x, self.y) )
+        """Return a string in the format "(x, y)"."""
 
-    # TODO
-    __repr__ = __str__
+        return str("(%s, %s)" % (self.x, self.y))
+
+    def __repr__(self):
+        """Return a string in the format "Vec2(x, y)"."""
+
+        return str("Vec2(%s, %s)" % (self.x, self.y))
 
     def __len__(self):
-        # TODO
+        """Make len(Vec2) return 2 so it can be treated like a list."""
+
         return 2
 
     def rot_rads(self, rads):

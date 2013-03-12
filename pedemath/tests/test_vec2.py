@@ -537,6 +537,37 @@ class Vec2GetItemTestCase(unittest.TestCase):
         self.assertTrue(index_error_raised)
 
 
+class Vec2LenTestCase(unittest.TestCase):
+    """Make sure len(Vec2) returns 2 so it can be treated like a list."""
+
+    def test_vec2_str(self):
+        """Make sure len(Vec2) returns 2."""
+
+        vec = Vec2(3, 5)
+
+        self.assertEqual(len(vec), 2)
+
+
+class Vec2StrTestCase(unittest.TestCase):
+    """Test str(Vec2)."""
+
+    def test_vec2_str(self):
+
+        vec = Vec2(3, 5)
+
+        self.assertEqual(str(vec), "(3.0, 5.0)")
+
+
+class Vec2ReprTestCase(unittest.TestCase):
+    """Test repr(Vec2)."""
+
+    def test_vec2_repr(self):
+
+        vec = Vec2(-4, 9)
+
+        self.assertEqual(repr(vec), "Vec2(-4.0, 9.0)")
+
+
 class Vec2DotTestCase(unittest.TestCase):
     """Ensure Vec2.dot returns the dot product."""
 
