@@ -226,8 +226,9 @@ class Vec2:
             self.y = 0.0
 
     def get_unit_normal(self):
-        # TODO
-        return self.get_scaled_v2(1.0/self.length())
+        """Return the unit normal of this vector as a new Vec2."""
+
+        return self.get_scaled_v2(1.0 / self.length())
 
     def get_scaled_v2(self, amount):
         """Return a new Vec2 with x and y multiplied by amount."""

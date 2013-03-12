@@ -597,6 +597,31 @@ class CrossV2TestCase(unittest.TestCase):
         self.assertEqual(result, -29)
 
 
+class Vec2GetUnitNormalTestCase(unittest.TestCase):
+    """Test Vec2.get_unit_normal."""
+
+    def test_get_unit_normal(self):
+        """Ensure unit normal is returned as a new Vec2."""
+
+        import math
+
+        cases = [(Vec2(0, 5), Vec2(0, 1)),
+                 (Vec2(5, 0), Vec2(1, 0)),
+                 (Vec2(5, 5), Vec2(math.sqrt(2) / 2, math.sqrt(2) / 2)),
+                 (Vec2(3, 4), Vec2(math.sqrt(9 / 25.0), math.sqrt(16 / 25.0))),
+                 (Vec2(-5, 5), Vec2(-math.sqrt(2) / 2, math.sqrt(2) / 2)),
+                 (Vec2(-5, -5), Vec2(-math.sqrt(2) / 2, -math.sqrt(2) / 2)),
+                 ]
+
+        for case in cases:
+            vec, expected_result = case
+
+            normal = vec.get_unit_normal()
+
+            self.assertAlmostEqual(normal.x, expected_result.x)
+            self.assertAlmostEqual(normal.x, expected_result.x)
+
+
 class Vec2GetsAndSetsTestCase(unittest.TestCase):
     """Ensure Vec2 get and set functions return the right values."""
 
