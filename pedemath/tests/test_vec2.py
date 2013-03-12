@@ -855,6 +855,50 @@ class Vec2RSubTestCase(unittest.TestCase):
         self.assertEqual(a, expected_result)
 
 
+class Vec2MulTestCase(unittest.TestCase):
+    """Test Vec2.__mul__ and __rmul__."""
+
+    def test_mul(self):
+        """Ensure __mul__ returns a Vec2 multiplied by the factor."""
+
+        vec_a = Vec2(2, 6)
+
+        result_vec = vec_a * 5
+
+        self.assertEqual(result_vec, Vec2(10, 30))
+
+    def test_rmul(self):
+        """Ensure __rmul__ modifies Vec2 in place and multiplies by factor."""
+
+        vec_a = Vec2(2, 6)
+
+        vec_a *= 5
+
+        self.assertEqual(vec_a, Vec2(10, 30))
+
+
+class Vec2DivTestCase(unittest.TestCase):
+    """Test Vec2.__div__ and __rdiv__."""
+
+    def test_div(self):
+        """Ensure __div__ returns a Vec2 divides its components by divisor."""
+
+        vec_a = Vec2(2, 15)
+
+        result_vec = vec_a / 5
+
+        self.assertEqual(result_vec, Vec2(0.4, 3))
+
+    def test_rdiv(self):
+        """Ensure __rdiv__ modifies Vec2 in place and divides by divisor."""
+
+        vec_a = Vec2(2, 15)
+
+        vec_a /= 5
+
+        self.assertEqual(vec_a, Vec2(0.4, 3))
+
+
 class ProjectionV2TestCase(unittest.TestCase):
     """Test projections_v2() to project a vector onto another."""
 

@@ -361,22 +361,23 @@ class Vec2:
             self.x += arg
             self.y += arg
 
-    def __lmul__(self, obj):
-        # TODO
-        raise "Blah"
+    def __mul__(self, multiplier):
+        """Return a new Vec2 with x and y scaled/multiplied by the multiplier.
+        Assume multiplier is a number, not a vector, so multiply x and y by it.
+        """
 
-    def __mul__(self, obj): # use crossVec2 instead
-        # TODO
-        return Vec2(self.x * obj, self.y * obj)
+        return Vec2(self.x * multiplier, self.y * multiplier)
 
-    def __div__(self, val):
-        # TODO
-        return Vec2(self.x / val, self.y / val)
+    def __div__(self, divisor):
+        """Return a new Vec2 with self.x and self.y divided by divisor."""
 
-    def __rdiv__(self, val):
-        # TODO
-        self.x /= val
-        self.y /= val
+        return Vec2(self.x / divisor, self.y / divisor)
+
+    def __rdiv__(self, divisor):
+        """Divide self.x and self.y by divisor."""
+
+        self.x /= divisor
+        self.y /= divisor
 
     def __str__(self):
         # TODO
