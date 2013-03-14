@@ -83,9 +83,21 @@ def ave_vec3_list(vec_list):
     vec = (vec.x / num_vecs, vec.y / num_vecs, vec.z / num_vecs)
     return vec
 
+
 class Vec3(object):
-    __slots__ = ('x','y','z')
+
+    __slots__ = ('x', 'y', 'z')
+
     def __init__(self, x, y, z):
+        """Initialize member variables x, y, and z from args.
+        Convert args to float if possible, otherwise ValueError should
+        be raised.
+
+        To create from another Vec2 is to use *:
+        vec_a = Vec2(3, 2, 4):
+        vec_b = Vec2(*vec_a)
+        """
+
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)
