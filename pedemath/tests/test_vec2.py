@@ -171,11 +171,11 @@ class AddV2TestCase(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 
-class Vec2RAddTestCase(unittest.TestCase):
+class Vec2IAddTestCase(unittest.TestCase):
     """Test Vec2 -= arg"""
 
-    def test_radd_with_vec_argument(self):
-        """Ensure that Vec2.radd adds x and y components from a vector."""
+    def test_iadd_with_vec_argument(self):
+        """Ensure that Vec2.iadd adds x and y components from a vector."""
 
         a = Vec2(2, 3)
         b = Vec2(1, 2)
@@ -186,8 +186,8 @@ class Vec2RAddTestCase(unittest.TestCase):
 
         self.assertEqual(a, expected_result)
 
-    def test_radd_with_float_argument(self):
-        """Ensure that Vec2.radd adds the float to Vec2 x and y components."""
+    def test_iadd_with_float_argument(self):
+        """Ensure that Vec2.iadd adds the float to Vec2 x and y components."""
 
         a = Vec2(2, 3)
         b = 1.0
@@ -198,8 +198,8 @@ class Vec2RAddTestCase(unittest.TestCase):
 
         self.assertEqual(a, expected_result)
 
-    def test_radd_with_int_argument(self):
-        """Ensure that Vec2.radd adds the int to Vec2 x and y components."""
+    def test_iadd_with_int_argument(self):
+        """Ensure that Vec2.iadd adds the int to Vec2 x and y components."""
 
         a = Vec2(2, 3)
         b = 1
@@ -871,10 +871,10 @@ class SubV2TestCase(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 
-class Vec2RSubTestCase(unittest.TestCase):
+class Vec2ISubTestCase(unittest.TestCase):
     """Test Vec2 -= arg"""
 
-    def test_rsub_with_vec_argument(self):
+    def test_isub_with_vec_argument(self):
         """Ensure that subtracting another vector modifies Vec2 correctly."""
 
         a = Vec2(2, 3)
@@ -886,7 +886,7 @@ class Vec2RSubTestCase(unittest.TestCase):
 
         self.assertEqual(a, expected_result)
 
-    def test_rsub_with_float_argument(self):
+    def test_isub_with_float_argument(self):
         """Ensure that subtracting a float modifies Vec2 correctly."""
 
         a = Vec2(2, 3)
@@ -898,7 +898,7 @@ class Vec2RSubTestCase(unittest.TestCase):
 
         self.assertEqual(a, expected_result)
 
-    def test_rsub_with_int_argument(self):
+    def test_isub_with_int_argument(self):
         """Ensure that subtracting an int modifies Vec2 correctly."""
 
         a = Vec2(2, 3)
@@ -912,7 +912,7 @@ class Vec2RSubTestCase(unittest.TestCase):
 
 
 class Vec2MulTestCase(unittest.TestCase):
-    """Test Vec2.__mul__ and __rmul__."""
+    """Test Vec2.__mul__ and __lmul__."""
 
     def test_mul(self):
         """Ensure __mul__ returns a Vec2 multiplied by the factor."""
@@ -923,8 +923,8 @@ class Vec2MulTestCase(unittest.TestCase):
 
         self.assertEqual(result_vec, Vec2(10, 30))
 
-    def test_rmul(self):
-        """Ensure __rmul__ modifies Vec2 in place and multiplies by factor."""
+    def test_imul_with_scalar(self):
+        """Ensure __imul__ modifies Vec2 in place and multiplies by factor."""
 
         vec_a = Vec2(2, 6)
 
@@ -932,9 +932,86 @@ class Vec2MulTestCase(unittest.TestCase):
 
         self.assertEqual(vec_a, Vec2(10, 30))
 
+    def test_imul_with_vec(self):
+        """Ensure __imul__ by a Vec2 raises an exception.  If cross product
+        is desired, use Vec2.cross() or cross_v2().
+        """
+
+        vec_a = Vec2(2, 6)
+
+        type_error_raised = False
+
+        try:
+            vec_a *= Vec2(2, 2)
+        except TypeError:
+            type_error_raised = True
+
+        self.assertTrue(type_error_raised)
+
+
+class Vec2ROpsExceptionTestCase(unittest.TestCase):
+    """Test __radd__, __rsub__, __rmul__, and __rdiv__ raise an exception."""
+    # TODO: Change to allow these or remove this comment.
+
+    def test_radd_raises_exception(self):
+        """For now radd raises an exception."""
+
+        vec_a = Vec2(2, 6)
+
+        type_error_raised = False
+
+        try:
+            1 + vec_a
+        except TypeError:
+            type_error_raised = True
+
+        self.assertTrue(type_error_raised)
+
+    def test_rsub_raises_exception(self):
+        """For now rsub raises an exception."""
+
+        vec_a = Vec2(2, 6)
+
+        type_error_raised = False
+
+        try:
+            1 + vec_a
+        except TypeError:
+            type_error_raised = True
+
+        self.assertTrue(type_error_raised)
+
+    def test_rmul_raises_exception(self):
+        """For now rmul raises an exception."""
+
+        vec_a = Vec2(2, 6)
+
+        type_error_raised = False
+
+        try:
+            1 * vec_a
+        except TypeError:
+            type_error_raised = True
+
+        self.assertTrue(type_error_raised)
+
+    def test_rdiv_raises_exception(self):
+        """For now rdiv raises an exception."""
+
+        vec_a = Vec2(2, 6)
+
+        type_error_raised = False
+
+        try:
+            1 * vec_a
+        except TypeError:
+            type_error_raised = True
+
+        self.assertTrue(type_error_raised)
+
 
 class Vec2DivTestCase(unittest.TestCase):
-    """Test Vec2.__div__ and __rdiv__."""
+    """Test Vec2.__div__ and __idiv__."""
 
     def test_div(self):
         """Ensure __div__ returns a Vec2 divides its components by divisor."""
@@ -945,14 +1022,28 @@ class Vec2DivTestCase(unittest.TestCase):
 
         self.assertEqual(result_vec, Vec2(0.4, 3))
 
-    def test_rdiv(self):
-        """Ensure __rdiv__ modifies Vec2 in place and divides by divisor."""
+    def test_idiv_with_int_scalar_argument(self):
+        """Ensure __idiv__ modifies Vec2 in place and divides by divisor."""
 
         vec_a = Vec2(2, 15)
 
         vec_a /= 5
 
         self.assertEqual(vec_a, Vec2(0.4, 3))
+
+    def test_idiv_with_vec_argument(self):
+        """Ensure __idiv__ modifies Vec2 in place and divides by divisor."""
+
+        vec_a = Vec2(2, 15)
+
+        type_exception_raised = False
+
+        try:
+            vec_a /= Vec2(2., 2.)
+        except TypeError:
+            type_exception_raised = True
+
+        self.assertTrue(type_exception_raised)
 
 
 class ProjectionV2TestCase(unittest.TestCase):
@@ -1125,3 +1216,53 @@ class RotRadsV2TestCase(unittest.TestCase):
             self.assertAlmostEqual(
                 result.y, expected_result.y,
                 places=7)
+
+
+class Vec2UsageTest(unittest.TestCase):
+    """Quick pass over api calls that other tests should already cover."""
+
+    def test_operators_combined(self):
+        v = Vec2(1, 2)
+        v2 = Vec2(1, 2)
+
+        # Add number
+        v += 1
+        v + 1
+        #1 + v
+
+        # Add instance
+        v += v2
+        v + v2
+        v2 + v
+
+        # Sub number
+        v -= 1
+        v - 1
+        #1 - v
+
+        # Sub instance
+        v -= v2
+        v - v2
+        v2 - v
+
+        # Mul number
+        v *= 1
+        v * 1
+        #1 * v
+
+        # Mul instance
+        #v *= v2
+        #v * v2
+        #v2 * v
+        v.cross(v2)
+        v.dot(v2)
+
+        # Div number
+        v /= 1
+        v / 1
+        #1 * v
+
+        # Div instance
+        #v /= v2
+        #v / v2
+        #v2 / v
