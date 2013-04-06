@@ -161,6 +161,24 @@ class Vec2:
         else:
             return Vec2(self.x + arg.x, self.y + arg.y)
 
+    def add(self, arg):
+        """Add in place a Vec2 or number.
+
+        If argument is a float or vec, add it to our x and y.
+        Otherwise, treat is as a Vec2 and add arg.x and arg.y to our own
+        x and y.
+        """
+
+        # Not using isinstance for now, see spikes/type_check_perf.py
+        if type(arg) is float or type(arg) is int:
+            self.x += arg
+            self.y += arg
+        else:
+            self.x += arg.x
+            self.y += arg.y
+
+        return self
+
     def __neg__(self):
         """Return a Vec2 with -x and -y."""
 
@@ -261,6 +279,7 @@ class Vec2:
         return self.x * self.x + self.y * self.y
 
     length_squared = get_norm
+    # TODO: rename to len_squared?
 
     def get_perp(self):
         """Return a perpendicular vector."""
@@ -319,8 +338,8 @@ class Vec2:
         self.x = x
         self.y = y
 
-    def __rsub__(self, arg):
-        """Subtrace arg.
+    def __isub__(self, arg):
+        """Subtract arg, -=
 
         If argument is a float or vec, subtract it from our x and y.
         Otherwise, treat is as a Vec2 and subtract arg.x and arg.y from our own
@@ -333,6 +352,8 @@ class Vec2:
         else:
             self.x -= arg.x
             self.y -= arg.y
+
+        return self
 
     def __sub__(self, arg):
         """Return a new Vec2 containing the difference between our x and y and
@@ -347,8 +368,8 @@ class Vec2:
         else:
             return Vec2(self.x - arg.x, self.y - arg.y)
 
-    def __radd__(self, arg):
-        """Add arg.
+    def __iadd__(self, arg):
+        """Add arg, +=.
 
         If argument is a float or vec, subtract it from our x and y.
         Otherwise, treat is as a Vec2 and subtract arg.x and arg.y from our own
@@ -356,29 +377,64 @@ class Vec2:
         """
 
         if type(arg) is float or type(arg) is int:
-            self.x += arg.x
-            self.y += arg.y
-        else:
             self.x += arg
             self.y += arg
+        else:
+            self.x += arg.x
+            self.y += arg.y
+
+        return self
 
     def __mul__(self, multiplier):
         """Return a new Vec2 with x and y scaled/multiplied by the multiplier.
         Assume multiplier is a number, not a vector, so multiply x and y by it.
+        Called for: Vec2() * 1
         """
 
-        return Vec2(self.x * multiplier, self.y * multiplier)
+        if type(multiplier) is float or type(multiplier) is int:
+            return Vec2(self.x * multiplier, self.y * multiplier)
+        else:
+            raise TypeError("Use cross() to mutiply two instances.")
+
+    def __imul__(self, multiplier):
+        """Multiply self.x and self.y by multiplier, *=
+        Called for: Vec2() *= 1
+        """
+
+        if type(multiplier) is float or type(multiplier) is int:
+            self.x *= multiplier
+            self.y *= multiplier
+        else:
+            raise TypeError("Use cross() to mutiply two instances.")
+
+        return self
+
+    # __radd__, __rsub__, __rmul__, and __rdiv__ not supported.
+
+    # TODO: Should __rmul__ be supported or is it preferred that an error
+    #  is raised to prevent accidental multiplies with numbers?
+    #  Example:   1 * Vec2(1, 2)
+    #
+    #def __rmul__(self, multiplicand):
+    #    """Divide self.x and self.y by divisor, /= """
+    #
+    #    return Vec2(self.x * multiplicand, self.y * multiplicand)
 
     def __div__(self, divisor):
         """Return a new Vec2 with self.x and self.y divided by divisor."""
 
         return Vec2(self.x / divisor, self.y / divisor)
 
-    def __rdiv__(self, divisor):
-        """Divide self.x and self.y by divisor."""
+    def __idiv__(self, divisor):
+        """Divide self.x and self.y by divisor, /= """
 
-        self.x /= divisor
-        self.y /= divisor
+        if type(divisor) is float or type(divisor) is int:
+            self.x /= divisor
+            self.y /= divisor
+        else:
+            raise TypeError("Dividing a vector from another is not supported.")
+
+        return self
 
     def __str__(self):
         """Return a string in the format "(x, y)"."""
