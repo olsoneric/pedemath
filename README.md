@@ -9,5 +9,7 @@ PedeMath is a pure python vector library.
 Status - In Development
 ------
 
-This is an old library that I'm in the process of updating.  Come back in few 
-days for a cleaner module with unittests.
+This is an old library that I'm in the process of updating.
+
+Vec2 is usable now.  
+Vec3 needs some cleanup and unittests.
