@@ -20,7 +20,7 @@ VEC2_EPSILON = 0.00000001
 
 
 def angle_v2_rad(vec_a, vec_b):
-    """Returns angle in range [0, PI], does not distinguisch if a is
+    """Returns angle in range [0, PI], does not distinguish if a is
     left of or right of b.
     """
     # cos(x) = A * B / |A| * |B|
