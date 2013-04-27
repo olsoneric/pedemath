@@ -20,16 +20,17 @@ VEC2_EPSILON = 0.00000001
 
 
 def angle_v2_rad(vec_a, vec_b):
-    """Returns angle in range [0, PI], does not distinguish if a is
-    left of or right of b.
+    """Returns angle between vec_a and vec_b in range [0, PI].  This does not
+    distinguish if a is left of or right of b.
     """
     # cos(x) = A * B / |A| * |B|
     return math.acos(vec_a.dot(vec_b) / (vec_a.length() * vec_b.length()))
 
 
 def angle_v2_rad_dir(vec_a, vec_b):
-    """Returns angle in range [-PI, PI] which indicates if vec_a is left of
-    or right of b.
+    """Returns angle between vec_a and vec_b in range [-PI, PI].  This
+    indicates if vec_a is left of or right of vec_b.
+
     vec_a is the base vector that the returned angle will be based off of.
     e.g. if vec_b is to the right (clockwise) of vec_a, the angle will be
     negative.  (note line about angle dir below)
@@ -42,7 +43,6 @@ def angle_v2_rad_dir(vec_a, vec_b):
     if vec_a.x * vec_b.y >= vec_a.y * vec_b.x:
         return rads
     else:
-        #print "Have: ", rads, "returning:", -rads
         return -rads
 
 
