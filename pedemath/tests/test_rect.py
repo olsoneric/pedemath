@@ -34,3 +34,51 @@ class RectInitTestCase(unittest.TestCase):
         self.assertEqual(10, rect.width)
         self.assertEqual(11, rect.height)
 
+
+class RectCollidePointTestCase(unittest.TestCase):
+    """Test Rect.collidepoint."""
+
+    def test_when_point_is_in(self):
+        """Ensure True is returned when the point is in the rect."""
+
+        rect = Rect(5, 6, 10, 11)
+
+        self.assertTrue(rect.collidepoint((8, 8)))
+
+    def test_when_point_is_in_with_nonoverlapping_x_and_y_ranges(self):
+        """Ensure True is returned when the point is in the rect.
+        Test with x range is not overlapping with the y range.
+        """
+
+        rect = Rect(2, 50, 10, 10)
+
+        self.assertTrue(rect.collidepoint((8, 55)))
+
+    def test_when_point_is_left(self):
+        """Ensure False is returned when the point is left of rect."""
+
+        rect = Rect(2, 50, 10, 10)
+
+        self.assertFalse(rect.collidepoint((0, 55)))
+
+    def test_when_point_is_right(self):
+        """Ensure False is returned when the point is right of rect."""
+
+        rect = Rect(2, 50, 10, 10)
+
+        self.assertFalse(rect.collidepoint((13, 55)))
+
+    def test_when_point_is_below(self):
+        """Ensure False is returned when the point is below rect."""
+
+        rect = Rect(2, 50, 10, 10)
+
+        self.assertFalse(rect.collidepoint((8, 49)))
+
+    def test_when_point_is_above(self):
+        """Ensure False is returned when the point is above rect."""
+
+        rect = Rect(2, 50, 10, 10)
+
+        self.assertFalse(rect.collidepoint((8, 65)))
+
