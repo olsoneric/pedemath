@@ -19,8 +19,15 @@ import math
 def sum_v3(vec):
     return vec.x + vec.y + vec.z
 
-def add_v3(vec1, vec2):
-    return Vec3(vec1.x+vec2.x, vec1.y+vec2.y, vec1.z+vec2.z)
+
+def add_v3(vec1, w):
+    """Add v and w.  Assume the first arg v is a Vec3.
+    The second arg w can be a vec3 or a number.
+    """
+    if type(w) is float or type(w) is int:
+        return Vec3(vec1.x + w, vec1.y + w, vec1.z + w)
+    else:
+        return Vec3(vec1.x + w.x, vec1.y + w.y, vec1.z + w.z)
 
 def sub_v3(vec1, vec2):
     return Vec3(vec1.x-vec2.x, vec1.y-vec2.y, vec1.z-vec2.z)
@@ -167,15 +174,22 @@ class Vec3(object):
     def get_data_ptr(self): # mostly for compatibility with old particle code
         return (self.x, self.y, self.z)
 
-    def __iadd__(self, v2):
-        if hasattr(v2, "x"):
-            self.x += v2.x
-            self.y += v2.y
-            self.z += v2.z
+    def __iadd__(self, arg):
+        """Add arg, +=.
+
+        If argument is a float or vec, subtract it from our x, y, and z.
+        Otherwise, treat is as a Vec3 and subtract arg.x, arg.y, and arg.z from
+        our own x and y.
+        """
+
+        if type(arg) is float or type(arg) is int:
+            self.x += arg
+            self.y += arg
+            self.z += arg
         else:
-            self.x += v2
-            self.y += v2
-            self.z += v2
+            self.x += arg.x
+            self.y += arg.y
+            self.z += arg.z
         return self
 
     def __isub__(self, v2):
