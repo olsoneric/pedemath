@@ -67,10 +67,9 @@ class Rect:
                 ((self.y >= r2.y   and self.y < r2.y   + r2.height)   or
                  (r2.y   >= self.y and r2.y   < self.y + self.height)))
 
-    def collidepoint (self, p1):
-        x,y = p1[0], p1[1]
-        print "COMPARING: rect: x:", self.x, self.x + self.width, "| y:", self.y, self.y + self.height, "| point:", p1.x, p1.y
-        return ( x >= self.x and x < self.x + self.width and
-                 y >= self.y and y < self.y + self.height )
+    def collidepoint(self, p1):
+        x, y = p1[0], p1[1]
+        return (x >= self.x and x < self.x + self.width and
+                y >= self.y and y < self.y + self.height)
 
 
