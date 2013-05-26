@@ -174,15 +174,22 @@ class Vec3(object):
     def get_data_ptr(self): # mostly for compatibility with old particle code
         return (self.x, self.y, self.z)
 
-    def __iadd__(self, v2):
-        if hasattr(v2, "x"):
-            self.x += v2.x
-            self.y += v2.y
-            self.z += v2.z
+    def __iadd__(self, arg):
+        """Add arg, +=.
+
+        If argument is a float or vec, subtract it from our x, y, and z.
+        Otherwise, treat is as a Vec3 and subtract arg.x, arg.y, and arg.z from
+        our own x and y.
+        """
+
+        if type(arg) is float or type(arg) is int:
+            self.x += arg
+            self.y += arg
+            self.z += arg
         else:
-            self.x += v2
-            self.y += v2
-            self.z += v2
+            self.x += arg.x
+            self.y += arg.y
+            self.z += arg.z
         return self
 
     def __isub__(self, v2):
