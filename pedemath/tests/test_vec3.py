@@ -139,7 +139,7 @@ class AddV3TestCase(unittest.TestCase):
 
         result = add_v3(a, b)
 
-        expected_result = Vec3(3, 4)
+        expected_result = Vec3(3, 5, 7)
 
         self.assertEqual(result, expected_result)
 
@@ -150,7 +150,7 @@ class AddV3TestCase(unittest.TestCase):
 
         from pedemath.vec3 import add_v3
 
-        a = Vec3(2, 3)
+        a = Vec3(2, 3, 4)
         b = 5.0
 
         result = add_v3(a, b)
