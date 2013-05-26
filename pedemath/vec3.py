@@ -109,6 +109,20 @@ class Vec3(object):
         self.y = float(y)
         self.z = float(z)
 
+    def __add__(self, arg):
+        """Return a new Vec3 containing the sum of our x, y, z, and arg.
+
+        If argument is a float or vec, add it to our x, y, and z.
+        Otherwise, treat is as a Vec3 and add arg.x, arg.y, and arg.z to our
+        own x,  y, and z.
+        """
+
+        # Not using isinstance for now, see spikes/type_check_perf.py
+        if type(arg) is float or type(arg) is int:
+            return Vec3(self.x + arg, self.y + arg, self.z + arg)
+        else:
+            return Vec3(self.x + arg.x, self.y + arg.y, self.z + arg.z)
+
     def __getitem__(self, index):
         if (index == 0):
             return self.x
