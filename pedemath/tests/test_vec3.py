@@ -139,7 +139,7 @@ class AddV3TestCase(unittest.TestCase):
 
         result = add_v3(a, b)
 
-        expected_result = Vec3(3, 4)
+        expected_result = Vec3(3, 5, 7)
 
         self.assertEqual(result, expected_result)
 
@@ -150,7 +150,7 @@ class AddV3TestCase(unittest.TestCase):
 
         from pedemath.vec3 import add_v3
 
-        a = Vec3(2, 3)
+        a = Vec3(2, 3, 4)
         b = 5.0
 
         result = add_v3(a, b)
@@ -176,11 +176,11 @@ class AddV3TestCase(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 
-class Vec3RAddTestCase(unittest.TestCase):
-    """Test Vec3 -= arg"""
+class Vec3IAddTestCase(unittest.TestCase):
+    """Test Vec3 += arg"""
 
-    def test_radd_with_vec_argument(self):
-        """Ensure that Vec3.radd adds x and y components from a vector."""
+    def test_iadd_with_vec_argument(self):
+        """Ensure that Vec3.iadd adds x and y components from a vector."""
 
         a = Vec3(2, 3, 4)
         b = Vec3(1, 2, 3)
@@ -191,8 +191,8 @@ class Vec3RAddTestCase(unittest.TestCase):
 
         self.assertEqual(a, expected_result)
 
-    def test_radd_with_float_argument(self):
-        """Ensure that Vec3.radd adds the float to Vec3 x and y components."""
+    def test_iadd_with_float_argument(self):
+        """Ensure that Vec3.iadd adds the float to Vec3 x and y components."""
 
         a = Vec3(2, 3, 4)
         b = 1.0
@@ -203,8 +203,8 @@ class Vec3RAddTestCase(unittest.TestCase):
 
         self.assertEqual(a, expected_result)
 
-    def test_radd_with_int_argument(self):
-        """Ensure that Vec3.radd adds the int to Vec3's x, y, z components."""
+    def test_iadd_with_int_argument(self):
+        """Ensure that Vec3.iadd adds the int to Vec3 x and y components."""
 
         a = Vec3(2, 3, 4)
         b = 1
