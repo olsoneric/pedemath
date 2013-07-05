@@ -143,6 +143,8 @@ class Vec2(object):
         vec_a = Vec2(3, 2):
         vec_b = Vec2(*vec_a)
         """
+        # TODO: consider detecting instances or tuples passed in and
+        #  using or raising a descriptive exception.
 
         self.x = float(x)
         self.y = float(y)
@@ -458,6 +460,8 @@ class Vec2(object):
         self.y = self.x * math.sin(rads) + self.y * math.cos(rads)
         self.x = new_x
 
+    def as_tuple(self):
+        return (self.x, self.y)
 
 if __name__ == "__main__":
     a = Vec2(1, 2)
