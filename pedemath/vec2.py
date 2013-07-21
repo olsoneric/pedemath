@@ -429,9 +429,12 @@ class Vec2(object):
         self.x = new_x
 
     def as_tuple(self):
+        """Return x and y in tuple format."""
+
         return (self.x, self.y)
 
 if __name__ == "__main__":
+    # Example
     a = Vec2(1, 2)
     print "a:", a
     print "a + 5", a + 5
