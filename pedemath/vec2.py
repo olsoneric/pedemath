@@ -361,7 +361,7 @@ class Vec2(object):
         if type(multiplier) is float or type(multiplier) is int:
             return Vec2(self.x * multiplier, self.y * multiplier)
         else:
-            raise TypeError("Use cross() to mutiply two instances.")
+            raise TypeError("Use cross() to multiply two instances.")
 
     def __imul__(self, multiplier):
         """Multiply self.x and self.y by multiplier, *=
@@ -372,7 +372,7 @@ class Vec2(object):
             self.x *= multiplier
             self.y *= multiplier
         else:
-            raise TypeError("Use cross() to mutiply two instances.")
+            raise TypeError("Use cross() to multiply two instances.")
 
         return self
 

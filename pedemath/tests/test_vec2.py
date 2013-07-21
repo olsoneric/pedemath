@@ -923,6 +923,22 @@ class Vec2MulTestCase(unittest.TestCase):
 
         self.assertEqual(result_vec, Vec2(10, 30))
 
+    def test_mul_with_vec(self):
+        """Ensure __mul__ with a Vec2 argument raises an exception.  If cross
+        product is desired, use Vec2.cross() or cross_v2().
+        """
+
+        vec_a = Vec2(2, 6)
+
+        type_error_raised = False
+
+        try:
+            vec_a * Vec2(2, 2)
+        except TypeError:
+            type_error_raised = True
+
+        self.assertTrue(type_error_raised)
+
     def test_imul_with_scalar(self):
         """Ensure __imul__ modifies Vec2 in place and multiplies by factor."""
 
@@ -933,8 +949,8 @@ class Vec2MulTestCase(unittest.TestCase):
         self.assertEqual(vec_a, Vec2(10, 30))
 
     def test_imul_with_vec(self):
-        """Ensure __imul__ by a Vec2 raises an exception.  If cross product
-        is desired, use Vec2.cross() or cross_v2().
+        """Ensure __imul__ with a Vec2 argument raises an exception.  If cross
+        product is desired, use Vec2.cross() or cross_v2().
         """
 
         vec_a = Vec2(2, 6)
