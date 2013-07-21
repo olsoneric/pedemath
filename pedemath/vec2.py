@@ -221,18 +221,9 @@ class Vec2(object):
     def square(self):
         """Square the components."""
 
-        # TODO: Look into ** and math.pow more.
-        # TODO: Double-check if ** operator will throw OverflowError.
-        # If not, remove OverflowError try/excepts.
-        try:
-            self.x **= 2
-        except OverflowError:
-            self.x = 0.0
-
-        try:
-            self.y **= 2
-        except OverflowError:
-            self.y = 0.0
+        # TODO: Look into difference between ** and math.pow more.
+        self.x **= 2
+        self.y **= 2
 
     def get_unit_normal(self):
         """Return the unit normal of this vector as a new Vec2."""
@@ -247,22 +238,7 @@ class Vec2(object):
     def get_square(self):
         """Return a new Vec2 with x and y that have been squared."""
 
-        try:
-            return Vec2(self.x ** 2, self.y ** 2)
-
-        except OverflowError:
-
-            try:
-                x = self.x ** 2
-            except:
-                x = 0.0
-
-            try:
-                y = self.y ** 2
-            except:
-                y = 0.0
-
-            return Vec2(x, y)
+        return Vec2(self.x ** 2, self.y ** 2)
 
     def get_norm(self):
         """Return square length: x*x + y*y."""
