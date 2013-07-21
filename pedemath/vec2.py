@@ -148,24 +148,28 @@ class Vec2(object):
         else:
             return Vec2(self.x + arg.x, self.y + arg.y)
 
-    def add(self, arg):
-        """Add in place a Vec2 or number.
-
-        If argument is a float or vec, add it to our x and y.
-        Otherwise, treat is as a Vec2 and add arg.x and arg.y to our own
-        x and y.
-        """
-
-        # Not using isinstance for now, see spikes/type_check_perf.py
-        if type(arg) is float or type(arg) is int:
-            self.x += arg
-            self.y += arg
-        else:
-            self.x += arg.x
-            self.y += arg.y
-
-        return self
-
+#    TODO: temporarily disabled (Jul 2013) - delete if not found to be needed.
+#             The only difference from += is that add() allows you to use
+#             the return and chain results -- but that should only be needed
+#             for __add__ (+) style usage, not __iadd__ (+=).
+#    def add(self, arg):
+#        """Add in place a Vec2 or number.
+#
+#        If argument is a float or vec, add it to our x and y.
+#        Otherwise, treat is as a Vec2 and add arg.x and arg.y to our own
+#        x and y.
+#        """
+#
+#        # Not using isinstance for now, see spikes/type_check_perf.py
+#        if type(arg) is float or type(arg) is int:
+#            self.x += arg
+#            self.y += arg
+#        else:
+#            self.x += arg.x
+#            self.y += arg.y
+#
+#        return self
+#
     def __neg__(self):
         """Return a Vec2 with -x and -y."""
 
