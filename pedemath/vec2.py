@@ -119,6 +119,9 @@ def square_v2(vec):
 
 
 class Vec2(object):
+
+    __slots__ = ('x', 'y')
+
     def __init__(self, x=0., y=0.):
         """Initialize member variables x and y from args.
         Convert args to float if possible, otherwise ValueError should
