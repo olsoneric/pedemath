@@ -115,22 +115,7 @@ def projection_v2(v, w):
 def square_v2(vec):
     """Return a new Vec2 with each component squared."""
 
-    try:
-        return Vec2(vec.x ** 2, vec.y ** 2)
-
-    except OverflowError:
-
-        try:
-            x = vec.x ** 2
-        except:
-            x = 0.0
-
-        try:
-            y = vec.y ** 2
-        except:
-            y = 0.0
-
-        return Vec2(x, y)
+    return Vec2(vec.x ** 2, vec.y ** 2)
 
 
 class Vec2(object):
@@ -163,24 +148,28 @@ class Vec2(object):
         else:
             return Vec2(self.x + arg.x, self.y + arg.y)
 
-    def add(self, arg):
-        """Add in place a Vec2 or number.
-
-        If argument is a float or vec, add it to our x and y.
-        Otherwise, treat is as a Vec2 and add arg.x and arg.y to our own
-        x and y.
-        """
-
-        # Not using isinstance for now, see spikes/type_check_perf.py
-        if type(arg) is float or type(arg) is int:
-            self.x += arg
-            self.y += arg
-        else:
-            self.x += arg.x
-            self.y += arg.y
-
-        return self
-
+#    TODO: temporarily disabled (Jul 2013) - delete if not found to be needed.
+#             The only difference from += is that add() allows you to use
+#             the return and chain results -- but that should only be needed
+#             for __add__ (+) style usage, not __iadd__ (+=).
+#    def add(self, arg):
+#        """Add in place a Vec2 or number.
+#
+#        If argument is a float or vec, add it to our x and y.
+#        Otherwise, treat is as a Vec2 and add arg.x and arg.y to our own
+#        x and y.
+#        """
+#
+#        # Not using isinstance for now, see spikes/type_check_perf.py
+#        if type(arg) is float or type(arg) is int:
+#            self.x += arg
+#            self.y += arg
+#        else:
+#            self.x += arg.x
+#            self.y += arg.y
+#
+#        return self
+#
     def __neg__(self):
         """Return a Vec2 with -x and -y."""
 
@@ -232,18 +221,9 @@ class Vec2(object):
     def square(self):
         """Square the components."""
 
-        # TODO: Look into ** and math.pow more.
-        # TODO: Double-check if ** operator will throw OverflowError.
-        # If not, remove OverflowError try/excepts.
-        try:
-            self.x **= 2
-        except OverflowError:
-            self.x = 0.0
-
-        try:
-            self.y **= 2
-        except OverflowError:
-            self.y = 0.0
+        # TODO: Look into difference between ** and math.pow more.
+        self.x **= 2
+        self.y **= 2
 
     def get_unit_normal(self):
         """Return the unit normal of this vector as a new Vec2."""
@@ -258,22 +238,7 @@ class Vec2(object):
     def get_square(self):
         """Return a new Vec2 with x and y that have been squared."""
 
-        try:
-            return Vec2(self.x ** 2, self.y ** 2)
-
-        except OverflowError:
-
-            try:
-                x = self.x ** 2
-            except:
-                x = 0.0
-
-            try:
-                y = self.y ** 2
-            except:
-                y = 0.0
-
-            return Vec2(x, y)
+        return Vec2(self.x ** 2, self.y ** 2)
 
     def get_norm(self):
         """Return square length: x*x + y*y."""
@@ -396,7 +361,7 @@ class Vec2(object):
         if type(multiplier) is float or type(multiplier) is int:
             return Vec2(self.x * multiplier, self.y * multiplier)
         else:
-            raise TypeError("Use cross() to mutiply two instances.")
+            raise TypeError("Use cross() to multiply two instances.")
 
     def __imul__(self, multiplier):
         """Multiply self.x and self.y by multiplier, *=
@@ -407,7 +372,7 @@ class Vec2(object):
             self.x *= multiplier
             self.y *= multiplier
         else:
-            raise TypeError("Use cross() to mutiply two instances.")
+            raise TypeError("Use cross() to multiply two instances.")
 
         return self
 
