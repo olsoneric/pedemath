@@ -214,3 +214,51 @@ class Vec3IAddTestCase(unittest.TestCase):
         expected_result = Vec3(1, 2, 3)
 
         self.assertEqual(a, expected_result)
+
+
+class Vec3GetItemTestCase(unittest.TestCase):
+    """Test Vec3.__getite__m() for uses such as: vec[1]."""
+
+    def test_getitem(self):
+        """Ensure that vec[0], vec[1], and vec[2] return the correct values."""
+
+        vec = Vec3(4, 5, 6)
+
+        self.assertEqual(4, vec[0])
+        self.assertEqual(5, vec[1])
+        self.assertEqual(6, vec[2])
+
+    def test_getitem_invalid_index(self):
+        """Ensure uses like vec[10000] raise the IndexError exception."""
+
+        vec = Vec3(4, 5, 6)
+
+        # Calling vec.__getitem__ directly instead of vec[5] so we can catch
+        # the exception.
+        self.assertRaises(IndexError, vec.__getitem__, 5)
+
+
+class Vec3SetItemTestCase(unittest.TestCase):
+    """Test Vec3.__setitem() for uses such as: vec[1] = 5."""
+
+    def test_setitem(self):
+        """Ensure that we can set values with vec[0], vec[1], and vec[2]."""
+
+        vec = Vec3(4, 5, 6)
+
+        # Set the values with __setitem__
+        vec[0] = 14
+        vec[1] = 15
+        vec[2] = 16
+
+        # Ensure the values got set.
+        self.assertEqual(14, vec[0])
+        self.assertEqual(15, vec[1])
+        self.assertEqual(16, vec[2])
+
+    def test_setitem_invalid_index(self):
+        """Ensure uses like vec[10000] = 5 raise the IndexError exception."""
+
+        vec = Vec3(4, 5, 6)
+
+        self.assertRaises(IndexError, vec.__setitem__, 5, 15)

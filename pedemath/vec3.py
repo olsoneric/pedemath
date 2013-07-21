@@ -124,15 +124,27 @@ class Vec3(object):
             return Vec3(self.x + arg.x, self.y + arg.y, self.z + arg.z)
 
     def __getitem__(self, index):
+        """Return the value at index.
+        For example, at index 0, return x.
+        Raise IndexError if index is invalid.
+        """
+
         if (index == 0):
             return self.x
         elif (index == 1):
             return self.y
         elif (index == 2):
             return self.z
+
         raise IndexError("Vector index out of range")
 
     def __setitem__(self, index, value):
+        """Set the value at the index.
+        For example, at index 0, set x to value.
+        Return the value that is set.
+        Raise IndexError if index is invalid.
+        """
+
         if (index == 0):
             self.x = value
             return self.x
@@ -142,6 +154,7 @@ class Vec3(object):
         elif (index == 2):
             self.z = value
             return self.z
+
         raise IndexError("Vector index out of range")
 
     def __len__(self):
