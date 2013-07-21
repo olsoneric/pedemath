@@ -115,22 +115,7 @@ def projection_v2(v, w):
 def square_v2(vec):
     """Return a new Vec2 with each component squared."""
 
-    try:
-        return Vec2(vec.x ** 2, vec.y ** 2)
-
-    except OverflowError:
-
-        try:
-            x = vec.x ** 2
-        except:
-            x = 0.0
-
-        try:
-            y = vec.y ** 2
-        except:
-            y = 0.0
-
-        return Vec2(x, y)
+    return Vec2(vec.x ** 2, vec.y ** 2)
 
 
 class Vec2(object):
