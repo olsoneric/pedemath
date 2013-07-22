@@ -17,18 +17,31 @@
 import math
 
 
-def add_v3(vec1, w):
-    """Add v and w.  Assume the first arg v is a Vec3.
-    The second arg w can be a vec3 or a number.
+def add_v3(vec1, m):
+    """Return a new Vec3 containing the sum of our x, y, z, and arg.
+
+    If argument is a float or vec, addt it to our x, y, and z.
+    Otherwise, treat it as a Vec3 and add arg.x, arg.y, and arg.z from
+    our own x,  y, and z.
     """
-    if type(w) is float or type(w) is int:
-        return Vec3(vec1.x + w, vec1.y + w, vec1.z + w)
+    if type(m) is float or type(m) is int:
+        return Vec3(vec1.x + m, vec1.y + m, vec1.z + m)
     else:
-        return Vec3(vec1.x + w.x, vec1.y + w.y, vec1.z + w.z)
+        return Vec3(vec1.x + m.x, vec1.y + m.y, vec1.z + m.z)
 
 
-def sub_v3(vec1, vec2):
-    return Vec3(vec1.x-vec2.x, vec1.y-vec2.y, vec1.z-vec2.z)
+def sub_v3(vec1, m):
+    """Return a new Vec3 containing the difference between our x, y, z,
+    and m.
+
+    If argument is a float or vec, subtract it from our x, y, and z.
+    Otherwise, treat it as a Vec3 and subtract arg.x, arg.y, and arg.z from
+    our own x,  y, and z.
+    """
+    if type(m) is float or type(m) is int:
+        return Vec3(vec1.x - m, vec1.y - m, vec1.z - m)
+    else:
+        return Vec3(vec1.x - m.x, vec1.y - m.y, vec1.z - m.z)
 
 
 def sum_v3(vec):
@@ -120,19 +133,34 @@ class Vec3(object):
         self.y = float(y)
         self.z = float(z)
 
-    def __add__(self, arg):
-        """Return a new Vec3 containing the sum of our x, y, z, and arg.
+    def __add__(self, m):
+        """Return a new Vec3 containing the sum of our x, y, z, and m.
 
-        If argument is a float or vec, add it to our x, y, and z.
-        Otherwise, treat is as a Vec3 and add arg.x, arg.y, and arg.z to our
-        own x,  y, and z.
+        If the argument m is a float or vec, add it to our x, y, and z.
+        Otherwise, treat it as a Vec3 and add m.x, m.y, and m.z to our
+        own x, y, and z.
         """
 
         # Not using isinstance for now, see spikes/type_check_perf.py
-        if type(arg) is float or type(arg) is int:
-            return Vec3(self.x + arg, self.y + arg, self.z + arg)
+        if type(m) is float or type(m) is int:
+            return Vec3(self.x + m, self.y + m, self.z + m)
         else:
-            return Vec3(self.x + arg.x, self.y + arg.y, self.z + arg.z)
+            return Vec3(self.x + m.x, self.y + m.y, self.z + m.z)
+
+    def __sub__(self, m):
+        """Return a new Vec3 containing the difference between our x, y, z,
+        and m.
+
+        If the argument m is a float or vec, subtract it from our x, y, and z.
+        Otherwise, treat it as a Vec3 and subtract m.x, m.y, and m.z from
+        our own x, y, and z.
+        """
+
+        # Not using isinstance for now, see spikes/type_check_perf.py
+        if type(m) is float or type(m) is int:
+            return Vec3(self.x - m, self.y - m, self.z - m)
+        else:
+            return Vec3(self.x - m.x, self.y - m.y, self.z - m.z)
 
     def __getitem__(self, index):
         """Return the value at index.

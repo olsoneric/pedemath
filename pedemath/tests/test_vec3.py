@@ -180,7 +180,7 @@ class Vec3IAddTestCase(unittest.TestCase):
     """Test Vec3 += arg"""
 
     def test_iadd_with_vec_argument(self):
-        """Ensure that Vec3.iadd adds x and y components from a vector."""
+        """Ensure that Vec3.iadd adds x and y components to a vector."""
 
         a = Vec3(2, 3, 4)
         b = Vec3(1, 2, 3)
@@ -205,6 +205,150 @@ class Vec3IAddTestCase(unittest.TestCase):
 
     def test_iadd_with_int_argument(self):
         """Ensure that Vec3.iadd adds the int to Vec3 x and y components."""
+
+        a = Vec3(2, 3, 4)
+        b = 1
+
+        a -= b
+
+        expected_result = Vec3(1, 2, 3)
+
+        self.assertEqual(a, expected_result)
+
+
+class Vec3SubTestCase(unittest.TestCase):
+    """Test Vec3's __sub__() which is used in Vec3 + Vec3."""
+
+    def test_sub_with_vec_argument(self):
+        """Ensure that subtracting another vector returns another Vec3 with the
+        right values.
+        """
+
+        a = Vec3(2, 4, 6)
+        b = Vec3(1, 2, 3)
+
+        result = a - b
+
+        expected_result = Vec3(1, 2, 3)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_float_arg(self):
+        """Ensure that subtracting a float returns another Vec3 with the float
+        subtracted from x, y, and z.
+        """
+
+        a = Vec3(7, 8, 9)
+        b = 5.0
+
+        result = a - b
+
+        expected_result = Vec3(2, 3, 4)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_int_arg(self):
+        """Ensure that subtracting a int returns another Vec3 with the int
+        subtracted from x and y.
+        """
+
+        a = Vec3(7, 8, 9)
+        b = 5
+
+        result = a - b
+
+        expected_result = Vec3(2, 3, 4)
+
+        self.assertEqual(result, expected_result)
+
+
+class SubV3TestCase(unittest.TestCase):
+    """Test sub_v3(Vec3, Vec3)."""
+
+    def test_sub_with_vec_argument(self):
+        """Ensure that subtracting another vector returns another Vec3 with the
+        right values.
+        """
+
+        from pedemath.vec3 import sub_v3
+
+        a = Vec3(2, 4, 6)
+        b = Vec3(1, 2, 3)
+
+        result = sub_v3(a, b)
+
+        expected_result = Vec3(1, 2, 3)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_float_arg(self):
+        """Ensure that subtracting a float returns another Vec3 with the float
+        subtracted from x and y.
+        """
+
+        from pedemath.vec3 import sub_v3
+
+        a = Vec3(7, 8, 9)
+        b = 5.0
+
+        result = sub_v3(a, b)
+
+        expected_result = Vec3(2, 3, 4)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sub_with_int_arg(self):
+        """Ensure that subtracting a int returns another Vec3 with the int
+        subtracted from x and y.
+        """
+
+        from pedemath.vec3 import sub_v3
+
+        a = Vec3(7, 8, 9)
+        b = 5
+
+        result = sub_v3(a, b)
+
+        expected_result = Vec3(2, 3, 4)
+
+        self.assertEqual(result, expected_result)
+
+
+class Vec3ISubTestCase(unittest.TestCase):
+    """Test Vec3 += arg"""
+
+    def test_isub_with_vec_argument(self):
+        """Ensure that Vec3.isub subtracts x, y, and z components from a
+        vector.
+        """
+
+        a = Vec3(2, 4, 6)
+        b = Vec3(1, 2, 3)
+
+        a -= b
+
+        expected_result = Vec3(1, 2, 3)
+
+        self.assertEqual(a, expected_result)
+
+    def test_isub_with_float_argument(self):
+        """Ensure that Vec3.isub subtracts the float from Vec3 x, y, and z
+        components.
+        """
+
+        a = Vec3(2, 3, 4)
+        b = 1.0
+
+        a -= b
+
+        expected_result = Vec3(1, 2, 3)
+
+        self.assertEqual(a, expected_result)
+
+    def test_isub_with_int_argument(self):
+        """Ensure that Vec3.isub subtracts the int from Vec3 x, y, and z
+        components.
+        """
 
         a = Vec3(2, 3, 4)
         b = 1
