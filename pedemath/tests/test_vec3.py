@@ -196,7 +196,7 @@ class Vec3IAddTestCase(unittest.TestCase):
         a = Vec3(2, 3, 4)
         b = 1.0
 
-        a -= b
+        a += b
 
         expected_result = Vec3(1, 2, 3)
 
@@ -208,7 +208,7 @@ class Vec3IAddTestCase(unittest.TestCase):
         a = Vec3(2, 3, 4)
         b = 1
 
-        a -= b
+        a += b
 
         expected_result = Vec3(1, 2, 3)
 
@@ -516,6 +516,36 @@ class TestNegV3TestCase(unittest.TestCase):
         self.assertEquals(result, Vec3(-3, -4, -5))
 
 
+class TestVec3Square(unittest.TestCase):
+    """Test Vec3().square() for component-wise squaring of a vector."""
+
+    def test_vec3_square(self):
+        """Ensure Vec3().square() squares x, y, and z components."""
+
+        vec = Vec3(2, 3, 4)
+        vec.square()
+
+        self.assertEqual(Vec3(4, 9, 16), vec)
+
+
+class TestSquareV3(unittest.TestCase):
+    """Test that square_v3() returns a new vector with squares of the original
+    vector's components.
+    """
+
+    def test_square_v3(self):
+        """Ensure Vec3().square() squares x, y, and z components."""
+
+        from pedemath.vec3 import square_v3
+
+        vec = Vec3(2, 3, 4)
+        result_vec = square_v3(vec)
+
+        self.assertEqual(Vec3(4, 9, 16), result_vec)
+        # Ensure a new vec was created instead of modifying the original.
+        self.assertNotEqual(vec, result_vec)
+
+
 class TestProjectionV3TestCase(unittest.TestCase):
     """Test projecting a vector onto another with projection_v3(vec)."""
 
@@ -623,6 +653,6 @@ class TestAveListV3TestCase(unittest.TestCase):
         from pedemath.vec3 import ave_list_v3
 
         result = ave_list_v3([
-            Vec3(1, 2, 3), Vec3(-4, -5, -6), Vec3(4, 5, 6)])
+            Vec3(3, 6, 9), Vec3(-4, -5, -6), Vec3(4, 5, 6)])
 
         self.assertEqual(result, Vec3(1, 2, 3))

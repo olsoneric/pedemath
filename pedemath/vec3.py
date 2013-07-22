@@ -127,7 +127,7 @@ def ave_list_v3(vec_list):
     for v in vec_list:
         vec += v
     num_vecs = float(len(vec_list))
-    vec = (vec.x / num_vecs, vec.y / num_vecs, vec.z / num_vecs)
+    vec = Vec3(vec.x / num_vecs, vec.y / num_vecs, vec.z / num_vecs)
     return vec
 
 
