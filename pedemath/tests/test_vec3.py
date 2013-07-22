@@ -14,9 +14,8 @@
 # limitations under the License.
 
 
+import math
 import unittest
-
-from mock import patch
 
 from pedemath.vec3 import Vec3
 
@@ -406,3 +405,45 @@ class Vec3SetItemTestCase(unittest.TestCase):
         vec = Vec3(4, 5, 6)
 
         self.assertRaises(IndexError, vec.__setitem__, 5, 15)
+
+
+class TestSumV3(unittest.TestCase):
+    """Test sum_v3."""
+
+    def test_sum_v3(self):
+        from pedemath.vec3 import sum_v3
+
+        self.assertEquals(8, sum_v3(Vec3(1, 2, 5)))
+
+
+class TestTranslateV3(unittest.TestCase):
+    """Test translate_v3()."""
+
+    def test_sum_v3(self):
+        from pedemath.vec3 import translate_v3
+
+        self.assertEquals(Vec3(3, 4, 7),
+                          translate_v3(Vec3(1, 2, 5), 2))
+
+
+class TestScaleV3(unittest.TestCase):
+    """Test scale_v3()."""
+
+    def test_sum_v3(self):
+        from pedemath.vec3 import scale_v3
+
+        self.assertEquals(Vec3(2, 4, 10),
+                          scale_v3(Vec3(1, 2, 5), 2))
+
+
+class TestNormalizeV3(unittest.TestCase):
+    """Test normalize_v3()."""
+
+    def test_normalize_v3(self):
+        from pedemath.vec3 import normalize_v3
+        from pedemath.vec3 import scale_v3
+
+        normalized = normalize_v3(Vec3(3, 4, 5))
+        expected = scale_v3(Vec3(3, 4, 5), 1.0 / math.sqrt(50))
+
+        self.assertEquals(normalized, expected)

@@ -48,7 +48,7 @@ def sum_v3(vec):
     return vec.x + vec.y + vec.z
 
 
-def move_v3(vec, amount):
+def translate_v3(vec, amount):
     return Vec3(vec.x+amount, vec.y+amount, vec.z+amount)
 
 
@@ -56,9 +56,8 @@ def scale_v3(vec, amount):
     return Vec3(vec.x*amount, vec.y*amount, vec.z*amount)
 
 
-def norm_v3(vec):
+def normalize_v3(vec):
     return scale_v3(vec, 1.0/vec.length())
-normalize_v3 = norm_v3
 
 
 def dot_v3(v, w):
@@ -282,3 +281,5 @@ class Vec3(object):
         return self
 
     scale = __imul__
+
+    translate = __iadd__
