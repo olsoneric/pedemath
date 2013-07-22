@@ -90,10 +90,12 @@ def projection_v3(v, w):
     return dot_v3(v, w) / w.length()
 
 
-def cross_v3(obj1, obj2):
-    return Vec3(obj1.y * obj2.z - obj1.z * obj2.y,
-                obj1.z * obj2.x - obj1.x * obj2.z,
-                obj1.x * obj2.y - obj1.y * obj2.x)
+def cross_v3(vec_a, vec_b):
+    """Return the crossproduct between vec_a and vec_b."""
+
+    return Vec3(vec_a.y * vec_b.z - vec_a.z * vec_b.y,
+                vec_a.z * vec_b.x - vec_a.x * vec_b.z,
+                vec_a.x * vec_b.y - vec_a.y * vec_b.x)
 
 
 def square_v3(vec):
@@ -225,10 +227,12 @@ class Vec3(object):
     length_squared = get_norm
 
     def __str__(self):
-        return str("vec3(%s,%s,%s)" % (self.x, self.y, self.z))
+        """Return a readable string representation of Vec3."""
+        return str("Vec3(%s,%s,%s)" % (self.x, self.y, self.z))
 
     def __repr__(self):
-        return str("vec3(%s,%s,%s)" % (self.x, self.y, self.z))
+        """Return an unambiguous string representation of Vec3."""
+        return str("Vec3(%s,%s,%s)" % (self.x, self.y, self.z))
 
     def __eq__(self, v2):
         return (
@@ -253,10 +257,12 @@ class Vec3(object):
 
         return sum([x * y for x, y in zip(self, w)])
 
-    def cross(self, obj2):
-        return Vec3(self.y * obj2.z - self.z * obj2.y,
-                    self.z * obj2.x - self.x * obj2.z,
-                    self.x * obj2.y - self.y * obj2.x)
+    def cross(self, vec):
+        """Return the crossproduct between self and vec."""
+
+        return Vec3(self.y * vec.z - self.z * vec.y,
+                    self.z * vec.x - self.x * vec.z,
+                    self.x * vec.y - self.y * vec.x)
 
     def square(self):
         """ square the components """
@@ -270,44 +276,56 @@ class Vec3(object):
 
         return self.scale(1.0 / self.length())
 
-    def __iadd__(self, arg):
-        """Add arg, +=.
+    def __iadd__(self, m):
+        """Add m with +=.
 
-        If argument is a float or vec, subtract it from our x, y, and z.
-        Otherwise, treat is as a Vec3 and subtract arg.x, arg.y, and arg.z from
+        If argument m is a float or vec, subtract it from our x, y, and z.
+        Otherwise, treat is as a Vec3 and subtract m.x, m.y, and m.z from
         our own x and y.
         """
 
-        if type(arg) is float or type(arg) is int:
-            self.x += arg
-            self.y += arg
-            self.z += arg
+        if type(m) is float or type(m) is int:
+            self.x += m
+            self.y += m
+            self.z += m
         else:
-            self.x += arg.x
-            self.y += arg.y
-            self.z += arg.z
+            self.x += m.x
+            self.y += m.y
+            self.z += m.z
         return self
 
-    def __isub__(self, v2):
-        if hasattr(v2, "x"):
-            self.x -= v2.x
-            self.y -= v2.y
-            self.z -= v2.z
+    def __isub__(self, m):
+        """Subtract arg m (-=) from self and store the result on self.
+
+        If argument m is a float or vec, subtract it from our x, y, and z.
+        Otherwise, treat is as a Vec3 and subtract m.x, m.y, and m.z from
+        our own x and y.
+        """
+
+        if hasattr(m, "x"):
+            self.x -= m.x
+            self.y -= m.y
+            self.z -= m.z
         else:
-            self.x -= v2
-            self.y -= v2
-            self.z -= v2
+            self.x -= m
+            self.y -= m
+            self.z -= m
         return self
 
-    def __imul__(self, v2):
-        if hasattr(v2, "x"):
-            self.x *= v2.x
-            self.y *= v2.y
-            self.z *= v2.z
+    def __imul__(self, m):
+        """Multiply arg m with self (*=) and store the result on self.
+
+        If argument m is a float or vec, multiply it by our x, y, and z.
+        Otherwise, raise an exception since we can't multiple a vector by
+        another vector.  Use .cross() if a crossproduct operation is intended.
+        """
+
+        if not hasattr(m, "x"):
+            self.x *= m
+            self.y *= m
+            self.z *= m
         else:
-            self.x *= v2
-            self.y *= v2
-            self.z *= v2
+            raise TypeError("Cannot multiply a Vec3 by another Vec3")
         return self
 
     scale = __imul__

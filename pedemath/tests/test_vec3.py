@@ -198,7 +198,7 @@ class Vec3IAddTestCase(unittest.TestCase):
 
         a += b
 
-        expected_result = Vec3(1, 2, 3)
+        expected_result = Vec3(3, 4, 5)
 
         self.assertEqual(a, expected_result)
 
@@ -210,7 +210,7 @@ class Vec3IAddTestCase(unittest.TestCase):
 
         a += b
 
-        expected_result = Vec3(1, 2, 3)
+        expected_result = Vec3(3, 4, 5)
 
         self.assertEqual(a, expected_result)
 
@@ -419,17 +419,52 @@ class TestSumV3TestCase(unittest.TestCase):
 class TestTranslateV3TestCase(unittest.TestCase):
     """Test translate_v3()."""
 
-    def test_sum_v3(self):
+    def test_translate_v3(self):
         from pedemath.vec3 import translate_v3
 
         self.assertEquals(Vec3(3, 4, 7),
                           translate_v3(Vec3(1, 2, 5), 2))
 
 
+class TestVec3IMulTestCase(unittest.TestCase):
+    """Test Vec3().__imul__() and its alias Vec3().scale()."""
+
+    def test_vec3_imul(self):
+        """Ensure *= works to scale Vec3() vectors."""
+
+        vec = Vec3(1, 2, 5)
+
+        vec *= 2
+
+        self.assertEquals(Vec3(2, 4, 10), vec)
+
+    def test_vec3_imul_invalid_vector_arg(self):
+        """Ensure a type error is raised if imul is used with a vector
+        argument.
+        """
+
+        vec_a = Vec3(1, 2, 5)
+
+        vec_b = Vec3(5, 6, 7)
+
+        # The next line should raise a TypeError Exception since we should
+        # only be able to be able to multiply with numbers, not vectors.
+        self.assertRaises(TypeError, vec_a.__imul__, vec_b)
+
+    def test_vec3_scale(self):
+        """Ensure Vec3().scale works to scale Vec3() vectors."""
+
+        vec = Vec3(1, 2, 5)
+
+        vec.scale(2)
+
+        self.assertEquals(Vec3(2, 4, 10), vec)
+
+
 class TestScaleV3TestCase(unittest.TestCase):
     """Test scale_v3()."""
 
-    def test_sum_v3(self):
+    def test_scale_v3(self):
         from pedemath.vec3 import scale_v3
 
         self.assertEquals(Vec3(2, 4, 10),
@@ -466,7 +501,8 @@ class TestNormalizeV3TestCase(unittest.TestCase):
 class TestVec3DotTestCase(unittest.TestCase):
     """Test Vec3().dot()."""
 
-    def test_dot_v3(self):
+    def test_dot(self):
+        """Ensure Vec3.dot() calculates the dotproduct correctly."""
 
         vec1 = Vec3(3, 4, 5)
         vec2 = Vec3(2, 3, 4)
@@ -481,12 +517,45 @@ class TestDotV3TestCase(unittest.TestCase):
     """Test dot_v3()."""
 
     def test_dot_v3(self):
+        """Ensure dot_v3 calculates the dotproduct correctly."""
+
         from pedemath.vec3 import dot_v3
 
         dot = dot_v3(Vec3(3, 4, 5), Vec3(2, 3, 4))
         expected = 3 * 2 + 4 * 3 + 5 * 4
 
         self.assertEquals(dot, expected)
+
+
+class TestVec3CrossTestCase(unittest.TestCase):
+    """Test Vec3().cross()."""
+
+    def test_cross_v3(self):
+        """Ensure Vec3().cross() calculates the crossproduct correctly."""
+
+        vec1 = Vec3(1, 0, 0)
+        vec2 = Vec3(0, 1, 0)
+        cross = vec1.cross(vec2)
+
+        expected = Vec3(0, 0, 1)
+
+        self.assertEquals(cross, expected)
+
+    # TODO: add more crossproduct test cases
+
+
+class TestCrossV3TestCazse(unittest.TestCase):
+    """Test cross_v3()."""
+
+    def test_cross_v3(self):
+        """Ensure cross_v3 calculates the crossproduct correctly."""
+
+        from pedemath.vec3 import cross_v3
+
+        cross = cross_v3(Vec3(0, -1, 0), Vec3(0, 0, -1))
+        expected = Vec3(1, 0, 0)
+
+        self.assertEquals(cross, expected)
 
 
 class TestVec3UnaryNegativeTestCase(unittest.TestCase):
@@ -544,6 +613,39 @@ class TestSquareV3(unittest.TestCase):
         self.assertEqual(Vec3(4, 9, 16), result_vec)
         # Ensure a new vec was created instead of modifying the original.
         self.assertNotEqual(vec, result_vec)
+
+
+class TestVec3Str(unittest.TestCase):
+    """Test str(Vec3)."""
+
+    def test_vec3_square(self):
+        """Ensure str(Vec3()) returns a readable string of the vector."""
+
+        vec = Vec3(2, 3, 4)
+
+        self.assertEqual("Vec3(2.0,3.0,4.0)", str(vec))
+
+
+class TestVec3Repr(unittest.TestCase):
+    """Test repr(Vec3)."""
+
+    def test_vec3_square(self):
+        """Ensure repr(Vec3()) returns an unambiguous string of a Vec3."""
+
+        vec = Vec3(2, 3, 4)
+
+        self.assertEqual("Vec3(2.0,3.0,4.0)", repr(vec))
+
+
+class Vec3AsTupleTestCase(unittest.TestCase):
+    """Test Vec3().as_tuple()."""
+
+    def test_as_tuple(self):
+        """Ensure that the Vec3's x, y, and z are returned in the tuple."""
+
+        vec = Vec3(7, 8, 9)
+
+        self.assertEqual((7, 8, 9), vec.as_tuple())
 
 
 class TestProjectionV3TestCase(unittest.TestCase):
