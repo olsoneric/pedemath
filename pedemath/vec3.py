@@ -120,7 +120,9 @@ def rotate_around_vector_v3(v, angle_rad, norm_vec):
     )
 
 
-def ave_vec3_list(vec_list):
+def ave_list_v3(vec_list):
+    """Return the average vector of a list of vectors."""
+
     vec = Vec3(0, 0, 0)
     for v in vec_list:
         vec += v

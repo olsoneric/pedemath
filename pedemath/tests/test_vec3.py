@@ -611,3 +611,18 @@ class TestRotateAroundV3TestCase(unittest.TestCase):
         self.assertAlmostEqual(result.y, expected.y)
         self.assertAlmostEqual(result.z, expected.z)
 
+
+class TestAveListV3TestCase(unittest.TestCase):
+    """Test getting the average vector from a list of vectors with
+    ave_vec3_list().
+    """
+
+    def test_ave_list_v3(self):
+        """Ensure the average vector from a list of vectors is returned."""
+
+        from pedemath.vec3 import ave_list_v3
+
+        result = ave_list_v3([
+            Vec3(1, 2, 3), Vec3(-4, -5, -6), Vec3(4, 5, 6)])
+
+        self.assertEqual(result, Vec3(1, 2, 3))
