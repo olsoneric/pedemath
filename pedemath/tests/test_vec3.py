@@ -436,6 +436,20 @@ class TestScaleV3(unittest.TestCase):
                           scale_v3(Vec3(1, 2, 5), 2))
 
 
+class TestVec3Normalize(unittest.TestCase):
+    """Test Vec3().normalize()."""
+
+    def test_vec3_normalize(self):
+        from pedemath.vec3 import scale_v3
+
+        vec1 = Vec3(3, 4, 5)
+        vec1.normalize()
+
+        expected = scale_v3(Vec3(3, 4, 5), 1.0 / math.sqrt(50))
+
+        self.assertEquals(vec1, expected)
+
+
 class TestNormalizeV3(unittest.TestCase):
     """Test normalize_v3()."""
 
@@ -447,3 +461,56 @@ class TestNormalizeV3(unittest.TestCase):
         expected = scale_v3(Vec3(3, 4, 5), 1.0 / math.sqrt(50))
 
         self.assertEquals(normalized, expected)
+
+
+class TestVec3Dot(unittest.TestCase):
+    """Test Vec3().dot()."""
+
+    def test_dot_v3(self):
+
+        vec1 = Vec3(3, 4, 5)
+        vec2 = Vec3(2, 3, 4)
+        dot = vec1.dot(vec2)
+
+        expected = 3 * 2 + 4 * 3 + 5 * 4
+
+        self.assertEquals(dot, expected)
+
+
+class TestDotV3(unittest.TestCase):
+    """Test dot_v3()."""
+
+    def test_dot_v3(self):
+        from pedemath.vec3 import dot_v3
+
+        dot = dot_v3(Vec3(3, 4, 5), Vec3(2, 3, 4))
+        expected = 3 * 2 + 4 * 3 + 5 * 4
+
+        self.assertEquals(dot, expected)
+
+
+class TestVec3UnaryNegative(unittest.TestCase):
+    """Test -Vec3()."""
+
+    def test_vec3_unary_negative(self):
+
+        vec = Vec3(3, 4, 5)
+
+        result = -vec
+
+        self.assertEquals(result, Vec3(-3, -4, -5))
+
+
+class TestNegV3(unittest.TestCase):
+    """Test neg_v3(vec)."""
+
+    def test_neg_v3(self):
+        """Ensure neg_v3(vec), inverts vec's x, y, and z."""
+
+        from pedemath.vec3 import neg_v3
+
+        vec = Vec3(3, 4, 5)
+
+        result = neg_v3(vec)
+
+        self.assertEquals(result, Vec3(-3, -4, -5))

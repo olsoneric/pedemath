@@ -45,28 +45,38 @@ def sub_v3(vec1, m):
 
 
 def sum_v3(vec):
+    """Return the sum of components x, y, and z."""
+
     return vec.x + vec.y + vec.z
 
 
 def translate_v3(vec, amount):
+    """Return a new Vec3 that is translated version of vec."""
+
     return Vec3(vec.x+amount, vec.y+amount, vec.z+amount)
 
 
 def scale_v3(vec, amount):
+    """Return a new Vec3 that is a scaled version of vec."""
+
     return Vec3(vec.x*amount, vec.y*amount, vec.z*amount)
 
 
 def normalize_v3(vec):
+    """Return a new Vec3 that is normalized version of vec."""
+
     return scale_v3(vec, 1.0/vec.length())
 
 
 def dot_v3(v, w):
-    # The dot product of two vectors
+    """Return the dotproduct of two vectors."""
+
     return sum([x * y for x, y in zip(v, w)])
 
 
 def neg_v3(v):
-    # negative
+    """Return new Vec3 with -x, -y, and -z."""
+
     return Vec3(-v.x, -v.y, -v.z)
 
 
@@ -223,8 +233,18 @@ class Vec3(object):
             hasattr(v2, "x") and
             self.x == v2.x and self.y == v2.y and self.z == v2.z)
 
+    def __neg__(self):
+        """Return new Vec3 with -x, -y, and -z."""
+
+        return Vec3(-self.x, -self.y, -self.z)
+
     def as_tuple(self):
         return (self.x, self.y, self.z)
+
+    def dot(self, w):
+        """Return the dotproduct between self and another vector."""
+
+        return sum([x * y for x, y in zip(self, w)])
 
     def cross(self, obj2):
         return Vec3(self.y * obj2.z - self.z * obj2.y,
@@ -233,9 +253,15 @@ class Vec3(object):
 
     def square(self):
         """ square the components """
+
         self.x **= 2
         self.y **= 2
         self.z **= 2
+
+    def normalize(self):
+        """Normalize in place."""
+
+        return self.scale(1.0 / self.length())
 
     def get_data_ptr(self):  # mostly for compatibility with old particle code
         return (self.x, self.y, self.z)
