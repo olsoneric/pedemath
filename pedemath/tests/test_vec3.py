@@ -407,7 +407,7 @@ class Vec3SetItemTestCase(unittest.TestCase):
         self.assertRaises(IndexError, vec.__setitem__, 5, 15)
 
 
-class TestSumV3(unittest.TestCase):
+class TestSumV3TestCase(unittest.TestCase):
     """Test sum_v3."""
 
     def test_sum_v3(self):
@@ -416,7 +416,7 @@ class TestSumV3(unittest.TestCase):
         self.assertEquals(8, sum_v3(Vec3(1, 2, 5)))
 
 
-class TestTranslateV3(unittest.TestCase):
+class TestTranslateV3TestCase(unittest.TestCase):
     """Test translate_v3()."""
 
     def test_sum_v3(self):
@@ -426,7 +426,7 @@ class TestTranslateV3(unittest.TestCase):
                           translate_v3(Vec3(1, 2, 5), 2))
 
 
-class TestScaleV3(unittest.TestCase):
+class TestScaleV3TestCase(unittest.TestCase):
     """Test scale_v3()."""
 
     def test_sum_v3(self):
@@ -436,7 +436,7 @@ class TestScaleV3(unittest.TestCase):
                           scale_v3(Vec3(1, 2, 5), 2))
 
 
-class TestVec3Normalize(unittest.TestCase):
+class TestVec3NormalizeTestCase(unittest.TestCase):
     """Test Vec3().normalize()."""
 
     def test_vec3_normalize(self):
@@ -450,7 +450,7 @@ class TestVec3Normalize(unittest.TestCase):
         self.assertEquals(vec1, expected)
 
 
-class TestNormalizeV3(unittest.TestCase):
+class TestNormalizeV3TestCase(unittest.TestCase):
     """Test normalize_v3()."""
 
     def test_normalize_v3(self):
@@ -463,7 +463,7 @@ class TestNormalizeV3(unittest.TestCase):
         self.assertEquals(normalized, expected)
 
 
-class TestVec3Dot(unittest.TestCase):
+class TestVec3DotTestCase(unittest.TestCase):
     """Test Vec3().dot()."""
 
     def test_dot_v3(self):
@@ -477,7 +477,7 @@ class TestVec3Dot(unittest.TestCase):
         self.assertEquals(dot, expected)
 
 
-class TestDotV3(unittest.TestCase):
+class TestDotV3TestCase(unittest.TestCase):
     """Test dot_v3()."""
 
     def test_dot_v3(self):
@@ -489,8 +489,8 @@ class TestDotV3(unittest.TestCase):
         self.assertEquals(dot, expected)
 
 
-class TestVec3UnaryNegative(unittest.TestCase):
-    """Test -Vec3()."""
+class TestVec3UnaryNegativeTestCase(unittest.TestCase):
+    """Test unary - with -Vec3()."""
 
     def test_vec3_unary_negative(self):
 
@@ -501,8 +501,8 @@ class TestVec3UnaryNegative(unittest.TestCase):
         self.assertEquals(result, Vec3(-3, -4, -5))
 
 
-class TestNegV3(unittest.TestCase):
-    """Test neg_v3(vec)."""
+class TestNegV3TestCase(unittest.TestCase):
+    """Test neg_v3(vec) which acts like unary -."""
 
     def test_neg_v3(self):
         """Ensure neg_v3(vec), inverts vec's x, y, and z."""
@@ -514,3 +514,100 @@ class TestNegV3(unittest.TestCase):
         result = neg_v3(vec)
 
         self.assertEquals(result, Vec3(-3, -4, -5))
+
+
+class TestProjectionV3TestCase(unittest.TestCase):
+    """Test projecting a vector onto another with projection_v3(vec)."""
+
+    def test_projection_v3_x(self):
+        """Ensure projection_v3(), correctly returns the resulting length
+        of projecting a vector onto another.
+        """
+        from pedemath.vec3 import projection_v3
+
+        vec_a = Vec3(3, 4, 5)
+        vec_b = Vec3(1, 0, 0)
+
+        result = projection_v3(vec_a, vec_b)
+
+        self.assertEquals(3, result)
+
+    def test_projection_v3_y(self):
+        """Ensure projection_v3(), correctly returns the resulting length
+        of projecting a vector onto another.
+        """
+        from pedemath.vec3 import projection_v3
+
+        vec_a = Vec3(3, 4, 5)
+        vec_b = Vec3(0, 1, 0)
+
+        result = projection_v3(vec_a, vec_b)
+
+        self.assertEquals(4, result)
+
+    def test_projection_v3_z(self):
+        """Ensure projection_v3(), correctly returns the resulting length
+        of projecting a vector onto another.
+        """
+
+        from pedemath.vec3 import projection_v3
+
+        vec_a = Vec3(3, 4, 5)
+        vec_b = Vec3(0, 0, 1)
+
+        result = projection_v3(vec_a, vec_b)
+
+        self.assertEquals(5, result)
+
+
+class TestRotateAroundV3TestCase(unittest.TestCase):
+    """Test rotate_around_vector_v3() to rotate a vector around another."""
+
+    def test_rotate_around_v3_z_axis(self):
+        """Ensure rotate_around_vector_v3 returns a new vector that has been
+        rotated the correct amount.
+        """
+        from pedemath.vec3 import rotate_around_vector_v3
+
+        vec_a = Vec3(3, 4, 5)
+        vec_b = Vec3(0, 0, 1)
+
+        result = rotate_around_vector_v3(vec_a, math.pi, vec_b)
+        expected = Vec3(-3, -4, 5)
+
+        self.assertAlmostEqual(result.x, expected.x)
+        self.assertAlmostEqual(result.y, expected.y)
+        self.assertAlmostEqual(result.z, expected.z)
+
+    def test_rotate_around_v3_y_axis(self):
+        """Ensure rotate_around_vector_v3 returns a new vector that has been
+        rotated the correct amount.
+        """
+        from pedemath.vec3 import rotate_around_vector_v3
+
+        vec_a = Vec3(3, 4, 5)
+        vec_b = Vec3(0, 1, 0)
+
+        result = rotate_around_vector_v3(vec_a, math.pi, vec_b)
+        expected = Vec3(-3, 4, -5)
+
+        self.assertAlmostEqual(result.x, expected.x)
+        self.assertAlmostEqual(result.y, expected.y)
+        self.assertAlmostEqual(result.z, expected.z)
+
+    def test_rotate_around_v3_x_axis(self):
+        """Ensure rotate_around_vector_v3 returns a new vector that has been
+        rotated the correct amount.
+        """
+        from pedemath.vec3 import rotate_around_vector_v3
+
+        vec_a = Vec3(3, 4, 5)
+        vec_b = Vec3(1, 0, 0)
+
+        result = rotate_around_vector_v3(vec_a, math.pi, vec_b)
+        expected = Vec3(3, -4, -5)
+
+        self.assertAlmostEqual(result.x, expected.x)
+        self.assertAlmostEqual(result.y, expected.y)
+        self.assertAlmostEqual(result.z, expected.z)
+

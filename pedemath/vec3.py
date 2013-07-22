@@ -81,7 +81,12 @@ def neg_v3(v):
 
 
 def projection_v3(v, w):
-    # The signed length of the projection of vector v on vector w.
+    """Return the signed length of the projection of vector v on vector w.
+
+    Since the resulting vector is along the 1st vector, you can get the
+    full vector result by scaling the 1st vector to the length of the result of
+    this function.
+    """
     return dot_v3(v, w) / w.length()
 
 
@@ -95,8 +100,8 @@ def square_v3(vec):
     return Vec3(vec.x**2, vec.y**2, vec.z**2)
 
 
-def rotateAroundVectorV3(v, angle_rad, norm_vec):
-    # rotate v around normV3 by angleRad
+def rotate_around_vector_v3(v, angle_rad, norm_vec):
+    """ rotate v around norm_vec by angle_rad."""
     cos_val = math.cos(angle_rad)
     sin_val = math.sin(angle_rad)
     ## (v * cosVal) +
