@@ -270,9 +270,6 @@ class Vec3(object):
 
         return self.scale(1.0 / self.length())
 
-    def get_data_ptr(self):  # mostly for compatibility with old particle code
-        return (self.x, self.y, self.z)
-
     def __iadd__(self, arg):
         """Add arg, +=.
 
