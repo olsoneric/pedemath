@@ -16,56 +16,96 @@
 
 import math
 
+
+def add_v3(vec1, m):
+    """Return a new Vec3 containing the sum of our x, y, z, and arg.
+
+    If argument is a float or vec, addt it to our x, y, and z.
+    Otherwise, treat it as a Vec3 and add arg.x, arg.y, and arg.z from
+    our own x,  y, and z.
+    """
+    if type(m) is float or type(m) is int:
+        return Vec3(vec1.x + m, vec1.y + m, vec1.z + m)
+    else:
+        return Vec3(vec1.x + m.x, vec1.y + m.y, vec1.z + m.z)
+
+
+def sub_v3(vec1, m):
+    """Return a new Vec3 containing the difference between our x, y, z,
+    and m.
+
+    If argument is a float or vec, subtract it from our x, y, and z.
+    Otherwise, treat it as a Vec3 and subtract arg.x, arg.y, and arg.z from
+    our own x,  y, and z.
+    """
+    if type(m) is float or type(m) is int:
+        return Vec3(vec1.x - m, vec1.y - m, vec1.z - m)
+    else:
+        return Vec3(vec1.x - m.x, vec1.y - m.y, vec1.z - m.z)
+
+
 def sum_v3(vec):
+    """Return the sum of components x, y, and z."""
+
     return vec.x + vec.y + vec.z
 
 
-def add_v3(vec1, w):
-    """Add v and w.  Assume the first arg v is a Vec3.
-    The second arg w can be a vec3 or a number.
-    """
-    if type(w) is float or type(w) is int:
-        return Vec3(vec1.x + w, vec1.y + w, vec1.z + w)
-    else:
-        return Vec3(vec1.x + w.x, vec1.y + w.y, vec1.z + w.z)
+def translate_v3(vec, amount):
+    """Return a new Vec3 that is translated version of vec."""
 
-def sub_v3(vec1, vec2):
-    return Vec3(vec1.x-vec2.x, vec1.y-vec2.y, vec1.z-vec2.z)
-
-def move_v3(vec, amount):
     return Vec3(vec.x+amount, vec.y+amount, vec.z+amount)
 
+
 def scale_v3(vec, amount):
+    """Return a new Vec3 that is a scaled version of vec."""
+
     return Vec3(vec.x*amount, vec.y*amount, vec.z*amount)
 
-def norm_v3(vec):
-    return scale_v3(vec, 1.0/vec.length())
-normalize_v3 = norm_v3
 
-def dot_v3 (v,w):
-    # The dot product of two vectors
-    return sum( [ x*y for x,y in zip(v,w) ] )
+def normalize_v3(vec):
+    """Return a new Vec3 that is normalized version of vec."""
+
+    return scale_v3(vec, 1.0/vec.length())
+
+
+def dot_v3(v, w):
+    """Return the dotproduct of two vectors."""
+
+    return sum([x * y for x, y in zip(v, w)])
+
 
 def neg_v3(v):
-    # negative
-    return Vec3(-v.x,-v.y,-v.z)
+    """Return new Vec3 with -x, -y, and -z."""
 
-def projection_v3(v,w):
-    # The signed length of the projection of vector v on vector w.
-    return dotV3(v,w)/w.length()
+    return Vec3(-v.x, -v.y, -v.z)
 
-def cross_v3(obj1, obj2):
-    return Vec3(obj1.y*obj2.z-obj1.z*obj2.y,
-    obj1.z*obj2.x-obj1.x*obj2.z,
-    obj1.x*obj2.y-obj1.y*obj2.x)
+
+def projection_v3(v, w):
+    """Return the signed length of the projection of vector v on vector w.
+
+    Since the resulting vector is along the 1st vector, you can get the
+    full vector result by scaling the 1st vector to the length of the result of
+    this function.
+    """
+    return dot_v3(v, w) / w.length()
+
+
+def cross_v3(vec_a, vec_b):
+    """Return the crossproduct between vec_a and vec_b."""
+
+    return Vec3(vec_a.y * vec_b.z - vec_a.z * vec_b.y,
+                vec_a.z * vec_b.x - vec_a.x * vec_b.z,
+                vec_a.x * vec_b.y - vec_a.y * vec_b.x)
+
 
 def square_v3(vec):
     return Vec3(vec.x**2, vec.y**2, vec.z**2)
 
-def rotateAroundVectorV3(v, angle_rad, norm_vec):
-    # rotate v around normV3 by angleRad
-    cos_val = math.cos(angle_rad);
-    sin_val = math.sin(angle_rad);
+
+def rotate_around_vector_v3(v, angle_rad, norm_vec):
+    """ rotate v around norm_vec by angle_rad."""
+    cos_val = math.cos(angle_rad)
+    sin_val = math.sin(angle_rad)
     ## (v * cosVal) +
     ## ((normVec * v) * (1.0 - cosVal)) * normVec +
     ## (v ^ normVec) * sinVal)
@@ -76,18 +116,20 @@ def rotateAroundVectorV3(v, angle_rad, norm_vec):
     #b = scaleV3( normVec, dotV3(normVec,v) * (1.0-cosVal))
     #c = scaleV3( crossV3( v,normVec), sinVal)
     return add_v3(
-              add_v3( scale_v3(v,cos_val),
-                      scale_v3( norm_vec, dot_v3(norm_vec,v) * (1.0-cos_val))
-              ),
-              scale_v3( cross_v3( v,norm_vec), sin_val)
-          )
+        add_v3(scale_v3(v, cos_val),
+               scale_v3(norm_vec, dot_v3(norm_vec, v) * (1.0 - cos_val))),
+        scale_v3(cross_v3(v, norm_vec), sin_val)
+    )
 
-def ave_vec3_list(vec_list):
-    vec = Vec3(0,0,0)
+
+def ave_list_v3(vec_list):
+    """Return the average vector of a list of vectors."""
+
+    vec = Vec3(0, 0, 0)
     for v in vec_list:
         vec += v
     num_vecs = float(len(vec_list))
-    vec = (vec.x / num_vecs, vec.y / num_vecs, vec.z / num_vecs)
+    vec = Vec3(vec.x / num_vecs, vec.y / num_vecs, vec.z / num_vecs)
     return vec
 
 
@@ -109,30 +151,57 @@ class Vec3(object):
         self.y = float(y)
         self.z = float(z)
 
-    def __add__(self, arg):
-        """Return a new Vec3 containing the sum of our x, y, z, and arg.
+    def __add__(self, m):
+        """Return a new Vec3 containing the sum of our x, y, z, and m.
 
-        If argument is a float or vec, add it to our x, y, and z.
-        Otherwise, treat is as a Vec3 and add arg.x, arg.y, and arg.z to our
-        own x,  y, and z.
+        If the argument m is a float or vec, add it to our x, y, and z.
+        Otherwise, treat it as a Vec3 and add m.x, m.y, and m.z to our
+        own x, y, and z.
         """
 
         # Not using isinstance for now, see spikes/type_check_perf.py
-        if type(arg) is float or type(arg) is int:
-            return Vec3(self.x + arg, self.y + arg, self.z + arg)
+        if type(m) is float or type(m) is int:
+            return Vec3(self.x + m, self.y + m, self.z + m)
         else:
-            return Vec3(self.x + arg.x, self.y + arg.y, self.z + arg.z)
+            return Vec3(self.x + m.x, self.y + m.y, self.z + m.z)
+
+    def __sub__(self, m):
+        """Return a new Vec3 containing the difference between our x, y, z,
+        and m.
+
+        If the argument m is a float or vec, subtract it from our x, y, and z.
+        Otherwise, treat it as a Vec3 and subtract m.x, m.y, and m.z from
+        our own x, y, and z.
+        """
+
+        # Not using isinstance for now, see spikes/type_check_perf.py
+        if type(m) is float or type(m) is int:
+            return Vec3(self.x - m, self.y - m, self.z - m)
+        else:
+            return Vec3(self.x - m.x, self.y - m.y, self.z - m.z)
 
     def __getitem__(self, index):
+        """Return the value at index.
+        For example, at index 0, return x.
+        Raise IndexError if index is invalid.
+        """
+
         if (index == 0):
             return self.x
         elif (index == 1):
             return self.y
         elif (index == 2):
             return self.z
+
         raise IndexError("Vector index out of range")
 
     def __setitem__(self, index, value):
+        """Set the value at the index.
+        For example, at index 0, set x to value.
+        Return the value that is set.
+        Raise IndexError if index is invalid.
+        """
+
         if (index == 0):
             self.x = value
             return self.x
@@ -142,6 +211,7 @@ class Vec3(object):
         elif (index == 2):
             self.z = value
             return self.z
+
         raise IndexError("Vector index out of range")
 
     def __len__(self):
@@ -154,79 +224,110 @@ class Vec3(object):
     def length(self):
         return math.sqrt(self.get_norm())
 
-    length_squared=get_norm
+    length_squared = get_norm
 
     def __str__(self):
-        return str("vec3(%s,%s,%s)" % (self.x, self.y, self.z) )
+        """Return a readable string representation of Vec3."""
+        return str("Vec3(%s,%s,%s)" % (self.x, self.y, self.z))
 
     def __repr__(self):
-        return str("vec3(%s,%s,%s)" % (self.x, self.y, self.z) )
-
-    def __len__(self):
-        return 3
+        """Return an unambiguous string representation of Vec3."""
+        return str("Vec3(%s,%s,%s)" % (self.x, self.y, self.z))
 
     def __eq__(self, v2):
-        return hasattr(v2, "x") and self.x == v2.x and self.y == v2.y and self.z == v2.z
+        return (
+            hasattr(v2, "x") and
+            self.x == v2.x and self.y == v2.y and self.z == v2.z)
 
     def __ne__(self, v2):
-        return not (hasattr(v2, "x") and self.x == v2.x and self.y == v2.y and self.z == v2.z)
+        return not (
+            hasattr(v2, "x") and
+            self.x == v2.x and self.y == v2.y and self.z == v2.z)
+
+    def __neg__(self):
+        """Return new Vec3 with -x, -y, and -z."""
+
+        return Vec3(-self.x, -self.y, -self.z)
 
     def as_tuple(self):
         return (self.x, self.y, self.z)
 
-    def cross(self, obj2):
-        return Vec3(self.y*obj2.z-self.z*obj2.y,
-            self.z*obj2.x-self.x*obj2.z,
-            self.x*obj2.y-self.y*obj2.x)
+    def dot(self, w):
+        """Return the dotproduct between self and another vector."""
+
+        return sum([x * y for x, y in zip(self, w)])
+
+    def cross(self, vec):
+        """Return the crossproduct between self and vec."""
+
+        return Vec3(self.y * vec.z - self.z * vec.y,
+                    self.z * vec.x - self.x * vec.z,
+                    self.x * vec.y - self.y * vec.x)
 
     def square(self):
         """ square the components """
+
         self.x **= 2
         self.y **= 2
         self.z **= 2
 
-    def get_data_ptr(self): # mostly for compatibility with old particle code
-        return (self.x, self.y, self.z)
+    def normalize(self):
+        """Normalize in place."""
 
-    def __iadd__(self, arg):
-        """Add arg, +=.
+        return self.scale(1.0 / self.length())
 
-        If argument is a float or vec, subtract it from our x, y, and z.
-        Otherwise, treat is as a Vec3 and subtract arg.x, arg.y, and arg.z from
+    def __iadd__(self, m):
+        """Add m with +=.
+
+        If argument m is a float or vec, subtract it from our x, y, and z.
+        Otherwise, treat is as a Vec3 and subtract m.x, m.y, and m.z from
         our own x and y.
         """
 
-        if type(arg) is float or type(arg) is int:
-            self.x += arg
-            self.y += arg
-            self.z += arg
+        if type(m) is float or type(m) is int:
+            self.x += m
+            self.y += m
+            self.z += m
         else:
-            self.x += arg.x
-            self.y += arg.y
-            self.z += arg.z
+            self.x += m.x
+            self.y += m.y
+            self.z += m.z
         return self
 
-    def __isub__(self, v2):
-        if hasattr(v2, "x"):
-            self.x -= v2.x
-            self.y -= v2.y
-            self.z -= v2.z
+    def __isub__(self, m):
+        """Subtract arg m (-=) from self and store the result on self.
+
+        If argument m is a float or vec, subtract it from our x, y, and z.
+        Otherwise, treat is as a Vec3 and subtract m.x, m.y, and m.z from
+        our own x and y.
+        """
+
+        if hasattr(m, "x"):
+            self.x -= m.x
+            self.y -= m.y
+            self.z -= m.z
         else:
-            self.x -= v2
-            self.y -= v2
-            self.z -= v2
+            self.x -= m
+            self.y -= m
+            self.z -= m
         return self
 
-    def __imul__(self, v2):
-        if hasattr(v2, "x"):
-            self.x *= v2.x
-            self.y *= v2.y
-            self.z *= v2.z
+    def __imul__(self, m):
+        """Multiply arg m with self (*=) and store the result on self.
+
+        If argument m is a float or vec, multiply it by our x, y, and z.
+        Otherwise, raise an exception since we can't multiple a vector by
+        another vector.  Use .cross() if a crossproduct operation is intended.
+        """
+
+        if not hasattr(m, "x"):
+            self.x *= m
+            self.y *= m
+            self.z *= m
         else:
-            self.x *= v2
-            self.y *= v2
-            self.z *= v2
+            raise TypeError("Cannot multiply a Vec3 by another Vec3")
         return self
 
     scale = __imul__
 
+    translate = __iadd__

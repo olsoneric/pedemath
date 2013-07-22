@@ -119,6 +119,9 @@ def square_v2(vec):
 
 
 class Vec2(object):
+
+    __slots__ = ('x', 'y')
+
     def __init__(self, x=0., y=0.):
         """Initialize member variables x and y from args.
         Convert args to float if possible, otherwise ValueError should
@@ -426,9 +429,12 @@ class Vec2(object):
         self.x = new_x
 
     def as_tuple(self):
+        """Return x and y in tuple format."""
+
         return (self.x, self.y)
 
 if __name__ == "__main__":
+    # Example
     a = Vec2(1, 2)
     print "a:", a
     print "a + 5", a + 5
