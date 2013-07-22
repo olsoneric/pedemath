@@ -1062,6 +1062,17 @@ class Vec2DivTestCase(unittest.TestCase):
         self.assertTrue(type_exception_raised)
 
 
+class Vec2AsTupleTestCase(unittest.TestCase):
+    """Test Vec2().as_tuple()."""
+
+    def test_as_tuple(self):
+        """Ensure that the Vec2's x and y are returned in the tuple."""
+
+        vec = Vec2(9, 10)
+
+        self.assertEqual((9, 10), vec.as_tuple())
+
+
 class ProjectionV2TestCase(unittest.TestCase):
     """Test projections_v2() to project a vector onto another."""
 
