@@ -758,3 +758,15 @@ class TestAveListV3TestCase(unittest.TestCase):
             Vec3(3, 6, 9), Vec3(-4, -5, -6), Vec3(4, 5, 6)])
 
         self.assertEqual(result, Vec3(1, 2, 3))
+
+
+class TestV3Set(unittest.TestCase):
+    """Test Vec3().set(x, y, z)."""
+
+    def test_set_v3(self):
+        """Ensure the x, y, and z value are set."""
+
+        test_vec = Vec3(1, 3, 5)
+        test_vec.set(2, 4, 6)
+
+        self.assertEqual(test_vec, Vec3(2, 4, 6))
