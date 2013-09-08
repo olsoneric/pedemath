@@ -18,7 +18,7 @@ class Rect3:
                 self.depth == obj.depth)
 
     def __repr__(self):
-        return str("Rect(%s,%s,%s,%s,%s,%s)" % (
+        return str("Rect3(%s,%s,%s,%s,%s,%s)" % (
             self.x, self.y, self.z, self.width, self.height, self.depth))
 
     def union(self, rect):
