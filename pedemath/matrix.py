@@ -3,37 +3,72 @@ import math
 
 from numpy import array, dot
 
-# TODO: see if array is a good replacement for numpy
-
 from pedemath.vec3 import Vec3
 
 
+"""
+A 4x4 matrix class based on OpenGL column major ordering.
+
+"""
+
+
+def transpose_mat44(src_mat, transpose_mat=None):
+    """Create a tranpose of a matrix."""
+
+    if not transpose_mat:
+        transpose_mat = Matrix44()
+
+    for i in range(4):
+        for j in range(4):
+            transpose_mat.data[i][j] = src_mat.data[j][i]
+
+    return transpose_mat
+
+
 class Matrix44(object):
-    # C and numarray matrix is in row-major order ( [row][column] )
-    # This class will try to return data in column-major order [column][row]
+    # Use column-major order  data[col][row]  for OpenGL compatibility.
+    # TODO: write a similar class with numpy or just use and test perf.
+    #
+    # Column-major indexes:
+    #  0,0 | 1,0 | 2,0 | 3,0 (trans)
+    #  0,1 |           | 3,1 (trans)
+    #  0,2 |           | 3,2 (trans)
+    #  0,3 |             3,3
 
     def __init__(self):
         self.make_identity()
 
     def make_identity(self):
-        """
-   #cols[0][0] = 1.0f; cols[1][0] = 0.0f; cols[2][0] = 0.0f; cols[3][0] = 0.0f;
-   #cols[0][1] = 0.0f; cols[1][1] = 1.0f; cols[2][1] = 0.0f; cols[3][1] = 0.0f;
-   #cols[0][2] = 0.0f; cols[1][2] = 0.0f; cols[2][2] = 1.0f; cols[3][2] = 0.0f;
-   #cols[0][3] = 0.0f; cols[1][3] = 0.0f; cols[2][3] = 0.0f; cols[3][3] = 1.0f;
-        """
 
-        #self.data = array('f', [[1., 0., 0., 0.],
-        #                        [0., 1., 0., 0.],
-        #                        [0., 0., 1., 0.],
-        #                        [0., 0., 0., 1.]])
-        self.data = array([[1, 0, 0, 0],
+        # Column-major, similar to OpenGL
+        column_major_order = "F"
+        self.data = array([[1, 0, 0, 0],  # Note: columns look like rows here
                            [0, 1, 0, 0],
                            [0, 0, 1, 0],
-                           [0, 0, 0, 1]], dtype="float32")
+                           [0, 0, 0, 1]], dtype="float32",
+                          order=column_major_order)
 
     def __str__(self):
-        return str(self.data)
+        """Return a readable string representation of Matrix44.
+        Data is in column major order like OpenGL, so we can't just print
+        out rows.
+        """
+
+        matrix_string = (
+            "Matrix44:\n" +
+            "\t%9.6f, %9.6f, %9.6f, %9.6f,\n" +
+            "\t%9.6f, %9.6f, %9.6f, %9.6f,\n" +
+            "\t%9.6f, %9.6f, %9.6f, %9.6f,\n" +
+            "\t%9.6f, %9.6f, %9.6f, %6.6f")
+
+        return matrix_string % (
+            self.data[0][0], self.data[1][0], self.data[2][0], self.data[3][0],
+            self.data[0][1], self.data[1][1], self.data[2][1], self.data[3][1],
+            self.data[0][2], self.data[1][2], self.data[2][2], self.data[3][2],
+            self.data[0][3], self.data[1][3], self.data[2][3], self.data[3][3])
+
+    #def __repr__(self):
+    #    """Return an unambiguous string representation of Matrix44."""
 
     def __rsub__(self, other):
         if isinstance(other, Matrix44):
@@ -91,64 +126,179 @@ class Matrix44(object):
         else:
             raise Exception("Matrix44.__mul__ unhandled type %s" % type(other))
 
+    def __eq__(self, mat2):
+        """Return True if the values in mat2 equal the values in this
+        matrix.
+        """
 
-def matrix44_trans(trans_vec):
-    mat = Matrix44()
-    # internal data is row major order
-    mat.data[3][0] = trans_vec[0]
-    mat.data[3][1] = trans_vec[1]
-    mat.data[3][2] = trans_vec[2]
-    return mat
+        if not hasattr(mat2, "data"):
+            return False
 
+        for i in range(4):
+            if not (self.data[i][0] == mat2.data[i][0] and
+                    self.data[i][1] == mat2.data[i][1] and
+                    self.data[i][2] == mat2.data[i][2] and
+                    self.data[i][3] == mat2.data[i][3]):
+                return False
 
-def matrix44_rot_y(angle_degrees):
-    # X^2 * (1-c) + c  |  xy(1-c) -zs     | xz(1-c) +ys     | 0
-    # yx(1-c) + zs     |  y^2 * (1-c) +c  | yz(1-c) -xs     | 0
-    # xz(1-c) - ys     |  yz(1-c) +xs     | z^2 * (1-c) + z | 0
-    # 0                |  0               | 0               | 1
-    mat = Matrix44()
-    c = math.cos(angle_degrees * math.pi / 180.)
-    s = math.sin(angle_degrees * math.pi / 180.)
-    #       row, column for internal storage
-    mat.data[0][0] = c
-    mat.data[2][0] = s
-    mat.data[0][2] = -s
-    mat.data[2][2] = c
-    return mat
+        return True
 
+    def set_x(self, vec3_a):
+        #self.data[0][0] = vec3_a[0]
+        #self.data[1][0] = vec3_a[1]
+        #self.data[2][0] = vec3_a[2]
+        self.data[0][0] = vec3_a[0]
+        self.data[0][1] = vec3_a[1]
+        self.data[0][2] = vec3_a[2]
 
-def matrix44_rot_x(angle_degrees):
-    mat = Matrix44()
-    c = math.cos(angle_degrees * math.pi / 180.)
-    s = math.sin(angle_degrees * math.pi / 180.)
-    #       row, column for internal storage
-    mat.data[1][1] = c
-    mat.data[2][1] = -s
-    mat.data[1][2] = s
-    mat.data[2][2] = c
-    return mat
+    def set_y(self, vec3_a):
+        #self.data[0][1] = vec3_a[0]
+        #self.data[1][1] = vec3_a[1]
+        #self.data[2][1] = vec3_a[2]
+        self.data[1][0] = vec3_a[0]
+        self.data[1][1] = vec3_a[1]
+        self.data[1][2] = vec3_a[2]
 
+    def set_z(self, vec3_a):
+        #self.data[0][2] = vec3_a[0]
+        #self.data[1][2] = vec3_a[1]
+        #self.data[2][2] = vec3_a[2]
+        self.data[2][0] = vec3_a[0]
+        self.data[2][1] = vec3_a[1]
+        self.data[2][2] = vec3_a[2]
 
-def matrix44_rot_z(angle_degrees):
-    mat = Matrix44()
-    c = math.cos(angle_degrees * math.pi / 180.)
-    s = math.sin(angle_degrees * math.pi / 180.)
-    #       row, column for internal storage
-    mat.data[0][0] = c
-    mat.data[1][0] = -s
-    mat.data[0][1] = s
-    mat.data[1][1] = c
-    return mat
+    def z(self):
+        print "Debugging what 'z' is"
+        #return self.data[2]
+        #return (self.data[0][2], self.data[1][2], self.data[2][2])
+        return self.data[2]
+
+    def get_data_gl(self):
+        # We are using column-major format, the same as OpenGL
+        return self.data
+
+    @staticmethod
+    def from_axis_angle(axis, angle):
+        c = math.cos(angle)
+        s = math.sin(angle)
+        t = 1.0 - c
+        # normalize
+        axis_length = axis.length()
+
+        #raise if length is < 0?
+
+        axis.x /= axis_length
+        axis.y /= axis_length
+        axis.z /= axis_length
+
+        m = Matrix44()
+        m.data[0][0] = c + axis.x*axis.x*t
+        m.data[1][1] = c + axis.y*axis.y*t
+        m.data[2][2] = c + axis.z*axis.z*t
+
+        tmp1 = axis.x * axis.y * t
+        tmp2 = axis.z * s
+        m.data[1][0] = tmp1 + tmp2
+        m.data[0][1] = tmp1 - tmp2
+        tmp1 = axis.x * axis.z * t
+        tmp2 = axis.y * s
+        m.data[2][0] = tmp1 - tmp2
+        m.data[0][2] = tmp1 + tmp2
+        tmp1 = axis.y*axis.z*t
+        tmp2 = axis.x*s
+        m.data[2][1] = tmp1 + tmp2
+        m.data[1][2] = tmp1 - tmp2
+
+        return m
+
+    @staticmethod
+    def rot_from_vectors(start_vec, end_vec):
+        """Return the rotation matrix to rotate from one vector to another."""
+
+        dot = start_vec.dot(end_vec)
+        # TODO: check if dot is a valid number
+        angle = math.acos(dot)
+        # TODO: check if angle is a valid number
+        cross = start_vec.cross(end_vec)
+        cross.normalize
+        rot_matrix = Matrix44.from_axis_angle(cross, angle)
+
+        # TODO: catch exception and return identity for invalid numbers
+        return rot_matrix
+
+    @staticmethod
+    def from_trans(trans_vec):
+        mat = Matrix44()
+        # column major,  translation components in column 3
+        mat.data[3][0] = trans_vec[0]
+        mat.data[3][1] = trans_vec[1]
+        mat.data[3][2] = trans_vec[2]
+        return mat
+
+    @staticmethod
+    def from_rot_x(angle_degrees):
+        mat = Matrix44()
+        c = math.cos(angle_degrees * math.pi / 180.)
+        s = math.sin(angle_degrees * math.pi / 180.)
+
+        #  1  0    0  0
+        #  0 cos -sin 0
+        #  0 sin  cos 0
+        #  0  0    0  1
+
+        #   [column][row]
+        mat.data[1][1] = c
+        mat.data[2][1] = -s
+        mat.data[1][2] = s
+        mat.data[2][2] = c
+        return mat
+
+    @staticmethod
+    def from_rot_y(angle_degrees):
+
+        mat = Matrix44()
+        c = math.cos(angle_degrees * math.pi / 180.)
+        s = math.sin(angle_degrees * math.pi / 180.)
+
+        #  cos 0 sin  0
+        #   0  1  0   0
+        # -sin 0 cos  0
+        #   0  0  0   1
+
+        #   [column][row]
+        mat.data[0][0] = c
+        mat.data[2][0] = s
+        mat.data[0][2] = -s
+        mat.data[2][2] = c
+        return mat
+
+    @staticmethod
+    def from_rot_z(angle_degrees):
+        mat = Matrix44()
+        c = math.cos(angle_degrees * math.pi / 180.)
+        s = math.sin(angle_degrees * math.pi / 180.)
+
+        #  cos -sin 0 0
+        #  sin  cos 0 0
+        #   0    0  1 0
+        #   0    0  0 1
+
+        #   [column][row]
+        mat.data[0][0] = c
+        mat.data[1][0] = -s
+        mat.data[0][1] = s
+        mat.data[1][1] = c
+        return mat
 
 
 def rotate_v3f_deg_xyz(vec_a, rot):
-    rot_mat = matrix44_rot_x(rot[0])
+    rot_mat = Matrix44.from_rot_x(rot[0])
     new_vec = rot_mat * vec_a
 
-    rotMat = matrix44_rot_y(rot[1])
+    rotMat = Matrix44.from_rot_y(rot[1])
     new_vec = rotMat * new_vec
 
-    rot_mat = matrix44_rot_z(rot[2])
+    rot_mat = Matrix44.from_rot_z(rot[2])
     new_vec = rot_mat * new_vec
     return new_vec
 
@@ -215,3 +365,7 @@ if __name__ == "__main__":
     print "correct 4 (t r i):", (matrix44_trans(
         Vec3(1, 0, 0)) * matrix44_rot_y(90)) * Vec3(0, 0, 1)
     print "        4a (t r i):", matrix44_rot_y(90) * Vec3(0, 0, 1)
+
+    rot_matrix = Matrix44.rot_from_vectors(Vec3(0, 0, -1), Vec3(0.0, -0.5, 0.0))
+    print "rot_matrix:", rot_matrix.data
+    print "rotated -z axis is:", rot_matrix * Vec3(0, 0, -1)
