@@ -133,6 +133,11 @@ def ave_list_v3(vec_list):
     return vec
 
 
+def angle_between_two_vectors(vec_a, vec_b):
+    return math.acos(vec_a.dot(vec_b) / (
+        vec_a.length() * vec_b.length()))
+
+
 class Vec3(object):
 
     __slots__ = ('x', 'y', 'z')
