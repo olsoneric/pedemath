@@ -11,6 +11,11 @@ def invert_quat(quat):
         -quat.x / length, -quat.y / length, -quat.z / length, quat.w / length)
 
 
+def dot_quat(quat1, quat2):
+    return (quat1.x * quat2.x + quat1.y * quat2.y + quat1.z * quat2.z +
+            quat1.w * quat2.w)
+
+
 class Quat(object):
 
     def __init__(self, x=0.0, y=0.0, z=0.0, w=1.0):
@@ -79,6 +84,10 @@ class Quat(object):
     def length(self):
         return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z +
                          self.w * self.w)
+
+    def dot(self, quat):
+        return (self.x * quat.x + self.y * quat.y + self.z * quat.z +
+                self.w * quat.w)
 
     def normalize(self):
         length = self.length()
