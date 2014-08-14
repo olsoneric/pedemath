@@ -16,6 +16,36 @@ def dot_quat(quat1, quat2):
             quat1.w * quat2.w)
 
 
+def lerp_quat(from_quat, to_quat, percent):
+    """Return linear interpolation of two quaternions."""
+
+    # Check if signs need to be reversed.
+    if dot_quat(from_quat, to_quat) < 0.0:
+        to_sign = -1
+    else:
+        to_sign = 1
+
+    # Simple linear interpolation
+    percent_from = 1.0 - percent
+    percent_to = percent
+
+    result = Quat(
+        percent_from * from_quat.x + to_sign * percent_to * to_quat.x,
+        percent_from * from_quat.y + to_sign * percent_to * to_quat.y,
+        percent_from * from_quat.z + to_sign * percent_to * to_quat.z,
+        percent_from * from_quat.w + to_sign * percent_to * to_quat.w)
+
+    return result
+
+
+def nlerp_quat(from_quat, to_quat, percent):
+    """Return normalized linear interpolation of two quaternions."""
+
+    result = lerp_quat(from_quat, to_quat, percent)
+    result.normalize()
+    return result
+
+
 class Quat(object):
 
     def __init__(self, x=0.0, y=0.0, z=0.0, w=1.0):
