@@ -294,8 +294,8 @@ class Vec3(object):
     def __iadd__(self, m):
         """Add m with +=.
 
-        If argument m is a float or vec, subtract it from our x, y, and z.
-        Otherwise, treat is as a Vec3 and subtract m.x, m.y, and m.z from
+        If argument m is a float or vec, add it from our x, y, and z.
+        Otherwise, treat is as a Vec3 and add m.x, m.y, and m.z from
         our own x and y.
         """
 
