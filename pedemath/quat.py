@@ -20,11 +20,26 @@ class Quat(object):
         self.z = float(z)
         self.w = float(w)
 
+    def make_ident(self):
+
+        self.x = float(0)
+        self.y = float(0)
+        self.z = float(0)
+        self.w = float(1)
+
     def set(self, x, y, z, w):
         self.x = x
         self.y = y
         self.z = z
         self.w = w
+
+    def is_ident(self):
+        return (self.x == 0.0 and self.y == 0.0 and self.z == 0.0 and
+                self.w == 1.0)
+
+    def __eq__(self, quat):
+        return (self.x == quat.x and self.y == quat.y and self.z == quat.z and
+                self.w == quat.w)
 
     def __str__(self):
         """Return a readable string representation of Quat."""
