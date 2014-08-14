@@ -98,6 +98,10 @@ def cross_v3(vec_a, vec_b):
                 vec_a.x * vec_b.y - vec_a.y * vec_b.x)
 
 
+def abs_v3(vec_a):
+    return Vec3(abs(vec_a.x), abs(vec_a.x, abs(vec_a.x)))
+
+
 def square_v3(vec):
     return Vec3(vec.x**2, vec.y**2, vec.z**2)
 
@@ -342,3 +346,8 @@ class Vec3(object):
     scale = __imul__
 
     translate = __iadd__
+
+    def __abs__(self):
+        """Return a vector with absolute values at each component."""
+
+        return Vec3(abs(self.x), abs(self.y), abs(self.z))
