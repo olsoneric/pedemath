@@ -299,14 +299,18 @@ class Vec3(object):
         our own x and y.
         """
 
-        if type(m) is float or type(m) is int:
-            self.x += m
-            self.y += m
-            self.z += m
-        else:
+        if hasattr(m, "x"):
             self.x += m.x
             self.y += m.y
             self.z += m.z
+        elif hasattr(m, '__iter__'):  # if a tuple, list, etc.
+            self.x += m[0]  # TODO: improve check to exclude dict
+            self.y += m[1]
+            self.z += m[2]
+        else:
+            self.x += m
+            self.y += m
+            self.z += m
         return self
 
     def __isub__(self, m):
