@@ -2,7 +2,11 @@
 import math
 
 from pedemath.matrix import Matrix44
+from pedemath.vec3 import add_v3
+from pedemath.vec3 import cross_v3
 from pedemath.vec3 import normalize_v3
+from pedemath.vec3 import scale_v3
+from pedemath.vec3 import Vec3
 
 
 def invert_quat(quat):
@@ -149,6 +153,31 @@ class Quat(object):
             return self.w
 
         raise IndexError("Quat index out of range %s" % index)
+
+    def rotate_vec(self, vec):
+        """
+        https://code.google.com/p/kri/wiki/Quaternions
+        v + 2.0*cross(q.xyz, cross(q.xyz,v) + q.w*v);
+        """
+        xyz = Vec3(self.x, self.y, self.z)
+        return add_v3(vec, scale_v3(
+            xyz.cross(xyz.cross(vec) + scale_v3(vec, self.w)), 2.0))
+
+    def to_euler_rad(self, euler_vec3):
+        """Returns euler angles"""
+
+        # TODO: consolidated duplicated code in this function and to_euler_deg()
+        sqw = self.w * self.w
+        sqx = self.x * self.x
+        sqy = self.y * self.y
+        sqz = self.z * self.z
+
+        euler_vec3.z = math.atan2(2.0 * (self.x * self.y + self.z * self.w),
+                                  (sqx - sqy - sqz + sqw))
+        euler_vec3.x = math.atan2(2.0 * (self.y * self.z + self.x * self.w),
+                                  (-sqx - sqy + sqz + sqw))
+        euler_vec3.y = math.asin(-2.0 * (self.x * self.z - self.y * self.w))
+        return euler_vec3
 
     def to_euler_deg(self, euler_vec3):
         """Returns euler angles"""

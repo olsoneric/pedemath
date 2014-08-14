@@ -140,3 +140,33 @@ class TestGetRotMatrix(unittest.TestCase):
             for j in range(4):
                 self.assertAlmostEqual(mat.data[j][i],
                                        mat_from_quat.data[j][i])
+
+class RotateVecTestCase(unittest.TestCase):
+    """Test Quat.rotate_vec."""
+
+    def test_rotate_vec_z(self):
+        """Ensure resulting vector is correct."""
+
+        quat = Quat.from_axis_angle(Vec3(0, 0, 1), 90.)
+        vec = Vec3(1, 1, 1)
+
+        rotated_vec = quat.rotate_vec(vec)
+
+        self.assertAlmostEqual(-1.0, rotated_vec.x)
+        self.assertAlmostEqual(1.0, rotated_vec.y)
+        self.assertAlmostEqual(1.0, rotated_vec.z)
+
+    def test_rotate_vec(self):
+        """Ensure resulting vector is correct."""
+
+        quat = Quat.from_axis_angle(Vec3(-1, -1, -1), 180.)
+        vec = Vec3(1, 0, 0)
+
+        rotated_vec = quat.rotate_vec(vec)
+
+        self.assertAlmostEqual(-1/3.0, rotated_vec.x)
+        self.assertAlmostEqual(2/3.0, rotated_vec.y)
+        self.assertAlmostEqual(2/3.0, rotated_vec.z)
+    # TODO: more rotate_vec angles tested?
+
+
