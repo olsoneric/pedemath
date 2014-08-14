@@ -2,13 +2,52 @@
 import math
 
 from pedemath.matrix import Matrix44
+from pedemath.vec3 import add_v3
+from pedemath.vec3 import cross_v3
 from pedemath.vec3 import normalize_v3
+from pedemath.vec3 import scale_v3
+from pedemath.vec3 import Vec3
 
 
 def invert_quat(quat):
     length = quat.length()
     return Quat(
         -quat.x / length, -quat.y / length, -quat.z / length, quat.w / length)
+
+
+def dot_quat(quat1, quat2):
+    return (quat1.x * quat2.x + quat1.y * quat2.y + quat1.z * quat2.z +
+            quat1.w * quat2.w)
+
+
+def lerp_quat(from_quat, to_quat, percent):
+    """Return linear interpolation of two quaternions."""
+
+    # Check if signs need to be reversed.
+    if dot_quat(from_quat, to_quat) < 0.0:
+        to_sign = -1
+    else:
+        to_sign = 1
+
+    # Simple linear interpolation
+    percent_from = 1.0 - percent
+    percent_to = percent
+
+    result = Quat(
+        percent_from * from_quat.x + to_sign * percent_to * to_quat.x,
+        percent_from * from_quat.y + to_sign * percent_to * to_quat.y,
+        percent_from * from_quat.z + to_sign * percent_to * to_quat.z,
+        percent_from * from_quat.w + to_sign * percent_to * to_quat.w)
+
+    return result
+
+
+def nlerp_quat(from_quat, to_quat, percent):
+    """Return normalized linear interpolation of two quaternions."""
+
+    result = lerp_quat(from_quat, to_quat, percent)
+    result.normalize()
+    return result
 
 
 class Quat(object):
@@ -20,11 +59,26 @@ class Quat(object):
         self.z = float(z)
         self.w = float(w)
 
+    def make_ident(self):
+
+        self.x = float(0)
+        self.y = float(0)
+        self.z = float(0)
+        self.w = float(1)
+
     def set(self, x, y, z, w):
         self.x = x
         self.y = y
         self.z = z
         self.w = w
+
+    def is_ident(self):
+        return (self.x == 0.0 and self.y == 0.0 and self.z == 0.0 and
+                self.w == 1.0)
+
+    def __eq__(self, quat):
+        return (self.x == quat.x and self.y == quat.y and self.z == quat.z and
+                self.w == quat.w)
 
     def __str__(self):
         """Return a readable string representation of Quat."""
@@ -65,6 +119,10 @@ class Quat(object):
         return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z +
                          self.w * self.w)
 
+    def dot(self, quat):
+        return (self.x * quat.x + self.y * quat.y + self.z * quat.z +
+                self.w * quat.w)
+
     def normalize(self):
         length = self.length()
         self.x = self.x / length
@@ -95,6 +153,31 @@ class Quat(object):
             return self.w
 
         raise IndexError("Quat index out of range %s" % index)
+
+    def rotate_vec(self, vec):
+        """
+        https://code.google.com/p/kri/wiki/Quaternions
+        v + 2.0*cross(q.xyz, cross(q.xyz,v) + q.w*v);
+        """
+        xyz = Vec3(self.x, self.y, self.z)
+        return add_v3(vec, scale_v3(
+            xyz.cross(xyz.cross(vec) + scale_v3(vec, self.w)), 2.0))
+
+    def to_euler_rad(self, euler_vec3):
+        """Returns euler angles"""
+
+        # TODO: consolidated duplicated code in this function and to_euler_deg()
+        sqw = self.w * self.w
+        sqx = self.x * self.x
+        sqy = self.y * self.y
+        sqz = self.z * self.z
+
+        euler_vec3.z = math.atan2(2.0 * (self.x * self.y + self.z * self.w),
+                                  (sqx - sqy - sqz + sqw))
+        euler_vec3.x = math.atan2(2.0 * (self.y * self.z + self.x * self.w),
+                                  (-sqx - sqy + sqz + sqw))
+        euler_vec3.y = math.asin(-2.0 * (self.x * self.z - self.y * self.w))
+        return euler_vec3
 
     def to_euler_deg(self, euler_vec3):
         """Returns euler angles"""

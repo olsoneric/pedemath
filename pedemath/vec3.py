@@ -98,6 +98,10 @@ def cross_v3(vec_a, vec_b):
                 vec_a.x * vec_b.y - vec_a.y * vec_b.x)
 
 
+def abs_v3(vec_a):
+    return Vec3(abs(vec_a.x), abs(vec_a.x, abs(vec_a.x)))
+
+
 def square_v3(vec):
     return Vec3(vec.x**2, vec.y**2, vec.z**2)
 
@@ -290,19 +294,23 @@ class Vec3(object):
     def __iadd__(self, m):
         """Add m with +=.
 
-        If argument m is a float or vec, subtract it from our x, y, and z.
-        Otherwise, treat is as a Vec3 and subtract m.x, m.y, and m.z from
+        If argument m is a float or vec, add it from our x, y, and z.
+        Otherwise, treat is as a Vec3 and add m.x, m.y, and m.z from
         our own x and y.
         """
 
-        if type(m) is float or type(m) is int:
-            self.x += m
-            self.y += m
-            self.z += m
-        else:
+        if hasattr(m, "x"):
             self.x += m.x
             self.y += m.y
             self.z += m.z
+        elif hasattr(m, '__iter__'):  # if a tuple, list, etc.
+            self.x += m[0]  # TODO: improve check to exclude dict
+            self.y += m[1]
+            self.z += m[2]
+        else:
+            self.x += m
+            self.y += m
+            self.z += m
         return self
 
     def __isub__(self, m):
@@ -342,3 +350,8 @@ class Vec3(object):
     scale = __imul__
 
     translate = __iadd__
+
+    def __abs__(self):
+        """Return a vector with absolute values at each component."""
+
+        return Vec3(abs(self.x), abs(self.y), abs(self.z))
