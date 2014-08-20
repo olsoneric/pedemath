@@ -21,6 +21,8 @@ setup(
     packages=['pedemath'],
     package_data={'': ['LICENSE', 'NOTICE', 'README.md']},
     package_dir={'pedemath': 'pedemath'},
+    include_package_data=True,
+    license='Apache 2.0',
     keywords=["vector", "math", "matrix", "quaternion"],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
