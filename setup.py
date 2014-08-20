@@ -19,7 +19,7 @@ setup(
     maintainer_email="me@olsoneric.com",
     url="http://github.com/olsoneric/pedemath",
     packages=['pedemath'],
-    package_data={'': ['LICENSE', 'NOTICE']},
+    package_data={'': ['LICENSE', 'NOTICE', 'README.md']},
     package_dir={'pedemath': 'pedemath'},
     keywords=["vector", "math", "matrix", "quaternion"],
     classifiers=[
