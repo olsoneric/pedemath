@@ -9,10 +9,9 @@ PedeMath is a python vector and math library.
 Status - In Development
 ------
 
-This is an old library that I'm in the process of updating.
+It includes classes for vectors, matrices, and quaternions including
+Vec3, Vec2, Matrix44, Rect, and Quat.
 
-Vec2 is now usable.  
-Vec3 is now usable.  
-Matrix44 is under development not tested heavily yet.  
-   Note: matrix requires numpy (for now, but this could change).
-Quat is under development not tested heavily yet.  
+Notes:
+  Apis for newer classes such as Quaternions are still in flux.
+  Most classes are pure Python, but Matrix44 requires numpy for now.
