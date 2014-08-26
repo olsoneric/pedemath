@@ -1,19 +1,42 @@
 
+"""
+Matrix44
+A 4x4 matrix class stored in column major order for easier use with OpenGL.
+"""
+
 import math
 
-from numpy import array, dot
+from numpy import array
 
 from pedemath.vec3 import Vec3
 
+_np_column_major_order = "F"
 
-"""
-A 4x4 matrix class based on OpenGL column major ordering.
 
-"""
+def _dot_matrix44(m1, m2):
+    """
+    Multiply/compute the dot product of two matrices.
+
+    Input: Two matrices each as a 2d numpy array.
+    Output: dot product of the two matrices.
+    """
+    # TODO: Investigate improving performance with numpy.
+
+    columns = [
+        [m1[0][row] * m2[col][0] +
+         m1[1][row] * m2[col][1] +
+         m1[2][row] * m2[col][2] +
+         m1[3][row] * m2[col][3] for row in range(4)]
+        for col in range(4)
+        ]
+
+    result = array(columns, dtype="float32",
+                   order=_np_column_major_order)
+    return result
 
 
 def transpose_mat44(src_mat, transpose_mat=None):
-    """Create a tranpose of a matrix."""
+    """Create a transpose of a matrix."""
 
     if not transpose_mat:
         transpose_mat = Matrix44()
@@ -31,9 +54,9 @@ class Matrix44(object):
     #
     # Column-major indexes:
     #  0,0 | 1,0 | 2,0 | 3,0 (trans)
-    #  0,1 |           | 3,1 (trans)
-    #  0,2 |           | 3,2 (trans)
-    #  0,3 |             3,3
+    #  0,1 | 1,1 | 2,1 | 3,1 (trans)
+    #  0,2 | 1,2 | 2,2 | 3,2 (trans)
+    #  0,3 | 1,3 | 2,3 | 3,3
 
     def __init__(self):
         self.make_identity()
@@ -41,12 +64,11 @@ class Matrix44(object):
     def make_identity(self):
 
         # Column-major, similar to OpenGL
-        column_major_order = "F"
         self.data = array([[1, 0, 0, 0],  # Note: columns look like rows here
                            [0, 1, 0, 0],
                            [0, 0, 1, 0],
                            [0, 0, 0, 1]], dtype="float32",
-                          order=column_major_order)
+                          order=_np_column_major_order)
 
     def __str__(self):
         """Return a readable string representation of Matrix44.
@@ -104,7 +126,7 @@ class Matrix44(object):
 
     def __rmul__(self, other):
         if isinstance(other, Matrix44):
-            self.data = dot(self.data, other.data)
+            self.data = _dot_matrix44(self.data, other.data)
         else:
             raise Exception(
                 "Matrix44.__rmul__, arg is not a matrix: %s" % type(other))
@@ -112,7 +134,7 @@ class Matrix44(object):
     def __mul__(self, other):
         if isinstance(other, Matrix44):
             mat = Matrix44()
-            mat.data = dot(self.data, other.data)
+            mat.data = _dot_matrix44(self.data, other.data)
             return mat
         elif isinstance(other, Vec3):
             v = other
@@ -144,33 +166,21 @@ class Matrix44(object):
         return True
 
     def set_x(self, vec3_a):
-        #self.data[0][0] = vec3_a[0]
-        #self.data[1][0] = vec3_a[1]
-        #self.data[2][0] = vec3_a[2]
         self.data[0][0] = vec3_a[0]
         self.data[0][1] = vec3_a[1]
         self.data[0][2] = vec3_a[2]
 
     def set_y(self, vec3_a):
-        #self.data[0][1] = vec3_a[0]
-        #self.data[1][1] = vec3_a[1]
-        #self.data[2][1] = vec3_a[2]
         self.data[1][0] = vec3_a[0]
         self.data[1][1] = vec3_a[1]
         self.data[1][2] = vec3_a[2]
 
     def set_z(self, vec3_a):
-        #self.data[0][2] = vec3_a[0]
-        #self.data[1][2] = vec3_a[1]
-        #self.data[2][2] = vec3_a[2]
         self.data[2][0] = vec3_a[0]
         self.data[2][1] = vec3_a[1]
         self.data[2][2] = vec3_a[2]
 
     def z(self):
-        print "Debugging what 'z' is"
-        #return self.data[2]
-        #return (self.data[0][2], self.data[1][2], self.data[2][2])
         return self.data[2]
 
     def get_data_gl(self):
@@ -234,6 +244,9 @@ class Matrix44(object):
         mat.data[3][1] = trans_vec[1]
         mat.data[3][2] = trans_vec[2]
         return mat
+
+    def get_trans(self):
+        return Vec3(*self.data[3][:3])
 
     @staticmethod
     def from_rot_x(angle_degrees):
@@ -304,6 +317,8 @@ def rotate_v3f_deg_xyz(vec_a, rot):
 
 
 if __name__ == "__main__":
+    # TODO: Finish moving all these to unittests.
+
     print "Identity:"
     m = Matrix44()
     print m.data
