@@ -7,34 +7,35 @@ A 4x4 matrix class stored in column major order for easier use with OpenGL.
 import math
 
 from numpy import array
+from numpy import dot
 
 from pedemath.vec3 import Vec3
 
 _np_column_major_order = "F"
 
 
-def _dot_matrix44(m1, m2):
-    """
-    Multiply/compute the dot product of two matrices.
-
-    Input: Two matrices each as a 2d numpy array.
-    Output: dot product of the two matrices.
-    """
-    # TODO: Investigate improving performance with numpy.
-
-    columns = [
-        [m1[0][row] * m2[col][0] +
-         m1[1][row] * m2[col][1] +
-         m1[2][row] * m2[col][2] +
-         m1[3][row] * m2[col][3] for row in range(4)]
-        for col in range(4)
-        ]
-
-    result = array(columns, dtype="float32",
-                   order=_np_column_major_order)
-    return result
-
-
+# def _dot_matrix44(m1, m2):
+#    """
+#    Multiply/compute the dot product of two matrices.
+#
+#    Input: Two matrices each as a 2d numpy array.
+#    Output: dot product of the two matrices.
+#    """
+#    # TODO: Investigate improving performance with numpy.
+#
+#    columns = [
+#        [m1[0][row] * m2[col][0] +
+#         m1[1][row] * m2[col][1] +
+#         m1[2][row] * m2[col][2] +
+#         m1[3][row] * m2[col][3] for row in range(4)]
+#        for col in range(4)
+#        ]
+#
+#    result = array(columns, dtype="float32",
+#                   order=_np_column_major_order)
+#    return result
+#
+#
 def transpose_mat44(src_mat, transpose_mat=None):
     """Create a transpose of a matrix."""
 
@@ -126,7 +127,7 @@ class Matrix44(object):
 
     def __rmul__(self, other):
         if isinstance(other, Matrix44):
-            self.data = _dot_matrix44(self.data, other.data)
+            self.data = dot(other.data, self.data)
         else:
             raise Exception(
                 "Matrix44.__rmul__, arg is not a matrix: %s" % type(other))
@@ -134,7 +135,7 @@ class Matrix44(object):
     def __mul__(self, other):
         if isinstance(other, Matrix44):
             mat = Matrix44()
-            mat.data = _dot_matrix44(self.data, other.data)
+            mat.data = dot(other.data, self.data)
             return mat
         elif isinstance(other, Vec3):
             v = other
