@@ -248,6 +248,17 @@ class Vec3(object):
             hasattr(v2, "x") and
             self.x == v2.x and self.y == v2.y and self.z == v2.z)
 
+    def almost_equal(self, v2, places=7):
+        """When comparing for equality, compare floats up to
+        a limited precision specified by "places".
+        """
+
+        return (
+            hasattr(v2, "x") and
+            _float_almost_equal(self.x, v2.x, places) and
+            _float_almost_equal(self.y, v2.y, places) and
+            _float_almost_equal(self.z, v2.z, places))
+
     def __ne__(self, v2):
         return not (
             hasattr(v2, "x") and
@@ -355,3 +366,15 @@ class Vec3(object):
         """Return a vector with absolute values at each component."""
 
         return Vec3(abs(self.x), abs(self.y), abs(self.z))
+
+
+def _float_almost_equal(float1, float2, places=7):
+    """Return True if two numbers are equal up to the
+    specified number of "places" after the decimal point.
+    """
+
+    if round(abs(float2-float1), places) == 0:
+        return True
+
+    return False
+
