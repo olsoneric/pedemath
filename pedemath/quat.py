@@ -1,9 +1,9 @@
 
+import logging
 import math
 
 from pedemath.matrix import Matrix44
 from pedemath.vec3 import add_v3
-from pedemath.vec3 import cross_v3
 from pedemath.vec3 import normalize_v3
 from pedemath.vec3 import scale_v3
 from pedemath.vec3 import Vec3
@@ -210,7 +210,7 @@ class Quat(object):
 
         return quat
 
-    def get_rot_matrix(self, matrix=None):
+    def as_matrix44(self, matrix=None):
 
         if not matrix:
             matrix = Matrix44()
@@ -259,4 +259,8 @@ class Quat(object):
         matrix.data[3][2] = 0
         matrix.data[3][3] = 1
         return matrix
+
+    def get_rot_matrix(self):
+        logging.warning("Use as_rot_matrix44() instead of get_rot_matrix().")
+        return self.as_matrix44()
 
