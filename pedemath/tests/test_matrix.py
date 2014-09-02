@@ -244,3 +244,64 @@ class Matrix44MultTestCase(unittest.TestCase):
             for row in range(4):
                 self.assertEqual(result.data[col][row],
                                  expected_array[col][row])
+
+
+class InvertAffineMat44TestCase(unittest.TestCase):
+    """Test invert_affine_mat44()'s ability to invert affine matrices."""
+
+    def test_invert_mat4(self):
+        """Ensure that a transform matrix * its
+        invert is an identity matrix.
+        """
+
+        from pedemath.quat import Quat
+        from pedemath.matrix import invert_affine_mat44
+
+        mat = Quat.from_axis_angle(Vec3(-1, 2, -3), -40).as_matrix44()
+        trans_mat = Matrix44.from_trans((-7, -8, -9))
+        mat *= trans_mat
+
+        inverted = invert_affine_mat44(mat)
+        ident = Matrix44()
+
+        self.assertTrue(ident.almost_equal(mat * inverted))
+        self.assertTrue(ident.almost_equal(inverted * mat))
+
+    def test_invert_transform_transform_pt(self):
+        """Ensure that invert_transform can produce
+        a matrix that reverts a transformed point to
+        its original value.
+        """
+
+        from pedemath.quat import Quat
+        from pedemath.matrix import invert_affine_mat44
+
+        mat1 = Quat.from_axis_angle(Vec3(1, 2, 3), 40).as_matrix44()
+        trans_mat1 = Matrix44.from_trans((-7, -8, 9))
+        mat1 *= trans_mat1
+
+        mat2 = Quat.from_axis_angle(Vec3(-5, 2, -4), 40).as_matrix44()
+        trans_mat2 = Matrix44.from_trans((-2, -5, 3))
+        mat2 *= trans_mat2
+
+        combined_mat = mat1 * mat2
+
+        combined_mat_inverse = invert_affine_mat44(combined_mat)
+
+        pt = Vec3(3, -4, 5)
+
+        # Transform point
+        transformed_pt = combined_mat * pt
+        # Transform with inverse of matrix.
+        reverted_pt = combined_mat_inverse * transformed_pt
+
+        self.assertTrue(pt.almost_equal(reverted_pt, 5))
+
+        # Also inverse mat1 and mat2 individually.
+        mat1_inverse = invert_affine_mat44(mat1)
+        mat2_inverse = invert_affine_mat44(mat2)
+
+        self.assertTrue(
+            combined_mat_inverse.almost_equal(
+                mat2_inverse * mat1_inverse, places=5))
+

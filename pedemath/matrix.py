@@ -6,9 +6,11 @@ A 4x4 matrix class stored in column major order for easier use with OpenGL.
 
 import math
 
+import numpy
 from numpy import array
 from numpy import dot
 
+from pedemath.vec3 import _float_almost_equal
 from pedemath.vec3 import Vec3
 
 _np_column_major_order = "F"
@@ -49,6 +51,42 @@ def transpose_mat44(src_mat, transpose_mat=None):
     return transpose_mat
 
 
+def is_affine_mat44(mat):
+    """Return True if only tranlsate, rotate, and uniform scale components."""
+
+    # Ensure scale is uniform
+    if not (mat.data[0][0] == mat.data[1][1] == mat.data[2][2]):
+        return False
+
+    # Ensure row [3] is 0, 0, 0, 1
+    return (mat.data[0][3] == 0 and
+            mat.data[1][3] == 0 and
+            mat.data[2][3] == 0 and
+            mat.data[3][3] == 1)
+
+
+def invert_affine_mat44(mat):
+    """Assumes there is only rotate, translate, and uniform scale componenets
+    to the matrix.
+    """
+
+    inverted = Matrix44()
+
+    # Transpose the 3x3 rotation component
+    for i in range(3):
+        for j in range(3):
+            inverted.data[i][j] = mat.data[j][i]
+
+    # Set translation: inverted_trans_vec3 = -inv(rot_mat33) * trans_vec3
+    for row in range(3):
+        inverted.data[3][row] = (
+            -inverted.data[0][row] * mat.data[3][0] +
+            -inverted.data[1][row] * mat.data[3][1] +
+            -inverted.data[2][row] * mat.data[3][2])
+
+    return inverted
+
+
 class Matrix44(object):
     # Use column-major order  data[col][row]  for OpenGL compatibility.
     # TODO: write a similar class with numpy or just use and test perf.
@@ -70,6 +108,15 @@ class Matrix44(object):
                            [0, 0, 1, 0],
                            [0, 0, 0, 1]], dtype="float32",
                           order=_np_column_major_order)
+
+    def is_identity(self):
+        return numpy.array_equal(
+            self.data,
+            array([[1, 0, 0, 0],  # Note: columns look like rows here
+                   [0, 1, 0, 0],
+                   [0, 0, 1, 0],
+                   [0, 0, 0, 1]], dtype="float32",
+                  order=_np_column_major_order))
 
     def __str__(self):
         """Return a readable string representation of Matrix44.
@@ -166,6 +213,27 @@ class Matrix44(object):
 
         return True
 
+    def almost_equal(self, mat2, places=7):
+        """Return True if the values in mat2 equal the values in this
+        matrix.
+        """
+
+        if not hasattr(mat2, "data"):
+            return False
+
+        for i in range(4):
+            if not (_float_almost_equal(self.data[i][0],
+                                        mat2.data[i][0], places) and
+                    _float_almost_equal(self.data[i][1],
+                                        mat2.data[i][1], places) and
+                    _float_almost_equal(self.data[i][2],
+                                        mat2.data[i][2], places) and
+                    _float_almost_equal(self.data[i][3],
+                                        mat2.data[i][3], places)):
+                return False
+
+        return True
+
     def set_x(self, vec3_a):
         self.data[0][0] = vec3_a[0]
         self.data[0][1] = vec3_a[1]
@@ -248,6 +316,14 @@ class Matrix44(object):
 
     def get_trans(self):
         return Vec3(*self.data[3][:3])
+
+    def set_trans(self, trans_vec):
+        """Set the translation components of the matrix."""
+
+        # Column major,  translation components in column 3.
+        self.data[3][0] = trans_vec[0]
+        self.data[3][1] = trans_vec[1]
+        self.data[3][2] = trans_vec[2]
 
     @staticmethod
     def from_rot_x(angle_degrees):

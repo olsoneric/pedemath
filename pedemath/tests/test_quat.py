@@ -99,19 +99,19 @@ class TestFromAxisAngle(unittest.TestCase):
             self.assertAlmostEqual(expected[i], z_quat[i])
 
 
-class TestGetRotMatrix(unittest.TestCase):
-    """Test Quat.get_rot_matrix()."""
+class TestAsMatrix44TestCase(unittest.TestCase):
+    """Test Quat.as_matrix44()."""
 
-    def test_get_rot_matrix(self):
+    def test_as_matrix44(self):
         quat = Quat(0, 0, 0, 1)
-        mat = quat.get_rot_matrix()
+        mat = quat.as_matrix44()
 
         self.assertTrue(mat == Matrix44())
 
     def test_get_matrix_45_x(self):
         # 45 deg x rotation
         quat = Quat.from_axis_angle(Vec3(1, 0, 0), 45.)
-        mat_from_quat = quat.get_rot_matrix()
+        mat_from_quat = quat.as_matrix44()
         mat = Matrix44.from_rot_x(45.)
 
         for i in range(4):
@@ -122,7 +122,7 @@ class TestGetRotMatrix(unittest.TestCase):
     def test_get_matrix_45_y(self):
         # 45 deg y rotation
         quat = Quat.from_axis_angle(Vec3(0, 1, 0), 45.)
-        mat_from_quat = quat.get_rot_matrix()
+        mat_from_quat = quat.as_matrix44()
         mat = Matrix44.from_rot_y(45.)
 
         for i in range(4):
@@ -133,7 +133,7 @@ class TestGetRotMatrix(unittest.TestCase):
     def test_get_matrix_45_z(self):
         # 45 deg z rotation
         quat = Quat.from_axis_angle(Vec3(0, 0, 1), 45.)
-        mat_from_quat = quat.get_rot_matrix()
+        mat_from_quat = quat.as_matrix44()
         mat = Matrix44.from_rot_z(45.)
 
         for i in range(4):
