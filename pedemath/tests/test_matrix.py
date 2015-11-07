@@ -130,6 +130,41 @@ class Matrix44MultTestCase(unittest.TestCase):
                 self.assertEqual(result.data[i][j],
                                  expected_array[i][j])
 
+    def test_r_multiply(self):
+        """Test __rmul__ matrix multiplication.
+
+        Example: matrix1 *= matrix2
+        """
+
+        from numpy import array
+        column_major_order = "F"
+
+        m1 = Matrix44()
+
+        m2 = Matrix44()
+        for i in range(4):
+            m1.data[0][i] = (i+1)
+            m2.data[i][0] = (i+1) * 10
+
+        # |1 0 0 0|     |10 20 30 40|
+        # |2 1 0 0|  *  |0 1 0 0|
+        # |3 0 1 0|     |0 0 1 0|
+        # |4 0 0 1|     |0 0 0 1|
+
+        m1 *= m2
+
+        expected_array = array([
+            [10, 20, 30, 40],  # Note: columns look like rows here
+            [20, 41, 60, 80],
+            [30, 60, 91, 120],
+            [40, 80, 120, 161]], dtype="float32",
+            order=column_major_order)
+
+        for i in range(4):
+            for j in range(4):
+                self.assertEqual(m1.data[i][j],
+                                 expected_array[i][j])
+
     def test_multiply_b(self):
         """Test matrix multiplication with all non-zero values."""
 
