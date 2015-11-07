@@ -131,7 +131,10 @@ class Matrix44MultTestCase(unittest.TestCase):
                                  expected_array[i][j])
 
     def test_r_multiply(self):
-        """Test simple matrix multiplication."""
+        """Test __rmul__ matrix multiplication.
+
+        Example: matrix1 *= matrix2
+        """
 
         from numpy import array
         column_major_order = "F"
