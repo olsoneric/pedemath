@@ -189,10 +189,9 @@ class Vec2(object):
     def __ne__(self, v2):
         """Return True if x != v2.x or y != 2.y"""
 
-        if self.x != v2.x or self.y != v2.y:
-            return True
-
-        return False
+        return not (
+            hasattr(v2, "x") and
+            self.x == v2.x and self.y == v2.y)
 
     def normalize(self):
         """Make this vector a unit vector."""
@@ -385,7 +384,7 @@ class Vec2(object):
     #  is raised to prevent accidental multiplies with numbers?
     #  Example:   1 * Vec2(1, 2)
     #
-    #def __rmul__(self, multiplicand):
+    # def __rmul__(self, multiplicand):
     #    """Divide self.x and self.y by divisor, /= """
     #
     #    return Vec2(self.x * multiplicand, self.y * multiplicand)
@@ -393,7 +392,10 @@ class Vec2(object):
     def __div__(self, divisor):
         """Return a new Vec2 with self.x and self.y divided by divisor."""
 
-        return Vec2(self.x / divisor, self.y / divisor)
+        if type(divisor) is float or type(divisor) is int:
+            return Vec2(self.x / divisor, self.y / divisor)
+        else:
+            raise TypeError("Can't divide two vectors or non-numbers.")
 
     def __idiv__(self, divisor):
         """Divide self.x and self.y by divisor, /= """

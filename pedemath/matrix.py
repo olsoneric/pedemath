@@ -256,6 +256,10 @@ class Matrix44(object):
         # We are using column-major format, the same as OpenGL
         return self.data
 
+    def set_data_gl(self, data_array):
+        # We are using column-major format like OpenGL.  Copy the data.
+        self.data.flat[:] = data_array
+
     @staticmethod
     def from_axis_angle(axis, angle):
         c = math.cos(angle)
