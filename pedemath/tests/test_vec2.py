@@ -246,6 +246,16 @@ class Vec2NegEqNeTestCase(unittest.TestCase):
 
         self.assertTrue(a != b)
 
+    def test_vec2_ne_is_true_with_non_vec(self):
+        """Ensure __ne__ with non-vec2 type returns True instead of erroring
+        like it used to.
+        """
+
+        a = Vec2(2, 3)
+        b = "Blah"
+
+        self.assertsTrue(a != b)
+
     def test_vec2_ne_is_false(self):
         """Ensure -Vec2 returns a Vec2 with -x and -y."""
 

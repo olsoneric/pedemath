@@ -189,10 +189,9 @@ class Vec2(object):
     def __ne__(self, v2):
         """Return True if x != v2.x or y != 2.y"""
 
-        if self.x != v2.x or self.y != v2.y:
-            return True
-
-        return False
+        return not (
+            hasattr(v2, "x") and
+            self.x == v2.x and self.y == v2.y)
 
     def normalize(self):
         """Make this vector a unit vector."""
