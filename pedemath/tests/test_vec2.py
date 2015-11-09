@@ -254,7 +254,7 @@ class Vec2NegEqNeTestCase(unittest.TestCase):
         a = Vec2(2, 3)
         b = "Blah"
 
-        self.assertsTrue(a != b)
+        self.assertTrue(a != b)
 
     def test_vec2_ne_is_false(self):
         """Ensure -Vec2 returns a Vec2 with -x and -y."""
@@ -1047,6 +1047,20 @@ class Vec2DivTestCase(unittest.TestCase):
         result_vec = vec_a / 5
 
         self.assertEqual(result_vec, Vec2(0.4, 3))
+
+    def test_div_non_num_raises_type_error(self):
+        """Ensure __div__ raises a type error if divided by a non-number."""
+
+        vec_a = Vec2(2, 15)
+        vec_b = Vec2()
+
+        type_error_raised = False
+        try:
+            result_vec = vec_a / vec_b
+        except TypeError:
+            type_error_raised = True
+
+        self.assertTrue(type_error_raised)
 
     def test_idiv_with_int_scalar_argument(self):
         """Ensure __idiv__ modifies Vec2 in place and divides by divisor."""
