@@ -1,9 +1,9 @@
-
 """
 Matrix44
 A 4x4 matrix class stored in column major order for easier use with OpenGL.
 """
 
+from __future__ import print_function
 import math
 
 import numpy
@@ -400,68 +400,68 @@ def rotate_v3f_deg_xyz(vec_a, rot):
 if __name__ == "__main__":
     # TODO: Finish moving all these to unittests.
 
-    print "Identity:"
+    print("Identity:")
     m = Matrix44()
-    print m.data
+    print(m.data)
 
-    print "Add:"
+    print("Add:")
     m2 = Matrix44()
     m2.data[0][0] = 5
     m2.data[0][1] = 5
     m2.data[0][2] = 5
     m2.data[0][3] = 5
-    print (m + m2).data
+    print((m + m2).data)
 
-    print "Subtract:"
-    print (m - m2).data
+    print("Subtract:")
+    print((m - m2).data)
 
-    print "Multiply:"
-    print (m * m2).data
+    print("Multiply:")
+    print((m * m2).data)
 
-    print "matrix44_trans:"
+    print("matrix44_trans:")
     m3 = matrix44_trans(Vec3(2, 3, 4))
-    print m3.data
+    print(m3.data)
 
-    print "matrix44_rot_y:"
+    print("matrix44_rot_y:")
     m4 = matrix44_rot_y(45)
-    print m4.data
+    print(m4.data)
 
-    print "unit x vec rotated by 45:"
+    print("unit x vec rotated by 45:")
     v = Vec3(1, 0, 0)
-    print m4 * v
+    print(m4 * v)
 
-    print "unit x vec rotated by 180:"
-    print matrix44_rot_y(180) * v
+    print("unit x vec rotated by 180:")
+    print(matrix44_rot_y(180) * v)
 
-    print "unit x vec translateed by -5,6,-7:"
-    print matrix44_trans(Vec3(-5, 6, -7)) * v
+    print("unit x vec translateed by -5,6,-7:")
+    print(matrix44_trans(Vec3(-5, 6, -7)) * v)
 
-    print "translated and rotated origin:"
-    print matrix44_rot_y(45) * matrix44_trans(Vec3(1, 0, 0)) * Vec3(0, 0, 0)
-    print "a:", matrix44_trans(Vec3(1, 0, 0)) * Vec3(0, 0, 0)
-    print "b:", matrix44_rot_y(45) * (
-        matrix44_trans(Vec3(1, 0, 0)) * Vec3(0, 0, 0))
+    print("translated and rotated origin:")
+    print(matrix44_rot_y(45) * matrix44_trans(Vec3(1, 0, 0)) * Vec3(0, 0, 0))
+    print("a:", matrix44_trans(Vec3(1, 0, 0)) * Vec3(0, 0, 0))
+    print("b:", matrix44_rot_y(45) * (
+        matrix44_trans(Vec3(1, 0, 0)) * Vec3(0, 0, 0)))
     c = matrix44_rot_y(45) * matrix44_trans(Vec3(1, 0, 0))
-    print "c:", c
-    print "c.5:", c*Vec3(0, 0, 0)
-    print "d:", matrix44_rot_y(45) * matrix44_trans(
-        Vec3(1, 0, 0)) * Vec3(1, 0, 0)
-    print "e:", matrix44_trans(Vec3(1, 0, 0)) * matrix44_trans(
+    print("c:", c)
+    print("c.5:", c*Vec3(0, 0, 0))
+    print("d:", matrix44_rot_y(45) * matrix44_trans(
+        Vec3(1, 0, 0)) * Vec3(1, 0, 0))
+    print("e:", matrix44_trans(Vec3(1, 0, 0)) * matrix44_trans(
         Vec3(1, 0, 0)) * matrix44_trans(Vec3(0, 1, 0)) * matrix44_trans(
-            Vec3(0, 0, 1))
-    print "f:", matrix44_rot_y(45) * Vec3(1, 0, 0)
-    print "right:", (matrix44_rot_y(45) * matrix44_trans(
-        Vec3(1, 0, 0))) * Vec3(0, 0, 0)
-    print "right 2 (r t i):", (matrix44_rot_y(45) * matrix44_trans(
-        Vec3(1, 0, 0))) * Vec3(0, 0, 1)
-    print "right 3 (t r i):", (matrix44_trans(
-        Vec3(1, 0, 0)) * matrix44_rot_y(45)) * Vec3(0, 0, 1)
-    print "      3b (t r i):", (matrix44_trans(
-        Vec3(1, 0, 0)) * matrix44_rot_y(45)) * Vec3(0, 0, 1)
-    print "correct 4 (t r i):", (matrix44_trans(
-        Vec3(1, 0, 0)) * matrix44_rot_y(90)) * Vec3(0, 0, 1)
-    print "        4a (t r i):", matrix44_rot_y(90) * Vec3(0, 0, 1)
+            Vec3(0, 0, 1)))
+    print("f:", matrix44_rot_y(45) * Vec3(1, 0, 0))
+    print("right:", (matrix44_rot_y(45) * matrix44_trans(
+        Vec3(1, 0, 0))) * Vec3(0, 0, 0))
+    print("right 2 (r t i):", (matrix44_rot_y(45) * matrix44_trans(
+        Vec3(1, 0, 0))) * Vec3(0, 0, 1))
+    print("right 3 (t r i):", (matrix44_trans(
+        Vec3(1, 0, 0)) * matrix44_rot_y(45)) * Vec3(0, 0, 1))
+    print("      3b (t r i):", (matrix44_trans(
+        Vec3(1, 0, 0)) * matrix44_rot_y(45)) * Vec3(0, 0, 1))
+    print("correct 4 (t r i):", (matrix44_trans(
+        Vec3(1, 0, 0)) * matrix44_rot_y(90)) * Vec3(0, 0, 1))
+    print("        4a (t r i):", matrix44_rot_y(90) * Vec3(0, 0, 1))
 
     rot_matrix = Matrix44.rot_from_vectors(Vec3(0, 0, -1), Vec3(0.0, -0.5, 0.0))
-    print "rot_matrix:", rot_matrix.data
-    print "rotated -z axis is:", rot_matrix * Vec3(0, 0, -1)
+    print("rot_matrix:", rot_matrix.data)
+    print("rotated -z axis is:", rot_matrix * Vec3(0, 0, -1))
