@@ -237,30 +237,6 @@ class Quat(object):
 
         return matrix
 
-        # TODO: check row vs col major order
-        # row 0
-        matrix.data[0][0] = 1 - 2 * self.y ** 2 - 2 * self.z ** 2
-        matrix.data[0][1] = 2 * self.x * self.y - 2 * self.w * self.z
-        matrix.data[0][2] = 2 * self.x * self.z + 2 * self.w * self.y
-        matrix.data[0][3] = 0
-        # row 1
-        matrix.data[1][0] = 2 * self.x * self.y - 2 * self.w * self.z
-        matrix.data[1][1] = 1 - 2 * self.x ** 2 - 2 * self.z ** 2
-        matrix.data[1][2] = 2 * self.y * self.z + 2 * self.w * self.x
-        matrix.data[1][3] = 0
-        # row 2
-        matrix.data[2][0] = 2 * self.x * self.z - 2 * self.w * self.y
-        matrix.data[2][1] = 2 * self.y * self.z - 2 * self.w * self.x
-        matrix.data[2][2] = 1 - 2 * self.x ** 2 - 2 * self.y ** 2
-        matrix.data[2][3] = 0
-        # row 3
-        matrix.data[3][0] = 0
-        matrix.data[3][1] = 0
-        matrix.data[3][2] = 0
-        matrix.data[3][3] = 1
-        return matrix
-
     def get_rot_matrix(self):
         logging.warning("Use as_rot_matrix44() instead of get_rot_matrix().")
         return self.as_matrix44()
-
