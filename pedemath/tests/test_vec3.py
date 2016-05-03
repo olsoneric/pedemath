@@ -413,7 +413,7 @@ class TestSumV3TestCase(unittest.TestCase):
     def test_sum_v3(self):
         from pedemath.vec3 import sum_v3
 
-        self.assertEquals(8, sum_v3(Vec3(1, 2, 5)))
+        self.assertEqual(8, sum_v3(Vec3(1, 2, 5)))
 
 
 class TestTranslateV3TestCase(unittest.TestCase):
@@ -422,8 +422,8 @@ class TestTranslateV3TestCase(unittest.TestCase):
     def test_translate_v3(self):
         from pedemath.vec3 import translate_v3
 
-        self.assertEquals(Vec3(3, 4, 7),
-                          translate_v3(Vec3(1, 2, 5), 2))
+        self.assertEqual(Vec3(3, 4, 7),
+                         translate_v3(Vec3(1, 2, 5), 2))
 
 
 class TestVec3IMulTestCase(unittest.TestCase):
@@ -436,7 +436,7 @@ class TestVec3IMulTestCase(unittest.TestCase):
 
         vec *= 2
 
-        self.assertEquals(Vec3(2, 4, 10), vec)
+        self.assertEqual(Vec3(2, 4, 10), vec)
 
     def test_vec3_imul_invalid_vector_arg(self):
         """Ensure a type error is raised if imul is used with a vector
@@ -458,7 +458,7 @@ class TestVec3IMulTestCase(unittest.TestCase):
 
         vec.scale(2)
 
-        self.assertEquals(Vec3(2, 4, 10), vec)
+        self.assertEqual(Vec3(2, 4, 10), vec)
 
 
 class TestScaleV3TestCase(unittest.TestCase):
@@ -467,8 +467,8 @@ class TestScaleV3TestCase(unittest.TestCase):
     def test_scale_v3(self):
         from pedemath.vec3 import scale_v3
 
-        self.assertEquals(Vec3(2, 4, 10),
-                          scale_v3(Vec3(1, 2, 5), 2))
+        self.assertEqual(Vec3(2, 4, 10),
+                         scale_v3(Vec3(1, 2, 5), 2))
 
 
 class TestVec3NormalizeTestCase(unittest.TestCase):
@@ -482,7 +482,7 @@ class TestVec3NormalizeTestCase(unittest.TestCase):
 
         expected = scale_v3(Vec3(3, 4, 5), 1.0 / math.sqrt(50))
 
-        self.assertEquals(vec1, expected)
+        self.assertEqual(vec1, expected)
 
 
 class TestNormalizeV3TestCase(unittest.TestCase):
@@ -495,7 +495,7 @@ class TestNormalizeV3TestCase(unittest.TestCase):
         normalized = normalize_v3(Vec3(3, 4, 5))
         expected = scale_v3(Vec3(3, 4, 5), 1.0 / math.sqrt(50))
 
-        self.assertEquals(normalized, expected)
+        self.assertEqual(normalized, expected)
 
 
 class TestVec3DotTestCase(unittest.TestCase):
@@ -510,7 +510,7 @@ class TestVec3DotTestCase(unittest.TestCase):
 
         expected = 3 * 2 + 4 * 3 + 5 * 4
 
-        self.assertEquals(dot, expected)
+        self.assertEqual(dot, expected)
 
 
 class TestDotV3TestCase(unittest.TestCase):
@@ -524,7 +524,7 @@ class TestDotV3TestCase(unittest.TestCase):
         dot = dot_v3(Vec3(3, 4, 5), Vec3(2, 3, 4))
         expected = 3 * 2 + 4 * 3 + 5 * 4
 
-        self.assertEquals(dot, expected)
+        self.assertEqual(dot, expected)
 
 
 class TestVec3CrossTestCase(unittest.TestCase):
@@ -539,7 +539,7 @@ class TestVec3CrossTestCase(unittest.TestCase):
 
         expected = Vec3(0, 0, 1)
 
-        self.assertEquals(cross, expected)
+        self.assertEqual(cross, expected)
 
     # TODO: add more crossproduct test cases
 
@@ -555,7 +555,7 @@ class TestCrossV3TestCazse(unittest.TestCase):
         cross = cross_v3(Vec3(0, -1, 0), Vec3(0, 0, -1))
         expected = Vec3(1, 0, 0)
 
-        self.assertEquals(cross, expected)
+        self.assertEqual(cross, expected)
 
 
 class TestVec3UnaryNegativeTestCase(unittest.TestCase):
@@ -567,7 +567,7 @@ class TestVec3UnaryNegativeTestCase(unittest.TestCase):
 
         result = -vec
 
-        self.assertEquals(result, Vec3(-3, -4, -5))
+        self.assertEqual(result, Vec3(-3, -4, -5))
 
 
 class TestNegV3TestCase(unittest.TestCase):
@@ -582,7 +582,7 @@ class TestNegV3TestCase(unittest.TestCase):
 
         result = neg_v3(vec)
 
-        self.assertEquals(result, Vec3(-3, -4, -5))
+        self.assertEqual(result, Vec3(-3, -4, -5))
 
 
 class TestVec3Square(unittest.TestCase):
@@ -662,7 +662,7 @@ class TestProjectionV3TestCase(unittest.TestCase):
 
         result = projection_v3(vec_a, vec_b)
 
-        self.assertEquals(3, result)
+        self.assertEqual(3, result)
 
     def test_projection_v3_y(self):
         """Ensure projection_v3(), correctly returns the resulting length
@@ -675,7 +675,7 @@ class TestProjectionV3TestCase(unittest.TestCase):
 
         result = projection_v3(vec_a, vec_b)
 
-        self.assertEquals(4, result)
+        self.assertEqual(4, result)
 
     def test_projection_v3_z(self):
         """Ensure projection_v3(), correctly returns the resulting length
@@ -689,7 +689,7 @@ class TestProjectionV3TestCase(unittest.TestCase):
 
         result = projection_v3(vec_a, vec_b)
 
-        self.assertEquals(5, result)
+        self.assertEqual(5, result)
 
 
 class TestRotateAroundV3TestCase(unittest.TestCase):

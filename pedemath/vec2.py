@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
 
 import math
 
@@ -438,10 +439,10 @@ class Vec2(object):
 if __name__ == "__main__":
     # Example
     a = Vec2(1, 2)
-    print "a:", a
-    print "a + 5", a + 5
-    print "a * 5", a * 5
-    print "a - a", a - a
+    print("a:", a)
+    print("a + 5", a + 5)
+    print("a * 5", a * 5)
+    print("a - a", a - a)
     b = Vec2(a.x, a.y)
     b -= 5
-    print "b -= 5", b
+    print("b -= 5", b)
