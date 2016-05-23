@@ -240,3 +240,43 @@ class Quat(object):
     def get_rot_matrix(self):
         logging.warning("Use as_rot_matrix44() instead of get_rot_matrix().")
         return self.as_matrix44()
+
+    @staticmethod
+    def from_matrix44(mat):
+        """Create a new Quat from a Matrix44.
+
+        Note that the matrix and indexes are column major.
+        """
+
+        # Matrix trace
+        trace = mat.data[0][0] + mat.data[1][1] + mat.data[2][2] + 1.0
+
+        if trace > 0.00000001:
+            # n4 is norm of quaternion multiplied by 4.
+            n4 = math.sqrt(trace) * 2
+            return Quat((mat.data[1][2] - mat.data[2][1]) / n4,  # x
+                        (mat.data[2][0] - mat.data[0][2]) / n4,  # y
+                        (mat.data[0][1] - mat.data[1][0]) / n4,  # z
+                        n4 / 4.0)                                # w
+
+        # TODO: unittests for code below when trace is small.
+
+        # matrix trace <= 0
+        if a[0][0] > a[1][1] and a[0][0] > a[2][2]:
+            s = 2.0 * math.sqrt(1.0 + a[0][0] - a[1][1] - a[2][2])
+            return Quat(n4 / 4.0,                             # x
+                        mat.data[1][0] + mat.data[0][1] / s,  # y
+                        mat.data[2][0] + mat.data[0][2] / s,  # z
+                        mat.data[2][1] - mat.data[1][2] / s)  # w
+        elif a[1][1] > a[2][2]:
+            s = 2.0 * math.sqrt(1.0 - a[0][0] + a[1][1] - a[2][2])
+            return Quat(mat.data[1][0] + mat.data[0][1] / s,  # x
+                        n4 / 4.0,                             # y
+                        mat.data[2][1] + mat.data[1][2] / s,  # z
+                        mat.data[2][0] - mat.data[0][2] / s)  # w
+        else:
+            s = 2.0 * math.sqrt(1.0 - a[0][0] - a[1][1] + a[2][2])
+            return Quat(mat.data[2][0] + mat.data[0][2] / s,  # x
+                        mat.data[2][1] + mat.data[1][2] / s,  # y
+                        n4 / 4.0,                             # z
+                        mat.data[1][0] - mat.data[0][1] / s)  # w
