@@ -340,3 +340,84 @@ class InvertAffineMat44TestCase(unittest.TestCase):
             combined_mat_inverse.almost_equal(
                 mat2_inverse * mat1_inverse, places=5))
 
+
+class Matrix44FromAxisAngleTestCase(unittest.TestCase):
+    """Test Matrix44.from_axis_angle_deg()."""
+
+    def test_x_rot(self):
+        """Test Matrix44.from_axis_angle_deg() with an x rotation."""
+
+        mat = Matrix44.from_axis_angle_deg(Vec3(1, 0, 0), 90)
+
+        # Column 0
+        self.assertAlmostEqual(mat.data[0][0], 1)
+        self.assertAlmostEqual(mat.data[0][1], 0)
+        self.assertAlmostEqual(mat.data[0][2], 0)
+        self.assertAlmostEqual(mat.data[0][3], 0)
+        # Column 1
+        self.assertAlmostEqual(mat.data[1][0], 0)
+        self.assertAlmostEqual(mat.data[1][1], 0)
+        self.assertAlmostEqual(mat.data[1][2], 1)
+        self.assertAlmostEqual(mat.data[1][3], 0)
+        # Column 2
+        self.assertAlmostEqual(mat.data[2][0], 0)
+        self.assertAlmostEqual(mat.data[2][1], -1)
+        self.assertAlmostEqual(mat.data[2][2], 0)
+        self.assertAlmostEqual(mat.data[2][3], 0)
+        # Column 3
+        self.assertAlmostEqual(mat.data[3][0], 0)
+        self.assertAlmostEqual(mat.data[3][1], 0)
+        self.assertAlmostEqual(mat.data[3][2], 0)
+        self.assertAlmostEqual(mat.data[3][3], 1)
+
+    def test_y_rot(self):
+        """Test Matrix44.from_axis_angle_deg() with a y rotation."""
+
+        mat = Matrix44.from_axis_angle_deg(Vec3(0, 1, 0), 90)
+
+        # Column 0
+        self.assertAlmostEqual(mat.data[0][0], 0)
+        self.assertAlmostEqual(mat.data[0][1], 0)
+        self.assertAlmostEqual(mat.data[0][2], -1)
+        self.assertAlmostEqual(mat.data[0][3], 0)
+        # Column 1
+        self.assertAlmostEqual(mat.data[1][0], 0)
+        self.assertAlmostEqual(mat.data[1][1], 1)
+        self.assertAlmostEqual(mat.data[1][2], 0)
+        self.assertAlmostEqual(mat.data[1][3], 0)
+        # Column 2
+        self.assertAlmostEqual(mat.data[2][0], 1)
+        self.assertAlmostEqual(mat.data[2][1], 0)
+        self.assertAlmostEqual(mat.data[2][2], 0)
+        self.assertAlmostEqual(mat.data[2][3], 0)
+        # Column 3
+        self.assertAlmostEqual(mat.data[3][0], 0)
+        self.assertAlmostEqual(mat.data[3][1], 0)
+        self.assertAlmostEqual(mat.data[3][2], 0)
+        self.assertAlmostEqual(mat.data[3][3], 1)
+
+    def test_z_rot(self):
+        """Test Matrix44.from_axis_angle_deg() with a z rotation."""
+
+        mat = Matrix44.from_axis_angle_deg(Vec3(0, 0, 1), 90)
+
+        # Column 0
+        self.assertAlmostEqual(mat.data[0][0], 0)
+        self.assertAlmostEqual(mat.data[0][1], 1)
+        self.assertAlmostEqual(mat.data[0][2], 0)
+        self.assertAlmostEqual(mat.data[0][3], 0)
+        # Column 1
+        self.assertAlmostEqual(mat.data[1][0], -1)
+        self.assertAlmostEqual(mat.data[1][1], 0)
+        self.assertAlmostEqual(mat.data[1][2], 0)
+        self.assertAlmostEqual(mat.data[1][3], 0)
+        # Column 2
+        self.assertAlmostEqual(mat.data[2][0], 0)
+        self.assertAlmostEqual(mat.data[2][1], 0)
+        self.assertAlmostEqual(mat.data[2][2], 1)
+        self.assertAlmostEqual(mat.data[2][3], 0)
+        # Column 3
+        self.assertAlmostEqual(mat.data[3][0], 0)
+        self.assertAlmostEqual(mat.data[3][1], 0)
+        self.assertAlmostEqual(mat.data[3][2], 0)
+        self.assertAlmostEqual(mat.data[3][3], 1)
