@@ -11,6 +11,7 @@ from numpy import array
 from numpy import dot
 
 from pedemath.vec3 import _float_almost_equal
+from pedemath.vec3 import normalize_v3
 from pedemath.vec3 import Vec3
 
 _np_column_major_order = "F"
@@ -261,18 +262,18 @@ class Matrix44(object):
         self.data.flat[:] = data_array
 
     @staticmethod
-    def from_axis_angle(axis, angle):
-        c = math.cos(angle)
-        s = math.sin(angle)
+    def from_axis_angle_deg(axis, angle_deg):
+        return Matrix44.from_axis_angle_rad(axis, angle_deg * math.pi / 180.)
+
+    @staticmethod
+    def from_axis_angle_rad(axis, angle_rad):
+
+        c = math.cos(angle_rad)
+        s = math.sin(angle_rad)
         t = 1.0 - c
+
         # normalize
-        axis_length = axis.length()
-
-        #raise if length is < 0?
-
-        axis.x /= axis_length
-        axis.y /= axis_length
-        axis.z /= axis_length
+        axis = normalize_v3(axis)
 
         m = Matrix44()
         m.data[0][0] = c + axis.x*axis.x*t
@@ -281,16 +282,16 @@ class Matrix44(object):
 
         tmp1 = axis.x * axis.y * t
         tmp2 = axis.z * s
-        m.data[1][0] = tmp1 + tmp2
-        m.data[0][1] = tmp1 - tmp2
+        m.data[0][1] = tmp1 + tmp2
+        m.data[1][0] = tmp1 - tmp2
         tmp1 = axis.x * axis.z * t
         tmp2 = axis.y * s
-        m.data[2][0] = tmp1 - tmp2
-        m.data[0][2] = tmp1 + tmp2
+        m.data[0][2] = tmp1 - tmp2
+        m.data[2][0] = tmp1 + tmp2
         tmp1 = axis.y*axis.z*t
         tmp2 = axis.x*s
-        m.data[2][1] = tmp1 + tmp2
-        m.data[1][2] = tmp1 - tmp2
+        m.data[1][2] = tmp1 + tmp2
+        m.data[2][1] = tmp1 - tmp2
 
         return m
 
