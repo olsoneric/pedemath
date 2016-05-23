@@ -170,3 +170,90 @@ class RotateVecTestCase(unittest.TestCase):
     # TODO: more rotate_vec angles tested?
 
 
+class FromMatrix44TestCase(unittest.TestCase):
+    """Test Quat.from_matrix44()."""
+
+    def test_x_rot(self):
+        """Test that Quat.from_mat() works correctly for an x rotation."""
+
+        # Create a Matrix representing 90 deg x rot.
+        mat = Matrix44.from_rot_x(90)
+        # Use from_matrix44()
+        quat = Quat.from_matrix44(mat)
+
+        # Ensure the quat matches a 90 degree x rotation.
+        expected = Quat.from_axis_angle(Vec3(1, 0, 0), 90)
+        self.assertEqual(quat, expected)
+
+    def test_y_rot(self):
+        """Test that Quat.from_mat() works correctly for an y rotation."""
+
+        # Create a Matrix representing 90 deg y rot.
+        mat = Matrix44.from_rot_y(90)
+        # Use from_matrix44()
+        quat = Quat.from_matrix44(mat)
+
+        # Ensure the quat matches a 90 degree x rotation.
+        expected = Quat.from_axis_angle(Vec3(0, 1, 0), 90)
+        self.assertEqual(quat, expected)
+
+    def test_z_rot(self):
+        """Test that Quat.from_mat() works correctly for an z rotation."""
+
+        # Create a Matrix representing 90 deg z rot.
+        mat = Matrix44.from_rot_z(90)
+        # Use from_matrix44()
+        quat = Quat.from_matrix44(mat)
+
+        # Ensure the quat matches a 90 degree x rotation.
+        expected = Quat.from_axis_angle(Vec3(0, 0, 1), 90)
+        self.assertEqual(quat, expected)
+
+    def test_neg_x_rot(self):
+        """Test that Quat.from_mat() works correctly for a negative x
+        rotation.
+        """
+
+        # Create a Matrix representing -90 deg x rot.
+        mat = Matrix44.from_rot_x(-90)
+        # Use from_matrix44()
+        quat = Quat.from_matrix44(mat)
+
+        # Ensure the quat matches a -90 degree x rotation.
+        expected = Quat.from_axis_angle(Vec3(1, 0, 0), -90)
+        self.assertEqual(quat, expected)
+
+    def test_small_x_rot(self):
+        """Test that Quat.from_mat() works correctly for a negative x
+        rotation.
+        """
+
+        # Create a Matrix representing 90 deg x rot.
+        mat = Matrix44.from_rot_x(0.001)
+        # Use from_matrix44()
+        quat = Quat.from_matrix44(mat)
+
+        # Ensure the quat matches the small degree x rotation.
+        expected = Quat.from_axis_angle(Vec3(1, 0, 0), 0.001)
+        self.assertAlmostEqual(quat.x, expected.x)
+        self.assertAlmostEqual(quat.y, expected.y)
+        self.assertAlmostEqual(quat.z, expected.z)
+        self.assertAlmostEqual(quat.w, expected.w)
+
+    def test_x_y_and_z_rot(self):
+        """Test that Quat.from_mat() works correctly when there's a rotation
+        on all axes.
+        """
+
+        axis = Vec3(4, 5, 6)
+        # Create a Matrix representing a rotation.
+        mat = Matrix44.from_axis_angle_deg(axis, 45.0)
+        # Use from_matrix44()
+        quat = Quat.from_matrix44(mat)
+
+        # Ensure it matches the expected quaternion.
+        expected_quat = Quat.from_axis_angle(axis, 45.0)
+        self.assertAlmostEqual(quat.x, expected_quat.x)
+        self.assertAlmostEqual(quat.y, expected_quat.y)
+        self.assertAlmostEqual(quat.z, expected_quat.z)
+        self.assertAlmostEqual(quat.w, expected_quat.w)
