@@ -285,10 +285,15 @@ class Vec3(object):
                     self.x * vec.y - self.y * vec.x)
 
     def set(self, x, y, z):
-        """Set x, y, and z components."""
+        """Set x, y, and z components.
+        
+        Also return self.
+        """
         self.x = x
         self.y = y
         self.z = z
+
+        return self
 
     def square(self):
         """ square the components """

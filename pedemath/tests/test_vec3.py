@@ -381,6 +381,24 @@ class Vec3GetItemTestCase(unittest.TestCase):
         self.assertRaises(IndexError, vec.__getitem__, 5)
 
 
+class Vec3SetTestCase(unittest.TestCase):
+    """Test Vec3.set(x, y, z)."""
+
+    def test_setitem(self):
+        """Ensure that we can set values with Vec3.set(x, y, z)."""
+
+        vec = Vec3(4, 5, 6)
+
+        # Set the values with .set()
+        result = vec.set(7, 8, 9)
+
+        # Ensure the values got set.
+        self.assertEqual(Vec3(7, 8, 9), vec)
+        # Ensure the object was also returned
+        self.assertIs(result, vec)
+
+
+
 class Vec3SetItemTestCase(unittest.TestCase):
     """Test Vec3.__setitem() for uses such as: vec[1] = 5."""
 
