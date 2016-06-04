@@ -319,7 +319,15 @@ class Matrix44(object):
         mat.data[3][2] = trans_vec[2]
         return mat
 
-    def get_trans(self):
+    def get_trans(self, out_vec=None):
+        """Return the translation portion of the matrix as a vector.
+
+        If out_vec is provided, store in out_vec instead of creating a new Vec3.
+        """
+
+        if out_vec:
+            return out_vec.set(*self.data[3][:3])
+
         return Vec3(*self.data[3][:3])
 
     def set_trans(self, trans_vec):

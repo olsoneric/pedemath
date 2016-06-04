@@ -21,6 +21,32 @@ class TestMatrix44MakeIdentity(unittest.TestCase):
                 else:
                     self.assertEqual(0, mat.data[j][i])
 
+class TestMatrix44GetTrans(unittest.TestCase):
+    """Test Matrix44.get_trans()."""
+
+    def test_vec3_returned(self):
+        """Ensure the position arguments are returned as a Vec3."""
+        matrix = Matrix44()
+        matrix.data[3][0] = 1
+        matrix.data[3][1] = 2
+        matrix.data[3][2] = 3
+
+        self.assertEqual(Vec3(1, 2, 3), matrix.get_trans())
+
+    def test_with_out_vec_arg(self):
+        """Ensure the position arguments are inserted into the Vec3 out_vec
+        arg and the out_vec is also returned.
+        """
+        matrix = Matrix44()
+        out_vec = Vec3(0, 0, 0)
+        matrix.data[3][0] = -1
+        matrix.data[3][1] = -2
+        matrix.data[3][2] = -3
+
+        result = matrix.get_trans(out_vec)
+        self.assertEqual(Vec3(-1, -2, -3), result)
+        self.assertIs(out_vec, result)
+
 
 class TestMatrix44MakeRot(unittest.TestCase):
     """Test Matrix44.from_rot_x(), from_rot_y() and from_rot_z()."""
