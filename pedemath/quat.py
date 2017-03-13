@@ -167,10 +167,15 @@ class Quat(object):
         return add_v3(vec, scale_v3(
             xyz.cross(xyz.cross(vec) + scale_v3(vec, self.w)), 2.0))
 
-    def to_euler_rad(self, euler_vec3):
-        """Returns euler angles"""
+    def to_euler_rad(self, dst_euler_vec3=None):
+        """Returns euler angles
 
-        # TODO: consolidated duplicated code in this function and to_euler_deg()
+        dst_euler_vec3 is an optional destination vector.
+        """
+
+        euler_vec3 = dst_euler_vec3 or Vec3(0.0, 0.0, 0.0)
+
+        # TODO consolidated duplicated code in this function and to_euler_deg()
         sqw = self.w * self.w
         sqx = self.x * self.x
         sqy = self.y * self.y
