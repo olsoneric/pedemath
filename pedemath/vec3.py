@@ -92,6 +92,21 @@ def projection_v3(v, w):
     return dot_v3(v, w) / w.length()
 
 
+def point_to_line(point, segment_start, segment_end):
+    """Given a point and a line segment, return the vector from the point to
+    the closest point on the segment.
+    """
+    # TODO: Needs unittests.
+
+    segment_vec = segment_end - segment_start
+    # t is distance along line
+    t = -(segment_start - point).dot(segment_vec) / (
+          segment_vec.length_squared())
+
+    closest_point = segment_start + scale_v3(segment_vec, t)
+    return point - closest_point
+
+
 def cross_v3(vec_a, vec_b):
     """Return the crossproduct between vec_a and vec_b."""
 
