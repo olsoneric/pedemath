@@ -286,7 +286,7 @@ class Quat(object):
         if mat.data[0][0] > mat.data[1][1] and mat.data[0][0] > mat.data[2][2]:
             s = 2.0 * math.sqrt(1.0 + mat.data[0][0] - mat.data[1][1] -
                                 mat.data[2][2])
-            self.x =s / 4.0
+            self.x = s / 4.0
             self.y = (mat.data[1][0] + mat.data[0][1]) / s
             self.z = (mat.data[2][0] + mat.data[0][2]) / s
             self.w = (mat.data[2][1] - mat.data[1][2]) / s
@@ -329,7 +329,8 @@ class Quat(object):
     #     # TODO: unittests for code below when trace is small.
 
     #     # matrix trace <= 0
-    #     if mat.data[0][0] > mat.data[1][1] and mat.data[0][0] > mat.data[2][2]:
+    #     if mat.data[0][0] > mat.data[1][1] and (
+    #             mat.data[0][0] > mat.data[2][2]):
     #         s = 2.0 * math.sqrt(1.0 + mat.data[0][0] - mat.data[1][1] -
     #                             mat.data[2][2])
     #         return Quat(s / 4.0,                              # x
