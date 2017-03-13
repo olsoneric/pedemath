@@ -16,6 +16,8 @@
 
 import math
 
+NUMERIC_TYPES = set([float, int])
+
 
 def add_v3(vec1, m):
     """Return a new Vec3 containing the sum of our x, y, z, and arg.
@@ -24,7 +26,7 @@ def add_v3(vec1, m):
     Otherwise, treat it as a Vec3 and add arg.x, arg.y, and arg.z from
     our own x,  y, and z.
     """
-    if type(m) is float or type(m) is int:
+    if type(m) in NUMERIC_TYPES:
         return Vec3(vec1.x + m, vec1.y + m, vec1.z + m)
     else:
         return Vec3(vec1.x + m.x, vec1.y + m.y, vec1.z + m.z)
@@ -38,7 +40,7 @@ def sub_v3(vec1, m):
     Otherwise, treat it as a Vec3 and subtract arg.x, arg.y, and arg.z from
     our own x,  y, and z.
     """
-    if type(m) is float or type(m) is int:
+    if type(m) in NUMERIC_TYPES:
         return Vec3(vec1.x - m, vec1.y - m, vec1.z - m)
     else:
         return Vec3(vec1.x - m.x, vec1.y - m.y, vec1.z - m.z)
@@ -169,7 +171,7 @@ class Vec3(object):
         """
 
         # Not using isinstance for now, see spikes/type_check_perf.py
-        if type(m) is float or type(m) is int:
+        if type(m) in NUMERIC_TYPES:
             return Vec3(self.x + m, self.y + m, self.z + m)
         else:
             return Vec3(self.x + m.x, self.y + m.y, self.z + m.z)
@@ -184,7 +186,7 @@ class Vec3(object):
         """
 
         # Not using isinstance for now, see spikes/type_check_perf.py
-        if type(m) is float or type(m) is int:
+        if type(m) in NUMERIC_TYPES:
             return Vec3(self.x - m, self.y - m, self.z - m)
         else:
             return Vec3(self.x - m.x, self.y - m.y, self.z - m.z)
@@ -286,7 +288,7 @@ class Vec3(object):
 
     def set(self, x, y, z):
         """Set x, y, and z components.
-        
+
         Also return self.
         """
         self.x = x
