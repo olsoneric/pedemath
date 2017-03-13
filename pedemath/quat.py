@@ -43,7 +43,11 @@ def lerp_quat(from_quat, to_quat, percent):
 
 
 def nlerp_quat(from_quat, to_quat, percent):
-    """Return normalized linear interpolation of two quaternions."""
+    """Return normalized linear interpolation of two quaternions.
+
+    Less computationally expensive than slerp (which not implemented in this
+    lib yet), but does not maintain a constant velocity like slerp.
+    """
 
     result = lerp_quat(from_quat, to_quat, percent)
     result.normalize()
