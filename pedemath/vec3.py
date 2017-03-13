@@ -312,6 +312,12 @@ class Vec3(object):
 
         return self
 
+    def neg(self):
+        """Negative value of all components."""
+        self.x = -self.x
+        self.y = -self.y
+        self.z = -self.z
+
     def square(self):
         """ square the components """
 
