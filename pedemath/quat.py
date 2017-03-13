@@ -205,6 +205,12 @@ class Quat(object):
                                  ) * (180.0 / math.pi)
         return euler_vec3
 
+    def get_y_rot_rads(self):
+        return math.asin(-2.0 * (self.x * self.z - self.y * self.w))
+
+    def get_y_rot_deg(self):
+        return self.get_y_rot_rads() * 180.0 / math.pi
+
     @staticmethod
     def from_axis_angle(axis_v3, angle_deg):
 
