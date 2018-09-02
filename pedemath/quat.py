@@ -43,7 +43,11 @@ def lerp_quat(from_quat, to_quat, percent):
 
 
 def nlerp_quat(from_quat, to_quat, percent):
-    """Return normalized linear interpolation of two quaternions."""
+    """Return normalized linear interpolation of two quaternions.
+
+    Less computationally expensive than slerp (which not implemented in this
+    lib yet), but does not maintain a constant velocity like slerp.
+    """
 
     result = lerp_quat(from_quat, to_quat, percent)
     result.normalize()
@@ -163,10 +167,15 @@ class Quat(object):
         return add_v3(vec, scale_v3(
             xyz.cross(xyz.cross(vec) + scale_v3(vec, self.w)), 2.0))
 
-    def to_euler_rad(self, euler_vec3):
-        """Returns euler angles"""
+    def to_euler_rad(self, dst_euler_vec3=None):
+        """Returns euler angles
 
-        # TODO: consolidated duplicated code in this function and to_euler_deg()
+        dst_euler_vec3 is an optional destination vector.
+        """
+
+        euler_vec3 = dst_euler_vec3 or Vec3(0.0, 0.0, 0.0)
+
+        # TODO consolidated duplicated code in this function and to_euler_deg()
         sqw = self.w * self.w
         sqx = self.x * self.x
         sqy = self.y * self.y
@@ -195,6 +204,12 @@ class Quat(object):
         euler_vec3.y = math.asin(-2.0 * (self.x * self.z - self.y * self.w)
                                  ) * (180.0 / math.pi)
         return euler_vec3
+
+    def get_y_rot_rads(self):
+        return math.asin(-2.0 * (self.x * self.z - self.y * self.w))
+
+    def get_y_rot_deg(self):
+        return self.get_y_rot_rads() * 180.0 / math.pi
 
     @staticmethod
     def from_axis_angle(axis_v3, angle_deg):
@@ -271,7 +286,7 @@ class Quat(object):
         if mat.data[0][0] > mat.data[1][1] and mat.data[0][0] > mat.data[2][2]:
             s = 2.0 * math.sqrt(1.0 + mat.data[0][0] - mat.data[1][1] -
                                 mat.data[2][2])
-            self.x =s / 4.0
+            self.x = s / 4.0
             self.y = (mat.data[1][0] + mat.data[0][1]) / s
             self.z = (mat.data[2][0] + mat.data[0][2]) / s
             self.w = (mat.data[2][1] - mat.data[1][2]) / s
@@ -314,7 +329,8 @@ class Quat(object):
     #     # TODO: unittests for code below when trace is small.
 
     #     # matrix trace <= 0
-    #     if mat.data[0][0] > mat.data[1][1] and mat.data[0][0] > mat.data[2][2]:
+    #     if mat.data[0][0] > mat.data[1][1] and (
+    #             mat.data[0][0] > mat.data[2][2]):
     #         s = 2.0 * math.sqrt(1.0 + mat.data[0][0] - mat.data[1][1] -
     #                             mat.data[2][2])
     #         return Quat(s / 4.0,                              # x

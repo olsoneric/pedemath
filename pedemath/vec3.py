@@ -16,6 +16,8 @@
 
 import math
 
+NUMERIC_TYPES = set([float, int])
+
 
 def add_v3(vec1, m):
     """Return a new Vec3 containing the sum of our x, y, z, and arg.
@@ -24,7 +26,7 @@ def add_v3(vec1, m):
     Otherwise, treat it as a Vec3 and add arg.x, arg.y, and arg.z from
     our own x,  y, and z.
     """
-    if type(m) is float or type(m) is int:
+    if type(m) in NUMERIC_TYPES:
         return Vec3(vec1.x + m, vec1.y + m, vec1.z + m)
     else:
         return Vec3(vec1.x + m.x, vec1.y + m.y, vec1.z + m.z)
@@ -38,7 +40,7 @@ def sub_v3(vec1, m):
     Otherwise, treat it as a Vec3 and subtract arg.x, arg.y, and arg.z from
     our own x,  y, and z.
     """
-    if type(m) is float or type(m) is int:
+    if type(m) in NUMERIC_TYPES:
         return Vec3(vec1.x - m, vec1.y - m, vec1.z - m)
     else:
         return Vec3(vec1.x - m.x, vec1.y - m.y, vec1.z - m.z)
@@ -88,6 +90,21 @@ def projection_v3(v, w):
     this function.
     """
     return dot_v3(v, w) / w.length()
+
+
+def point_to_line(point, segment_start, segment_end):
+    """Given a point and a line segment, return the vector from the point to
+    the closest point on the segment.
+    """
+    # TODO: Needs unittests.
+
+    segment_vec = segment_end - segment_start
+    # t is distance along line
+    t = -(segment_start - point).dot(segment_vec) / (
+          segment_vec.length_squared())
+
+    closest_point = segment_start + scale_v3(segment_vec, t)
+    return point - closest_point
 
 
 def cross_v3(vec_a, vec_b):
@@ -169,7 +186,7 @@ class Vec3(object):
         """
 
         # Not using isinstance for now, see spikes/type_check_perf.py
-        if type(m) is float or type(m) is int:
+        if type(m) in NUMERIC_TYPES:
             return Vec3(self.x + m, self.y + m, self.z + m)
         else:
             return Vec3(self.x + m.x, self.y + m.y, self.z + m.z)
@@ -184,7 +201,7 @@ class Vec3(object):
         """
 
         # Not using isinstance for now, see spikes/type_check_perf.py
-        if type(m) is float or type(m) is int:
+        if type(m) in NUMERIC_TYPES:
             return Vec3(self.x - m, self.y - m, self.z - m)
         else:
             return Vec3(self.x - m.x, self.y - m.y, self.z - m.z)
@@ -286,7 +303,7 @@ class Vec3(object):
 
     def set(self, x, y, z):
         """Set x, y, and z components.
-        
+
         Also return self.
         """
         self.x = x
@@ -294,6 +311,12 @@ class Vec3(object):
         self.z = z
 
         return self
+
+    def neg(self):
+        """Negative value of all components."""
+        self.x = -self.x
+        self.y = -self.y
+        self.z = -self.z
 
     def square(self):
         """ square the components """

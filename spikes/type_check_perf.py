@@ -50,6 +50,12 @@ def main():
            "testing (a=int) isinstance(a, (float, int))")
     print (timeit("type(a) is float or type(a) is int", setup="a=5"),
            "testing (a=int) type(a) is float or type(a) is int")
+    print (timeit("type(a) in NUMERIC_TYPES",
+                  setup="a=5;NUMERIC_TYPES=set([float, int])"),
+           "testing (a=int) type(a) in predefined set([float, int])")
+    print (timeit("type(a) in NUMERIC_TYPES",
+                  setup="a=5.0;NUMERIC_TYPES=set([float, int])"),
+           "testing (a=float) type(a) in predefined set([float, int])")
 
     # Tests below only work with python2
     if sys.version_info[0] > 2:
