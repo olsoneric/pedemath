@@ -265,6 +265,14 @@ class Vec3(object):
             hasattr(v2, "x") and
             self.x == v2.x and self.y == v2.y and self.z == v2.z)
 
+    def __hash__(self):
+        """Because we defined __eq__, if we want this class to be hashable
+        so it can be used for things like dictionary keys, we need to define
+        __hash__ so hashes are the same when instances are True (e.g. when
+        __eq__ return True).
+        """
+        return hash((self.x, self.y, self.z))
+
     def almost_equal(self, v2, places=7):
         """When comparing for equality, compare floats up to
         a limited precision specified by "places".
