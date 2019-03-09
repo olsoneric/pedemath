@@ -86,8 +86,19 @@ class Quat(object):
                 self.w == 1.0)
 
     def __eq__(self, quat):
+        if not isinstance(quat, Quat):
+            return False
+
         return (self.x == quat.x and self.y == quat.y and self.z == quat.z and
                 self.w == quat.w)
+
+    def __ne__(self, quat):
+        """Not equal operator.
+
+        Keep this function to keep compatibility with python2 for now.  Remove
+        this function in the future.
+        """
+        return not self.__eq__(quat)
 
     def __str__(self):
         """Return a readable string representation of Quat."""
