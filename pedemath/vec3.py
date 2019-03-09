@@ -271,9 +271,14 @@ class Vec3(object):
         return str("Vec3(%s,%s,%s)" % (self.x, self.y, self.z))
 
     def __eq__(self, v2):
-        return (
-            hasattr(v2, "x") and
-            self.x == v2.x and self.y == v2.y and self.z == v2.z)
+        try:
+            return (
+                # Ensure they both have 3 entries, to detect things like Quat
+                # or Vec4.
+                len(self) == len(v2) and
+                self.x == v2.x and self.y == v2.y and self.z == v2.z)
+        except:
+            return False
 
     def __hash__(self):
         """Because we defined __eq__, if we want this class to be hashable
@@ -288,16 +293,22 @@ class Vec3(object):
         a limited precision specified by "places".
         """
 
-        return (
-            hasattr(v2, "x") and
-            _float_almost_equal(self.x, v2.x, places) and
-            _float_almost_equal(self.y, v2.y, places) and
-            _float_almost_equal(self.z, v2.z, places))
+        try:
+            return (
+                len(self) == len(v2) and
+                _float_almost_equal(self.x, v2.x, places) and
+                _float_almost_equal(self.y, v2.y, places) and
+                _float_almost_equal(self.z, v2.z, places))
+        except:
+            return False
 
     def __ne__(self, v2):
-        return not (
-            hasattr(v2, "x") and
-            self.x == v2.x and self.y == v2.y and self.z == v2.z)
+        """Not equal operator.
+
+        Keep this function to keep compatibility with python2 for now.  Remove
+        this function in the future.
+        """
+        return not self.__eq__(v2)
 
     def __neg__(self):
         """Return new Vec3 with -x, -y, and -z."""

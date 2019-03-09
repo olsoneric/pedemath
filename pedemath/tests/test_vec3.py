@@ -77,6 +77,34 @@ class Vec3InitTestCase(unittest.TestCase):
         self.assertRaises(ValueError, Vec3, "abc", 6, "q")
 
 
+class Vec3EqualityTestCase(unittest.TestCase):
+    """Test Vec3 __eq__ and __ne__. """
+
+    def test_equal_to_vec3(self):
+        self.assertEqual(Vec3(1, -2, 3), Vec3(1, -2, 3))
+
+    def test_not_equal_to_vec3(self):
+        self.assertNotEqual(Vec3(0, -2, 3), Vec3(1, -2, 3))
+        self.assertNotEqual(Vec3(1, 0, 3), Vec3(1, -2, 3))
+        self.assertNotEqual(Vec3(1, -2, 0), Vec3(1, -2, 3))
+
+        self.assertNotEqual(Vec3(1, -2, 3), Vec3(0, -2, 3))
+        self.assertNotEqual(Vec3(1, -2, 3), Vec3(1, 0, 3))
+        self.assertNotEqual(Vec3(1, -2, 3), Vec3(1, -2, 0))
+
+    def test_not_equal_to_other_types(self):
+        """When comparing with other types, ensure False is returned and no
+        exception is raised.
+        """
+        from pedemath.quat import Quat
+
+        self.assertNotEqual(Vec3(1, -2, 3), 5)
+        self.assertNotEqual(Vec3(1, -2, 3), "abc")
+
+        self.assertNotEqual(Vec3(1, 1, 1), Quat(1, 1, 1, 1))
+        self.assertNotEqual(Quat(1, 1, 1, 1), Vec3(1, 1, 1))
+
+
 class Vec3AddTestCase(unittest.TestCase):
     """Test Vec3's __add__() which is used in Vec3 + Vec3."""
 
