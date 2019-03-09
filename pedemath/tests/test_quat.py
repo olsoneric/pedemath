@@ -257,3 +257,49 @@ class FromMatrix44TestCase(unittest.TestCase):
         self.assertAlmostEqual(quat.y, expected_quat.y)
         self.assertAlmostEqual(quat.z, expected_quat.z)
         self.assertAlmostEqual(quat.w, expected_quat.w)
+
+
+class TestConjugate(unittest.TestCase):
+    """Test conjugate_quat() and Quat.conjugate()."""
+
+    def test_conjugate(self):
+        from pedemath.quat import conjugate_quat
+        quat = Quat(1, 2, 3, 4)
+        expected_quat = Quat(-1, -2, -3, 4)
+        self.assertEqual(expected_quat, conjugate_quat(quat))
+
+    def test_quat_conjugate(self):
+        quat = Quat(1, 2, 3, 4)
+        quat.conjugate()
+        expected_quat = Quat(-1, -2, -3, 4)
+        self.assertEqual(expected_quat, quat)
+
+
+class TestEquality(unittest.TestCase):
+    """Test Quat.__eq__."""
+
+    def test_equality_with_quat(self):
+        """Ensure that a basic equality check against two similar Quats returns
+        True.
+        """
+        quat = Quat(1, 2, 3, 4)
+        return self.assertEqual(quat, Quat(1, 2, 3, 4))
+
+    def test_equality_check_against_other_object_doesnt_raise_exception(self):
+        """Ensure that when comparing with a different type, False is returned
+        and an exception is not raised.
+        """
+        test_object = Vec3(1, 2, 3)
+        print("***", Quat(1, 2, 3, 4) == test_object)
+        return self.assertFalse(test_object == Quat(1, 2, 3, 4))
+        return self.assertFalse(Quat(1, 2, 3, 4) == test_object)
+        return self.assertNotEqual(test_object, Quat(1, 2, 3, 4))
+        return self.assertNotEqual(Quat(1, 2, 3, 4), test_object)
+
+    def test_equality_check_against_basic_types_doesnt_raise_exception(self):
+        test_int = 5
+        test_str = "abc"
+        return self.assertFalse(test_int == Quat(1, 2, 3, 4))
+        return self.assertNotEqual(test_int, Quat(1, 2, 3, 4))
+        return self.assertFalse(test_str == Quat(1, 2, 3, 4))
+        return self.assertNotEqual(test_str, Quat(1, 2, 3, 4))
