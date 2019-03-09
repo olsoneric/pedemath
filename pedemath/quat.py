@@ -15,6 +15,11 @@ def invert_quat(quat):
         -quat.x / length, -quat.y / length, -quat.z / length, quat.w / length)
 
 
+def conjugate_quat(quat):
+    """Negate the vector part of the quaternion."""
+    return Quat(-quat.x, -quat.y, -quat.z, quat.w)
+
+
 def dot_quat(quat1, quat2):
     return (quat1.x * quat2.x + quat1.y * quat2.y + quat1.z * quat2.z +
             quat1.w * quat2.w)
@@ -140,6 +145,11 @@ class Quat(object):
         self.y = -self.y / length
         self.z = -self.z / length
         self.w = self.w / length
+
+    def conjugate(self):
+        self.x = -self.x
+        self.y = -self.y
+        self.z = -self.z
 
     def __getitem__(self, index):
         """Return the value at index.

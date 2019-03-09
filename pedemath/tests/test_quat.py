@@ -257,3 +257,19 @@ class FromMatrix44TestCase(unittest.TestCase):
         self.assertAlmostEqual(quat.y, expected_quat.y)
         self.assertAlmostEqual(quat.z, expected_quat.z)
         self.assertAlmostEqual(quat.w, expected_quat.w)
+
+
+class TestConjugate(unittest.TestCase):
+    """Test conjugate_quat() and Quat.conjugate()."""
+
+    def test_conjugate(self):
+        from pedemath.quat import conjugate_quat
+        quat = Quat(1, 2, 3, 4)
+        expected_quat = Quat(-1, -2, -3, 4)
+        self.assertEqual(expected_quat, conjugate_quat(quat))
+
+    def test_quat_conjugate(self):
+        quat = Quat(1, 2, 3, 4)
+        quat.conjugate()
+        expected_quat = Quat(-1, -2, -3, 4)
+        self.assertEqual(expected_quat, quat)
