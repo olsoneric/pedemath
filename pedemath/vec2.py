@@ -390,7 +390,7 @@ class Vec2(object):
     #
     #    return Vec2(self.x * multiplicand, self.y * multiplicand)
 
-    def __div__(self, divisor):
+    def __truediv__(self, divisor):
         """Return a new Vec2 with self.x and self.y divided by divisor."""
 
         if type(divisor) is float or type(divisor) is int:
@@ -398,7 +398,7 @@ class Vec2(object):
         else:
             raise TypeError("Can't divide two vectors or non-numbers.")
 
-    def __idiv__(self, divisor):
+    def __itruediv__(self, divisor):
         """Divide self.x and self.y by divisor, /= """
 
         if type(divisor) is float or type(divisor) is int:
@@ -408,6 +408,10 @@ class Vec2(object):
             raise TypeError("Dividing a vector from another is not supported.")
 
         return self
+
+    # Python2 compatibility
+    __div__ = __truediv__
+    __idiv__ = __itruediv__
 
     def __str__(self):
         """Return a string in the format "(x, y)"."""
