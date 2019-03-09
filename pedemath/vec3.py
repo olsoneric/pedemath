@@ -430,8 +430,7 @@ def _float_almost_equal(float1, float2, places=7):
     specified number of "places" after the decimal point.
     """
 
-    if round(abs(float2-float1), places) == 0:
+    if round(abs(float2 - float1), places) == 0:
         return True
 
     return False
-
