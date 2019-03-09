@@ -1057,7 +1057,7 @@ class Vec2DivTestCase(unittest.TestCase):
 
         type_error_raised = False
         try:
-            result_vec = vec_a / vec_b
+            vec_a / vec_b
         except TypeError:
             type_error_raised = True
 
@@ -1343,7 +1343,7 @@ class Vec2UsageTest(unittest.TestCase):
         # Add number
         v += 1
         v + 1
-        #1 + v
+        # 1 + v
 
         # Add instance
         v += v2
@@ -1353,7 +1353,7 @@ class Vec2UsageTest(unittest.TestCase):
         # Sub number
         v -= 1
         v - 1
-        #1 - v
+        # 1 - v
 
         # Sub instance
         v -= v2
@@ -1363,21 +1363,21 @@ class Vec2UsageTest(unittest.TestCase):
         # Mul number
         v *= 1
         v * 1
-        #1 * v
+        # 1 * v
 
         # Mul instance
-        #v *= v2
-        #v * v2
-        #v2 * v
+        # v *= v2
+        # v * v2
+        # v2 * v
         v.cross(v2)
         v.dot(v2)
 
         # Div number
         v /= 1
         v / 1
-        #1 * v
+        # 1 * v
 
         # Div instance
-        #v /= v2
-        #v / v2
-        #v2 / v
+        # v /= v2
+        # v / v2
+        # v2 / v
