@@ -85,11 +85,21 @@ def neg_v3(v):
 def projection_v3(v, w):
     """Return the signed length of the projection of vector v on vector w.
 
+    For the full vector result, use projection_as_vec_v3().
     Since the resulting vector is along the 1st vector, you can get the
     full vector result by scaling the 1st vector to the length of the result of
     this function.
     """
     return dot_v3(v, w) / w.length()
+
+
+def projection_as_vec_v3(v, w):
+    """Return the signed length of the projection of vector v on vector w.
+
+    Returns the full vector result of projection_v3().
+    """
+    proj_len = projection_v3(v, w)
+    return scale_v3(v, proj_len)
 
 
 def point_to_line(point, segment_start, segment_end):
