@@ -67,6 +67,10 @@ class Quat(object):
         self.z = float(z)
         self.w = float(w)
 
+    @staticmethod
+    def from_quat(q):
+        return Quat(q.x, q.y, q.z, q.w)
+
     def make_ident(self):
 
         self.x = float(0)

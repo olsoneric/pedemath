@@ -187,6 +187,10 @@ class Vec3(object):
         self.y = float(y)
         self.z = float(z)
 
+    @staticmethod
+    def from_vec3(v):
+        return Vec3(v.x, v.y, v.z)
+
     def __add__(self, m):
         """Return a new Vec3 containing the sum of our x, y, z, and m.
 
