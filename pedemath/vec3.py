@@ -281,7 +281,7 @@ class Vec3(object):
                 # or Vec4.
                 len(self) == len(v2) and
                 self.x == v2.x and self.y == v2.y and self.z == v2.z)
-        except:
+        except:  # noqa, a simple case so result of return+try/except is clear
             return False
 
     def __hash__(self):
@@ -303,7 +303,7 @@ class Vec3(object):
                 _float_almost_equal(self.x, v2.x, places) and
                 _float_almost_equal(self.y, v2.y, places) and
                 _float_almost_equal(self.z, v2.z, places))
-        except:
+        except:  # noqa, a simple case so result of return+try/except is clear
             return False
 
     def __ne__(self, v2):

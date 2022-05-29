@@ -323,17 +323,17 @@ class TestEquality(unittest.TestCase):
 
 # class TestGetYRot(unittest.TestCase):
 #     """Test get_y_rot_deg() and get_y_rot_rads()."""
-# 
+#
 #     def test_get_y_rot_no_rot(self):
 #         quat = Quat()
 #         self.assertEqual(0.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_neg_90_rot(self):
 #         y_axis = Vec3(0, 1, 0)
 #         quat = Quat.from_axis_angle(y_axis, -89)
 #         logging.info(quat.get_y_tmp() * 180 / math.pi)
 #         self.assertAlmostEqual(-89.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_from_x_and_z_rots(self):
 #         x_axis = Vec3(1, 0, 0)
 #         z_axis = Vec3(0, 0, 1)
@@ -341,23 +341,23 @@ class TestEquality(unittest.TestCase):
 #         quat_z = Quat.from_axis_angle(z_axis, 45)
 #         logging.info(quat)
 #         logging.info(quat_z)
-# 
+#
 #         # IMPLEMENTATION OF *= MIGHT BE WRONG
 #         quat *= quat_z
-# 
+#
 #         logging.info("A: {}".format(quat * quat_z))
 #         logging.info("A2: {}".format(
 #             (quat * quat_z).get_y_tmp() * 180 / math.pi))
 #         logging.info(quat)
-# 
+#
 #         logging.info(quat.get_y_tmp() * 180 / math.pi)
 #         self.assertAlmostEqual(-30.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_30_rot(self):
 #         y_axis = Vec3(0, 1, 0)
 #         quat = Quat.from_axis_angle(y_axis, 30)
 #         self.assertAlmostEqual(30.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_90_rot(self):
 #         y_axis = Vec3(0, 1, 0)
 #         quat = Quat.from_axis_angle(y_axis, 90)
@@ -365,136 +365,34 @@ class TestEquality(unittest.TestCase):
 #         #    Vec3(1, 0, 1))))
 #         logging.info(quat.get_y_tmp() * 180 / math.pi)
 #         self.assertAlmostEqual(90.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_120_rot(self):
 #         y_axis = Vec3(0, 1, 0)
 #         quat = Quat.from_axis_angle(y_axis, 120)
 #         logging.info("QUAT: {}".format(quat))
 #         logging.info(quat.get_y_tmp() * 180 / math.pi)
 #         self.assertAlmostEqual(120.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_180_rot(self):
 #         y_axis = Vec3(0, 1, 0)
 #         quat = Quat.from_axis_angle(y_axis, 180)
 #         logging.info(quat.get_y_tmp() * 180 / math.pi)
 #         self.assertAlmostEqual(180.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_210_rot(self):
 #         y_axis = Vec3(0, 1, 0)
 #         quat = Quat.from_axis_angle(y_axis, 210)
 #         logging.info(quat.get_y_tmp() * 180 / math.pi)
 #         self.assertAlmostEqual(-150.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_270_rot(self):
 #         y_axis = Vec3(0, 1, 0)
 #         quat = Quat.from_axis_angle(y_axis, 270)
 #         logging.info(quat.get_y_tmp() * 180 / math.pi)
 #         self.assertAlmostEqual(-90.0, quat.get_y_rot_deg())
-# 
+#
 #     def test_get_y_rot_330_rot(self):
 #         y_axis = Vec3(0, 1, 0)
 #         quat = Quat.from_axis_angle(y_axis, 330)
 #         logging.info(quat.get_y_tmp() * 180 / math.pi)
 #         self.assertAlmostEqual(-30.0, quat.get_y_rot_deg())
-# 
-# 
-# class TestGetXRot(unittest.TestCase):
-#     """Test get_x_rot_deg() and get_x_rot_rads()."""
-# 
-#     def test_get_x_rot_no_rot(self):
-#         quat = Quat()
-#         self.assertEqual(0.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_neg_90_rot(self):
-#         x_axis = Vec3(1, 0, 0)
-#         quat = Quat.from_axis_angle(x_axis, -89)
-#         self.assertAlmostEqual(-89.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_from_x_and_z_rots(self):
-#         y_axis = Vec3(0, 1, 0)
-#         z_axis = Vec3(0, 0, 1)
-#         quat = Quat.from_axis_angle(x_axis, 45)
-#         quat_z = Quat.from_axis_angle(z_axis, 45)
-#         quat *= quat_z
-# 
-#         self.assertAlmostEqual(-30.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_30_rot(self):
-#         x_axis = Vec3(1, 0, 0)
-#         quat = Quat.from_axis_angle(x_axis, 30)
-#         self.assertAlmostEqual(30.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_90_rot(self):
-#         x_axis = Vec3(1, 0, 0)
-#         quat = Quat.from_axis_angle(x_axis, 90)
-#         # print("If rot 1, 0, 1 by 90: {}".format(quat.rotate_vec(
-#         #    Vec3(1, 0, 1))))
-#         self.assertEqual(90.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_120_rot(self):
-#         x_axis = Vec3(1, 0, 0)
-#         quat = Quat.from_axis_angle(x_axis, 120)
-#         self.assertAlmostEqual(120.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_180_rot(self):
-#         x_axis = Vec3(1, 0, 0)
-#         quat = Quat.from_axis_angle(x_axis, 180)
-#         self.assertAlmostEqual(180.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_210_rot(self):
-#         x_axis = Vec3(1, 0, 0)
-#         quat = Quat.from_axis_angle(x_axis, 210)
-#         self.assertAlmostEqual(210.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_270_rot(self):
-#         x_axis = Vec3(1, 0, 0)
-#         quat = Quat.from_axis_angle(x_axis, 270)
-#         self.assertAlmostEqual(-90.0, quat.get_x_rot_deg())
-# 
-#     def test_get_x_rot_330_rot(self):
-#         x_axis = Vec3(1, 0, 0)
-#         quat = Quat.from_axis_angle(x_axis, 330)
-#         self.assertAlmostEqual(-30.0, quat.get_x_rot_deg())
-# 
-
-# class TestRotAroundVector(unittest.TestCase):
-#     """Test Quat.rot_around_vector."""
-#
-#     def test_ninety_y_axis(self):
-#         """Test that Quat.rot_around_vector() extracts the right rotation
-#         with a simple 30 degree rotation around the y-axis.
-#         """
-#
-#         # Start with a rotation from which we want to extract a component
-#         rot = Quat.from_axis_angle(start_pt, 45)
-#
-#         # Extract the y component/axis.
-#         direction = Vec3(0, 1, 0)
-#         swing, twist = rot.swing_twist_decomposition(direction)
-#
-#         # Take a starting point and see if the initial rotation and updated
-#         # rotation both result with the s
-#         start_pt = Vec3(0, 0, 1)
-#         start_pt.normalize()
-#         expected_rotated_pt = Vec3(
-#
-#         expected_pt = Vec3(0, 0, -1)
-#
-#         """
-#         rot = Quat.from_axis_angle(Vec3(0, 1, 0), 90)
-#
-#         direction = Vec3(0, 1, 0)
-#         swing, twist = rot.swing_twist_decomposition(direction)
-#         start_pt = Vec3(1, 0, 0)
-#         # Expect it will be rotated 90 degrees around the y-axis.
-#         expected_pt = Vec3(0, 0, -1)
-#         print("Expected: {}".format(expected_pt))
-#         print("With swing: {}".format(swing.rotate_vec(start_pt)))
-#         print("With twist: {}".format(twist.rotate_vec(start_pt)))
-#         combined = swing * twist
-#         print("Rotated with both: {}".format(
-#             combined.rotate_vec(start_pt)
-#         ))
-#         # rotated_pt = updated_rot.rotate_vec(start_pt)
-#         # self.assertEqual(expected_pt, rotated_pt)
-#         """
