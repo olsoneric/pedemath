@@ -251,7 +251,7 @@ class Quat(object):
         angle_rad = angle_deg * math.pi / 180.
 
         return Quat.from_axis_angle_rad(axis_v3, angle_rad)
-    
+
     # Temporary for backwards compatibility
     from_axis_angle = from_axis_angle_deg
 

@@ -21,6 +21,7 @@ class TestMatrix44MakeIdentity(unittest.TestCase):
                 else:
                     self.assertEqual(0, mat.data[j][i])
 
+
 class TestMatrix44GetTrans(unittest.TestCase):
     """Test Matrix44.get_trans()."""
 
