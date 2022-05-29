@@ -214,7 +214,7 @@ class Matrix44(object):
 
         return True
 
-    def almost_equal(self, mat2, places=7):
+    def almost_equal(self, mat2, places=5):
         """Return True if the values in mat2 equal the values in this
         matrix.
         """
