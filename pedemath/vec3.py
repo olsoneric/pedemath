@@ -137,15 +137,15 @@ def rotate_around_vector_v3(v, angle_rad, norm_vec):
     """ rotate v around norm_vec by angle_rad."""
     cos_val = math.cos(angle_rad)
     sin_val = math.sin(angle_rad)
-    ## (v * cosVal) +
-    ## ((normVec * v) * (1.0 - cosVal)) * normVec +
-    ## (v ^ normVec) * sinVal)
-    #line1: scaleV3(v,cosVal)
-    #line2: dotV3( scaleV3( dotV3(normVec,v), 1.0-cosVal), normVec)
-    #line3: scaleV3( crossV3( v,normVec), sinVal)
-    #a = scaleV3(v,cosVal)
-    #b = scaleV3( normVec, dotV3(normVec,v) * (1.0-cosVal))
-    #c = scaleV3( crossV3( v,normVec), sinVal)
+    # # (v * cosVal) +
+    # # ((normVec * v) * (1.0 - cosVal)) * normVec +
+    # # (v ^ normVec) * sinVal)
+    # line1: scaleV3(v,cosVal)
+    # line2: dotV3( scaleV3( dotV3(normVec,v), 1.0-cosVal), normVec)
+    # line3: scaleV3( crossV3( v,normVec), sinVal)
+    # a = scaleV3(v,cosVal)
+    # b = scaleV3( normVec, dotV3(normVec,v) * (1.0-cosVal))
+    # c = scaleV3( crossV3( v,normVec), sinVal)
     return add_v3(
         add_v3(scale_v3(v, cos_val),
                scale_v3(norm_vec, dot_v3(norm_vec, v) * (1.0 - cos_val))),
@@ -186,6 +186,10 @@ class Vec3(object):
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)
+
+    @staticmethod
+    def from_vec3(v):
+        return Vec3(v.x, v.y, v.z)
 
     def __add__(self, m):
         """Return a new Vec3 containing the sum of our x, y, z, and m.
@@ -277,7 +281,7 @@ class Vec3(object):
                 # or Vec4.
                 len(self) == len(v2) and
                 self.x == v2.x and self.y == v2.y and self.z == v2.z)
-        except:
+        except:  # noqa, a simple case so result of return+try/except is clear
             return False
 
     def __hash__(self):
@@ -299,7 +303,7 @@ class Vec3(object):
                 _float_almost_equal(self.x, v2.x, places) and
                 _float_almost_equal(self.y, v2.y, places) and
                 _float_almost_equal(self.z, v2.z, places))
-        except:
+        except:  # noqa, a simple case so result of return+try/except is clear
             return False
 
     def __ne__(self, v2):

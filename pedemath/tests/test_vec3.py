@@ -426,7 +426,6 @@ class Vec3SetTestCase(unittest.TestCase):
         self.assertIs(result, vec)
 
 
-
 class Vec3SetItemTestCase(unittest.TestCase):
     """Test Vec3.__setitem() for uses such as: vec[1] = 5."""
 

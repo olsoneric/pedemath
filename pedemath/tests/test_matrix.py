@@ -21,6 +21,7 @@ class TestMatrix44MakeIdentity(unittest.TestCase):
                 else:
                     self.assertEqual(0, mat.data[j][i])
 
+
 class TestMatrix44GetTrans(unittest.TestCase):
     """Test Matrix44.get_trans()."""
 
@@ -325,7 +326,7 @@ class InvertAffineMat44TestCase(unittest.TestCase):
         inverted = invert_affine_mat44(mat)
         ident = Matrix44()
 
-        self.assertTrue(ident.almost_equal(mat * inverted))
+        self.assertTrue(ident.almost_equal(mat * inverted, places=5))
         self.assertTrue(ident.almost_equal(inverted * mat))
 
     def test_invert_transform_transform_pt(self):

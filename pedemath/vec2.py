@@ -440,6 +440,7 @@ class Vec2(object):
 
         return (self.x, self.y)
 
+
 if __name__ == "__main__":
     # Example
     a = Vec2(1, 2)

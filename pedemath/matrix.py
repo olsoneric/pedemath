@@ -138,9 +138,6 @@ class Matrix44(object):
             self.data[0][2], self.data[1][2], self.data[2][2], self.data[3][2],
             self.data[0][3], self.data[1][3], self.data[2][3], self.data[3][3])
 
-    #def __repr__(self):
-    #    """Return an unambiguous string representation of Matrix44."""
-
     def __rsub__(self, other):
         if isinstance(other, Matrix44):
             self.data = self.data - other.data
@@ -214,7 +211,7 @@ class Matrix44(object):
 
         return True
 
-    def almost_equal(self, mat2, places=7):
+    def almost_equal(self, mat2, places=5):
         """Return True if the values in mat2 equal the values in this
         matrix.
         """
@@ -322,7 +319,7 @@ class Matrix44(object):
     def get_trans(self, out_vec=None):
         """Return the translation portion of the matrix as a vector.
 
-        If out_vec is provided, store in out_vec instead of creating a new Vec3.
+        If out_vec is provided, store in out_vec instead of creating a new Vec3
         """
 
         if out_vec:
@@ -427,6 +424,7 @@ if __name__ == "__main__":
     print("Multiply:")
     print((m * m2).data)
 
+    """
     print("matrix44_trans:")
     m3 = matrix44_trans(Vec3(2, 3, 4))
     print(m3.data)
@@ -470,7 +468,9 @@ if __name__ == "__main__":
     print("correct 4 (t r i):", (matrix44_trans(
         Vec3(1, 0, 0)) * matrix44_rot_y(90)) * Vec3(0, 0, 1))
     print("        4a (t r i):", matrix44_rot_y(90) * Vec3(0, 0, 1))
+    """
 
-    rot_matrix = Matrix44.rot_from_vectors(Vec3(0, 0, -1), Vec3(0.0, -0.5, 0.0))
+    rot_matrix = Matrix44.rot_from_vectors(
+        Vec3(0, 0, -1), Vec3(0.0, -0.5, 0.0))
     print("rot_matrix:", rot_matrix.data)
     print("rotated -z axis is:", rot_matrix * Vec3(0, 0, -1))
