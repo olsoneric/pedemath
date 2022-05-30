@@ -7,22 +7,6 @@ from pedemath.quat import Quat
 from pedemath.vec3 import Vec3
 
 
-#class TestQuatIntegration(unittest.TestCase):
-#
-#    def test_rot_90_x_90_y(self):
-#
-#        x_quat = Quat.from_axis_angle(Vec3(1, 0, 0), 90)
-#        y_quat = Quat.from_axis_angle(Vec3(0, 1, 0), 90)
-#
-#        matrix = (y_quat * x_quat).get_rot_matrix()
-#
-#        pos = Vec3(0, 1, 0)
-#        new_pos = matrix * pos
-#        expected_new_pos = Vec3(1, 0, 0)
-#        for i in range(3):
-#            self.assertAlmostEqual(new_pos[i], expected_new_pos[i])
-
-
 def AssertQuatAlmostEqual(quat1, quat2, tc):
     for comp in ("xyzw"):
         tc.assertAlmostEqual(getattr(quat1, comp), getattr(quat2, comp))
@@ -145,6 +129,7 @@ class TestAsMatrix44TestCase(unittest.TestCase):
             for j in range(4):
                 self.assertAlmostEqual(mat.data[j][i],
                                        mat_from_quat.data[j][i])
+
 
 class RotateVecTestCase(unittest.TestCase):
     """Test Quat.rotate_vec."""

@@ -16,8 +16,6 @@
 
 import unittest
 
-from mock import patch
-
 from pedemath.rect import Rect
 
 
@@ -81,4 +79,3 @@ class RectCollidePointTestCase(unittest.TestCase):
         rect = Rect(2, 50, 10, 10)
 
         self.assertFalse(rect.collidepoint((8, 65)))
-
