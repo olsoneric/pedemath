@@ -76,5 +76,6 @@ def main():
                  setup="from types import IntType, FloatType; a=5"),
           "testing (a=int) isinstance(a, (FloatType, IntType))")
 
+
 if __name__ == "__main__":
     main()
