@@ -42,18 +42,18 @@ from timeit import timeit
 
 
 def main():
-    print (timeit("isinstance(a, (float, int))", setup="a=5.0"),
+    print(timeit("isinstance(a, (float, int))", setup="a=5.0"),
            "testing (a=float) isinstance(a, (float, int))")
-    print (timeit("type(a) is float or type(a) is int", setup="a=5.0"),
+    print(timeit("type(a) is float or type(a) is int", setup="a=5.0"),
            "testing (a=float) type(a) is float or type(a) is int")
-    print (timeit("isinstance(a, (float, int))", setup="a=5"),
+    print(timeit("isinstance(a, (float, int))", setup="a=5"),
            "testing (a=int) isinstance(a, (float, int))")
-    print (timeit("type(a) is float or type(a) is int", setup="a=5"),
+    print(timeit("type(a) is float or type(a) is int", setup="a=5"),
            "testing (a=int) type(a) is float or type(a) is int")
-    print (timeit("type(a) in NUMERIC_TYPES",
+    print(timeit("type(a) in NUMERIC_TYPES",
                   setup="a=5;NUMERIC_TYPES=set([float, int])"),
            "testing (a=int) type(a) in predefined set([float, int])")
-    print (timeit("type(a) in NUMERIC_TYPES",
+    print(timeit("type(a) in NUMERIC_TYPES",
                   setup="a=5.0;NUMERIC_TYPES=set([float, int])"),
            "testing (a=float) type(a) in predefined set([float, int])")
 
@@ -61,18 +61,18 @@ def main():
     if sys.version_info[0] > 2:
         return
 
-    print ()
+    print()
 
-    print (timeit("type(a) is FloatType or type(a) is IntType",
+    print(timeit("type(a) is FloatType or type(a) is IntType",
                   setup="from types import FloatType, IntType; a=5.0"),
            "testing (a=float) type(a) is FloatType or type(a) is IntType")
-    print (timeit("isinstance(a, (FloatType, IntType))",
+    print(timeit("isinstance(a, (FloatType, IntType))",
                   setup="from types import IntType, FloatType; a=5.0"),
            "testing (a=float) isinstance(a, (FloatType, IntType))")
-    print (timeit("type(a) is FloatType or type(a) is IntType",
+    print(timeit("type(a) is FloatType or type(a) is IntType",
                   setup="from types import FloatType, IntType; a=5"),
            "testing (a=int) type(a) is FloatType or type(a) is IntType")
-    print (timeit("isinstance(a, (FloatType, IntType))",
+    print(timeit("isinstance(a, (FloatType, IntType))",
                   setup="from types import IntType, FloatType; a=5"),
            "testing (a=int) isinstance(a, (FloatType, IntType))")
 
