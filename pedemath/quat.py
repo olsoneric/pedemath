@@ -252,9 +252,6 @@ class Quat(object):
 
         return Quat.from_axis_angle_rad(axis_v3, angle_rad)
 
-    # Temporary for backwards compatibility
-    from_axis_angle = from_axis_angle_deg
-
     @staticmethod
     def from_axis_angle_rad(axis_v3, angle_rad):
         """Return a new Quat for a rotation around a vector.
