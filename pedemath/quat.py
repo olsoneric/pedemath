@@ -236,11 +236,23 @@ class Quat(object):
         return self.get_y_rot_rads() * 180.0 / math.pi
 
     @staticmethod
-    def from_axis_angle(axis_v3, angle_deg):
+    def from_axis_angle_deg(axis_v3, angle_deg):
+        """Return a new Quat for a rotation around a vector.
+
+        Angle is expected in degrees.
+        """
 
         axis_v3 = normalize_v3(axis_v3)
 
         angle_rad = angle_deg * math.pi / 180.
+
+        return Quat.from_axis_angle_rad(axis_v3, angle_rad)
+
+    @staticmethod
+    def from_axis_angle_rad(axis_v3, angle_rad):
+        """Return a new Quat for a rotation around a vector.
+        Angle is expected in radians.
+        """
 
         quat = Quat(math.sin(angle_rad / 2.0) * axis_v3[0],
                     math.sin(angle_rad / 2.0) * axis_v3[1],
