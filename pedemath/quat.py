@@ -233,6 +233,10 @@ class Quat(object):
         return math.asin(-2.0 * (self.x * self.z - self.y * self.w))
 
     def get_y_rot_deg(self):
+        """From a this Quat rotation, extract the rotation around the y axis.
+
+        Mainly converts get_y_rot_rads() result to degrees.
+        """
         return self.get_y_rot_rads() * 180.0 / math.pi
 
     @staticmethod
