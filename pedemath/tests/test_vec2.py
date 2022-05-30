@@ -1186,7 +1186,6 @@ class AngleV2RadTestCase(unittest.TestCase):
 
         for case in cases:
             ((vec_a, vec_b), expected_result) = case
-            print("TEST:", vec_a, vec_b, "expected:", expected_result)
             self.assertAlmostEqual(
                 angle_v2_rad(vec_a, vec_b), expected_result,
                 places=7)
@@ -1248,7 +1247,6 @@ class AngleV2RadDirTestCase(unittest.TestCase):
 
         for case in cases:
             ((vec_a, vec_b), expected_result) = case
-            print("TEST:", vec_a, vec_b, "expected:", expected_result)
             self.assertAlmostEqual(
                 angle_v2_rad_dir(vec_a, vec_b), expected_result,
                 places=7)
@@ -1321,9 +1319,7 @@ class RotRadsV2TestCase(unittest.TestCase):
             """
 
         for case in cases:
-            print(case)
             (vec_a, rads, expected_result) = case
-            print("TEST:", vec_a, rads, "expected:", expected_result)
             result = rot_rads_v2(vec_a, rads)
             self.assertAlmostEqual(
                 result.x, expected_result.x,

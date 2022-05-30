@@ -325,7 +325,7 @@ class InvertAffineMat44TestCase(unittest.TestCase):
         inverted = invert_affine_mat44(mat)
         ident = Matrix44()
 
-        self.assertTrue(ident.almost_equal(mat * inverted))
+        self.assertTrue(ident.almost_equal(mat * inverted, places=5))
         self.assertTrue(ident.almost_equal(inverted * mat))
 
     def test_invert_transform_transform_pt(self):

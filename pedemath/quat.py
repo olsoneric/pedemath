@@ -255,6 +255,7 @@ class Quat(object):
     @staticmethod
     def from_axis_angle_rad(axis_v3, angle_rad):
         """Return a new Quat for a rotation around a vector.
+
         Angle is expected in radians.
         """
 

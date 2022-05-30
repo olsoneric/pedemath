@@ -21,7 +21,12 @@ from pedemath.vec3 import Vec3
 #        expected_new_pos = Vec3(1, 0, 0)
 #        for i in range(3):
 #            self.assertAlmostEqual(new_pos[i], expected_new_pos[i])
-#
+
+
+def AssertQuatAlmostEqual(quat1, quat2, tc):
+    for comp in ("xyzw"):
+        tc.assertAlmostEqual(getattr(quat1, comp), getattr(quat2, comp))
+
 
 class TestFromAxisAngle(unittest.TestCase):
     """Test Quat.from_axis_angle."""
@@ -152,8 +157,35 @@ class RotateVecTestCase(unittest.TestCase):
 
         rotated_vec = quat.rotate_vec(vec)
 
+        # 90 deg around z moves x from positive to negative
         self.assertAlmostEqual(-1.0, rotated_vec.x)
         self.assertAlmostEqual(1.0, rotated_vec.y)
+        self.assertAlmostEqual(1.0, rotated_vec.z)
+
+    def test_rotate_vec_y(self):
+        """Ensure resulting rotated vector is correct."""
+
+        quat = Quat.from_axis_angle(Vec3(0, 1, 0), 90.)
+        vec = Vec3(1, 1, 1)
+
+        rotated_vec = quat.rotate_vec(vec)
+
+        # 90 deg around y moves z from positive to negative
+        self.assertAlmostEqual(1.0, rotated_vec.x)
+        self.assertAlmostEqual(1.0, rotated_vec.y)
+        self.assertAlmostEqual(-1.0, rotated_vec.z)
+
+    def test_rotate_vec_x(self):
+        """Ensure resulting rotated vector is correct."""
+
+        quat = Quat.from_axis_angle(Vec3(1, 0, 0), 90.)
+        vec = Vec3(1, 1, 1)
+
+        rotated_vec = quat.rotate_vec(vec)
+
+        # 90 deg around x moves y from positive to negative
+        self.assertAlmostEqual(1.0, rotated_vec.x)
+        self.assertAlmostEqual(-1.0, rotated_vec.y)
         self.assertAlmostEqual(1.0, rotated_vec.z)
 
     def test_rotate_vec(self):
@@ -183,7 +215,7 @@ class FromMatrix44TestCase(unittest.TestCase):
 
         # Ensure the quat matches a 90 degree x rotation.
         expected = Quat.from_axis_angle(Vec3(1, 0, 0), 90)
-        self.assertEqual(quat, expected)
+        AssertQuatAlmostEqual(quat, expected, self)
 
     def test_y_rot(self):
         """Test that Quat.from_mat() works correctly for an y rotation."""
@@ -195,7 +227,7 @@ class FromMatrix44TestCase(unittest.TestCase):
 
         # Ensure the quat matches a 90 degree x rotation.
         expected = Quat.from_axis_angle(Vec3(0, 1, 0), 90)
-        self.assertEqual(quat, expected)
+        AssertQuatAlmostEqual(quat, expected, self)
 
     def test_z_rot(self):
         """Test that Quat.from_mat() works correctly for an z rotation."""
@@ -207,7 +239,7 @@ class FromMatrix44TestCase(unittest.TestCase):
 
         # Ensure the quat matches a 90 degree x rotation.
         expected = Quat.from_axis_angle(Vec3(0, 0, 1), 90)
-        self.assertEqual(quat, expected)
+        AssertQuatAlmostEqual(quat, expected, self)
 
     def test_neg_x_rot(self):
         """Test that Quat.from_mat() works correctly for a negative x
@@ -221,7 +253,7 @@ class FromMatrix44TestCase(unittest.TestCase):
 
         # Ensure the quat matches a -90 degree x rotation.
         expected = Quat.from_axis_angle(Vec3(1, 0, 0), -90)
-        self.assertEqual(quat, expected)
+        AssertQuatAlmostEqual(quat, expected, self)
 
     def test_small_x_rot(self):
         """Test that Quat.from_mat() works correctly for a negative x
@@ -283,23 +315,22 @@ class TestEquality(unittest.TestCase):
         True.
         """
         quat = Quat(1, 2, 3, 4)
-        return self.assertEqual(quat, Quat(1, 2, 3, 4))
+        self.assertEqual(quat, Quat(1, 2, 3, 4))
 
     def test_equality_check_against_other_object_doesnt_raise_exception(self):
         """Ensure that when comparing with a different type, False is returned
         and an exception is not raised.
         """
         test_object = Vec3(1, 2, 3)
-        print("***", Quat(1, 2, 3, 4) == test_object)
-        return self.assertFalse(test_object == Quat(1, 2, 3, 4))
-        return self.assertFalse(Quat(1, 2, 3, 4) == test_object)
-        return self.assertNotEqual(test_object, Quat(1, 2, 3, 4))
-        return self.assertNotEqual(Quat(1, 2, 3, 4), test_object)
+        self.assertFalse(test_object == Quat(1, 2, 3, 4))
+        self.assertFalse(Quat(1, 2, 3, 4) == test_object)
+        self.assertTrue(test_object != Quat(1, 2, 3, 4))
+        self.assertTrue(Quat(1, 2, 3, 4) != test_object)
 
     def test_equality_check_against_basic_types_doesnt_raise_exception(self):
         test_int = 5
         test_str = "abc"
-        return self.assertFalse(test_int == Quat(1, 2, 3, 4))
-        return self.assertNotEqual(test_int, Quat(1, 2, 3, 4))
-        return self.assertFalse(test_str == Quat(1, 2, 3, 4))
-        return self.assertNotEqual(test_str, Quat(1, 2, 3, 4))
+        self.assertFalse(test_int == Quat(1, 2, 3, 4))
+        self.assertTrue(test_int != Quat(1, 2, 3, 4))
+        self.assertFalse(test_str == Quat(1, 2, 3, 4))
+        self.assertTrue(test_str != Quat(1, 2, 3, 4))
