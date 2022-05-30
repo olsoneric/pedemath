@@ -17,7 +17,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_180_x(self):
 
-        x_quat = Quat.from_axis_angle(Vec3(1, 0, 0), 180)
+        x_quat = Quat.from_axis_angle_deg(Vec3(1, 0, 0), 180)
         expected = Quat(1, 0, 0, 0)
 
         for i in range(3):
@@ -25,7 +25,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_180_y(self):
 
-        y_quat = Quat.from_axis_angle(Vec3(0, 1, 0), 180)
+        y_quat = Quat.from_axis_angle_deg(Vec3(0, 1, 0), 180)
         expected = Quat(0, 1, 0, 0)
 
         for i in range(3):
@@ -33,7 +33,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_180_z(self):
 
-        z_quat = Quat.from_axis_angle(Vec3(0, 0, 1), 180)
+        z_quat = Quat.from_axis_angle_deg(Vec3(0, 0, 1), 180)
         expected = Quat(0, 0, 1, 0)
 
         for i in range(3):
@@ -41,7 +41,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_90_x(self):
 
-        x_quat = Quat.from_axis_angle(Vec3(1, 0, 0), 90)
+        x_quat = Quat.from_axis_angle_deg(Vec3(1, 0, 0), 90)
         expected = Quat(math.sqrt(0.5), 0, 0, 0)
 
         for i in range(3):
@@ -49,7 +49,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_90_y(self):
 
-        y_quat = Quat.from_axis_angle(Vec3(0, 1, 0), 90)
+        y_quat = Quat.from_axis_angle_deg(Vec3(0, 1, 0), 90)
         expected = Quat(0, math.sqrt(0.5), 0, 0)
 
         for i in range(3):
@@ -57,7 +57,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_90_z(self):
 
-        z_quat = Quat.from_axis_angle(Vec3(0, 0, 1), 90)
+        z_quat = Quat.from_axis_angle_deg(Vec3(0, 0, 1), 90)
         expected = Quat(0, 0, math.sqrt(0.5), 0)
 
         for i in range(3):
@@ -65,7 +65,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_neg_90_x(self):
 
-        x_quat = Quat.from_axis_angle(Vec3(1, 0, 0), -90)
+        x_quat = Quat.from_axis_angle_deg(Vec3(1, 0, 0), -90)
         expected = Quat(-math.sqrt(0.5), 0, 0, 0)
 
         for i in range(3):
@@ -73,7 +73,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_neg_90_y(self):
 
-        y_quat = Quat.from_axis_angle(Vec3(0, 1, 0), -90)
+        y_quat = Quat.from_axis_angle_deg(Vec3(0, 1, 0), -90)
         expected = Quat(0, -math.sqrt(0.5), 0, 0)
 
         for i in range(3):
@@ -81,7 +81,7 @@ class TestFromAxisAngle(unittest.TestCase):
 
     def test_neg_90_z(self):
 
-        z_quat = Quat.from_axis_angle(Vec3(0, 0, 1), -90)
+        z_quat = Quat.from_axis_angle_deg(Vec3(0, 0, 1), -90)
         expected = Quat(0, 0, -math.sqrt(0.5), 0)
 
         for i in range(3):
@@ -99,7 +99,7 @@ class TestAsMatrix44TestCase(unittest.TestCase):
 
     def test_get_matrix_45_x(self):
         # 45 deg x rotation
-        quat = Quat.from_axis_angle(Vec3(1, 0, 0), 45.)
+        quat = Quat.from_axis_angle_deg(Vec3(1, 0, 0), 45.)
         mat_from_quat = quat.as_matrix44()
         mat = Matrix44.from_rot_x(45.)
 
@@ -110,7 +110,7 @@ class TestAsMatrix44TestCase(unittest.TestCase):
 
     def test_get_matrix_45_y(self):
         # 45 deg y rotation
-        quat = Quat.from_axis_angle(Vec3(0, 1, 0), 45.)
+        quat = Quat.from_axis_angle_deg(Vec3(0, 1, 0), 45.)
         mat_from_quat = quat.as_matrix44()
         mat = Matrix44.from_rot_y(45.)
 
@@ -121,7 +121,7 @@ class TestAsMatrix44TestCase(unittest.TestCase):
 
     def test_get_matrix_45_z(self):
         # 45 deg z rotation
-        quat = Quat.from_axis_angle(Vec3(0, 0, 1), 45.)
+        quat = Quat.from_axis_angle_deg(Vec3(0, 0, 1), 45.)
         mat_from_quat = quat.as_matrix44()
         mat = Matrix44.from_rot_z(45.)
 
@@ -137,7 +137,7 @@ class RotateVecTestCase(unittest.TestCase):
     def test_rotate_vec_z(self):
         """Ensure resulting vector is correct."""
 
-        quat = Quat.from_axis_angle(Vec3(0, 0, 1), 90.)
+        quat = Quat.from_axis_angle_deg(Vec3(0, 0, 1), 90.)
         vec = Vec3(1, 1, 1)
 
         rotated_vec = quat.rotate_vec(vec)
@@ -150,7 +150,7 @@ class RotateVecTestCase(unittest.TestCase):
     def test_rotate_vec_y(self):
         """Ensure resulting rotated vector is correct."""
 
-        quat = Quat.from_axis_angle(Vec3(0, 1, 0), 90.)
+        quat = Quat.from_axis_angle_deg(Vec3(0, 1, 0), 90.)
         vec = Vec3(1, 1, 1)
 
         rotated_vec = quat.rotate_vec(vec)
@@ -163,7 +163,7 @@ class RotateVecTestCase(unittest.TestCase):
     def test_rotate_vec_x(self):
         """Ensure resulting rotated vector is correct."""
 
-        quat = Quat.from_axis_angle(Vec3(1, 0, 0), 90.)
+        quat = Quat.from_axis_angle_deg(Vec3(1, 0, 0), 90.)
         vec = Vec3(1, 1, 1)
 
         rotated_vec = quat.rotate_vec(vec)
@@ -176,7 +176,7 @@ class RotateVecTestCase(unittest.TestCase):
     def test_rotate_vec(self):
         """Ensure resulting vector is correct."""
 
-        quat = Quat.from_axis_angle(Vec3(-1, -1, -1), 180.)
+        quat = Quat.from_axis_angle_deg(Vec3(-1, -1, -1), 180.)
         vec = Vec3(1, 0, 0)
 
         rotated_vec = quat.rotate_vec(vec)
@@ -199,7 +199,7 @@ class FromMatrix44TestCase(unittest.TestCase):
         quat = Quat.from_matrix44(mat)
 
         # Ensure the quat matches a 90 degree x rotation.
-        expected = Quat.from_axis_angle(Vec3(1, 0, 0), 90)
+        expected = Quat.from_axis_angle_deg(Vec3(1, 0, 0), 90)
         AssertQuatAlmostEqual(quat, expected, self)
 
     def test_y_rot(self):
@@ -211,7 +211,7 @@ class FromMatrix44TestCase(unittest.TestCase):
         quat = Quat.from_matrix44(mat)
 
         # Ensure the quat matches a 90 degree x rotation.
-        expected = Quat.from_axis_angle(Vec3(0, 1, 0), 90)
+        expected = Quat.from_axis_angle_deg(Vec3(0, 1, 0), 90)
         AssertQuatAlmostEqual(quat, expected, self)
 
     def test_z_rot(self):
@@ -223,7 +223,7 @@ class FromMatrix44TestCase(unittest.TestCase):
         quat = Quat.from_matrix44(mat)
 
         # Ensure the quat matches a 90 degree x rotation.
-        expected = Quat.from_axis_angle(Vec3(0, 0, 1), 90)
+        expected = Quat.from_axis_angle_deg(Vec3(0, 0, 1), 90)
         AssertQuatAlmostEqual(quat, expected, self)
 
     def test_neg_x_rot(self):
@@ -237,7 +237,7 @@ class FromMatrix44TestCase(unittest.TestCase):
         quat = Quat.from_matrix44(mat)
 
         # Ensure the quat matches a -90 degree x rotation.
-        expected = Quat.from_axis_angle(Vec3(1, 0, 0), -90)
+        expected = Quat.from_axis_angle_deg(Vec3(1, 0, 0), -90)
         AssertQuatAlmostEqual(quat, expected, self)
 
     def test_small_x_rot(self):
@@ -251,7 +251,7 @@ class FromMatrix44TestCase(unittest.TestCase):
         quat = Quat.from_matrix44(mat)
 
         # Ensure the quat matches the small degree x rotation.
-        expected = Quat.from_axis_angle(Vec3(1, 0, 0), 0.001)
+        expected = Quat.from_axis_angle_deg(Vec3(1, 0, 0), 0.001)
         self.assertAlmostEqual(quat.x, expected.x)
         self.assertAlmostEqual(quat.y, expected.y)
         self.assertAlmostEqual(quat.z, expected.z)
@@ -269,7 +269,7 @@ class FromMatrix44TestCase(unittest.TestCase):
         quat = Quat.from_matrix44(mat)
 
         # Ensure it matches the expected quaternion.
-        expected_quat = Quat.from_axis_angle(axis, 45.0)
+        expected_quat = Quat.from_axis_angle_deg(axis, 45.0)
         self.assertAlmostEqual(quat.x, expected_quat.x)
         self.assertAlmostEqual(quat.y, expected_quat.y)
         self.assertAlmostEqual(quat.z, expected_quat.z)
