@@ -319,7 +319,7 @@ class InvertAffineMat44TestCase(unittest.TestCase):
         from pedemath.quat import Quat
         from pedemath.matrix import invert_affine_mat44
 
-        mat = Quat.from_axis_angle(Vec3(-1, 2, -3), -40).as_matrix44()
+        mat = Quat.from_axis_angle_deg(Vec3(-1, 2, -3), -40).as_matrix44()
         trans_mat = Matrix44.from_trans((-7, -8, -9))
         mat *= trans_mat
 
@@ -338,11 +338,11 @@ class InvertAffineMat44TestCase(unittest.TestCase):
         from pedemath.quat import Quat
         from pedemath.matrix import invert_affine_mat44
 
-        mat1 = Quat.from_axis_angle(Vec3(1, 2, 3), 40).as_matrix44()
+        mat1 = Quat.from_axis_angle_deg(Vec3(1, 2, 3), 40).as_matrix44()
         trans_mat1 = Matrix44.from_trans((-7, -8, 9))
         mat1 *= trans_mat1
 
-        mat2 = Quat.from_axis_angle(Vec3(-5, 2, -4), 40).as_matrix44()
+        mat2 = Quat.from_axis_angle_deg(Vec3(-5, 2, -4), 40).as_matrix44()
         trans_mat2 = Matrix44.from_trans((-2, -5, 3))
         mat2 *= trans_mat2
 
